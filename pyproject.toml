@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "xsnap"   
-version = "0.1.13"
+version = "0.1.14"
 description = "A Python-based pipeline module to easily handle data calibration from Chandra, Swift-XRT, XMM-Newton, and NuSTAR data. Additionally, spectral fitting and analysis are available with the help of XSPEC"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -32,8 +32,11 @@ dependencies = [
     "scipy>=1.15.1",                 
 ]
 
-[project.optional-dependencies]
-dev = ["pytest", "black", "build", "twine"]
+[project.urls]
+Homepage = "https://github.com/fercananything/XSNAP/"
+Repository = "https://github.com/fercananything/XSNAP/"
+Issues = "https://github.com/fercananything/XSNAP/issues"
+Changelog = "https://github.com/fercananything/XSNAP/blob/main/CHANGELOG.md"
 
 # ---- CLI entry-points ----
 [project.scripts]

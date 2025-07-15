@@ -5,7 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [0.1.13] - 2025-07-15
-### Changed
+### Added
+- URLs in `pyproject.toml`
+
+## [0.1.13] - 2025-07-15
+### Added
 - Upload to Github at [https://github.com/fercananything/XSNAP/](https://github.com/fercananything/XSNAP/)
 
 ## [0.1.12] - 2025-07-15
