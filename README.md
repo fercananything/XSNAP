@@ -29,6 +29,8 @@ pip install -i https://test.pypi.org/simple/ xsnap
 
 Additionally, XSNAP should be able to be downloaded by cloning this Github repository and run:
 ```shell script
+git clone https://github.com/fercananything/XSNAP/
+cd XNAP
 python -m pip install .
 ```
 
