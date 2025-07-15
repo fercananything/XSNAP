@@ -1,0 +1,69 @@
+# Changelog
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/)
+and this project adheres to [Semantic Versioning](https://semver.org/).
+
+## [0.1.12] - 2025-07-14
+### Changed
+- README.rst become README.md
+- Wrote descriptions and installations guide in README.md
+- Defined the extract-nustar script in pyproject.toml
+
+## [0.1.11] - 2025-07-14
+### Changed
+- Edit SpectrumManager plot_counts_lc() to be grouped by instrument
+
+## [0.1.10] – 2025-07-14
+### Changed
+- Edit SpectrumFit on simulate function error
+
+## [0.1.9] – 2025-07-14
+### Changed
+- Edit SpectrumFit on simulate function to allow plotting the simulated data
+
+## [0.1.8] – 2025-07-14
+### Changed
+- Edit SpectrumFit on simulate function for upper limits to use raw counts
+
+## [0.1.7] – 2025-07-13
+### Changed
+- Fixed the fitting asymmetric freezing norm/exp to density mcmc error
+- README.md become README.rst
+
+## [0.1.6] – 2025-07-13
+### Changed
+- Edit the fitting asymmetric freezing norm/exp to density mcmc error
+
+## [0.1.5] – 2025-07-13
+### Changed
+- Add the fitting asymmetric freezing norm/exp to density mcmc
+
+## [0.1.4] – 2025-07-13
+### Changed
+- Add mute function to SpectrumFit by using xspec.Xset.chatter
+- Add count rates for simulated spectrum
+- Change fitting asymmetric error to be able to freeze the norm/exp
+
+## [0.1.3] – 2025-07-13
+### Changed
+- SpectrumManager is inside spectrum.py now
+
+## [0.1.2] – 2025-07-13
+### Added
+- Add NuSTAR extract script
+
+### Changed
+- extract-swift script is changed to be more flexible
+
+## [0.1.1] – 2025-07-10
+### Changed
+- Incorporated distance error functions
+- Add simulated function in SpectrumFit to count upper limit fluxes
+
+## [0.1.0] – 2025-07-10
+### Added
+- First release: all packages, LICENSE, README.md, CHANGELOG.md, pyproject.toml
+- CLI script for Chandra, Swift-XRT, and XMM extraction, make_region for source and background based off an evt file
+- Basic XSPEC fitting and supernova CSM analysis.
+- Published in test.pypi.org

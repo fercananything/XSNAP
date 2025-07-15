@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=77.0.3", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "xsnap"   
+version = "0.1.12"
+description = "A Python-based pipeline module to easily handle data calibration from Chandra, Swift-XRT, XMM-Newton, and NuSTAR data. Additionally, spectral fitting and analysis are available with the help of XSPC"
+readme = "README.md"
+requires-python = ">=3.12"
+license = {file = "LICENSE"}
+authors = [{name = "Ferdinand", email = "ferdinand.1238073@gmail.com"}]
+maintainers = [{name = "Ferdinand", email = "ferdinand.1238073@gmail.com"}]
+keywords = ["astronomy", "xray", "spectroscopy", "pipeline", "supernova"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Topic :: Scientific/Engineering :: Astronomy",
+  "Topic :: Scientific/Engineering :: Physics"
+]
+
+# ---- runtime dependencies ----
+dependencies = [
+    "astropy>=7.0.0",
+    "corner>=2.2.2",
+    "emcee>=3.1.6",
+    "matplotlib>=3.10.3",
+    "numpy>=1.26.0",
+    "pandas>=2.2.3",
+    "scipy>=1.15.1",                 
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "black", "build", "twine"]
+
+# ---- CLI entry-points ----
+[project.scripts]
+extract-chandra = "xsnap.chandra.extract:cli"
+swift-stack-pc     = "xsnap.swiftxrt.stack_pc:cli"
+extract-swift = "xsnap.swiftxrt.extract:cli"
+extract-xmm     = "xsnap.xmm.extract:cli"
+extract-nustar     = "xsnap.nustar.extract:cli"
+make-region     = "xsnap.make_region:cli"
+
+# ---- tell setuptools where to find the code ----
+[tool.setuptools.packages.find]
+where = ["src"]
