@@ -46,7 +46,7 @@ def run(cmd, **kw):
     
 def main():
     argv = sys.argv
-    if len(argv) == 2 and argv[1] in ("-h","--help"):
+    if len(argv) == 2 and argv[1] in ("-h","--help", "-help"):
         print(__doc__)
         sys.exit(0)
     if len(argv) not in (5,6):
