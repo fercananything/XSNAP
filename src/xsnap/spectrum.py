@@ -1020,7 +1020,7 @@ class SpectrumManager:
         self.params = None
         return self
 
-    def plot_flux_lc(self, scatter: bool = True, log: bool = True):
+    def plot_flux(self, scatter: bool = True, log: bool = True):
         """
         Plot flux light curves for each model and kind ('absorbed', 'unabsorbed').
 
@@ -1072,7 +1072,7 @@ class SpectrumManager:
                 figs[(model, kind)] = fig
         return figs
 
-    def plot_lumin_lc(self, scatter: bool = True, log: bool = True):
+    def plot_lumin(self, scatter: bool = True, log: bool = True):
         """
         Plot luminosity light curves for each model.
 
@@ -1124,7 +1124,7 @@ class SpectrumManager:
             figs[model] = fig
         return figs
     
-    def plot_phot_lc(self, scatter: bool = True, log: bool = True):
+    def plot_phot(self, scatter: bool = True, log: bool = True):
         """
         Plot photon-flux light curves for each model and kind.
 
@@ -1176,7 +1176,7 @@ class SpectrumManager:
                 figs[(model, kind)] = fig
         return figs
         
-    def plot_counts_lc(self, scatter: bool = True, log: bool = True):
+    def plot_counts(self, scatter: bool = True, log: bool = True):
         """
         Plot count-rate light curves for each model; one trace per instrument.
 

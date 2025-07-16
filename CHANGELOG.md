@@ -4,7 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
-## [0.1.13] - 2025-07-15
+## [0.1.15] - 2025-07-15
+### Changed
+- Name of function in SpectrumManager, from `plot_flux_lc()` to `plot_flux()`, same with `plot_lumin_lc()`, `plot_phot_lc()`, and `plot_counts_lc()`
+
+## [0.1.14] - 2025-07-15
 ### Added
 - URLs in `pyproject.toml`
 
