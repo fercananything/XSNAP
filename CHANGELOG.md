@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.1.16] - 2025-07-15
+### Changed
+- `extract-nustar` now can be used with just parsing a background region, will automatically use the source region from the downloaded data
+
 ## [0.1.15] - 2025-07-15
 ### Changed
 - Name of function in SpectrumManager, from `plot_flux_lc()` to `plot_flux()`, same with `plot_lumin_lc()`, `plot_phot_lc()`, and `plot_counts_lc()`
