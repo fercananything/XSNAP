@@ -11,8 +11,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from .spectrum import SpectrumFit, SpectrumManager
 import astropy.units as u 
-from ._fitting import fit_powerlaw_asymmetric, compute_chi2_powerlaw, fit_powerlaw_simple, compute_chi2_powerlaw_simple
+from ._fitting import fit_powerlaw_asymmetric, compute_chi2_powerlaw, fit_mdot_mcmc
 from scipy.optimize import curve_fit
+import emcee, corner
 
 # Constants
 C_LIGHT_KM_S = 299792.458 * u.km / u.s
@@ -50,7 +51,7 @@ class CSMAnalysis:
         self.fit_temp_params = None
         self.fit_density_params = None
         self.densities = None
-        self.mass_loss_rate = pd.DataFrame({'fit': [], 'm_dot': [], 'lo_m_dot_err': [], 'hi_m_dot_err': []})
+        self.mass_loss_rate = pd.DataFrame({'m_dot': [], 'lo_m_dot_err': [], 'hi_m_dot_err': []})
         
         if manager is not None:
             self.load(manager)
@@ -93,7 +94,7 @@ class CSMAnalysis:
         return float(distance), float(lo_dist_err), float(hi_dist_err)
 
     def load(self, manager: SpectrumManager, distance=None, lo_dist_err=None, hi_dist_err=None,
-             z=None, lo_z_err=None, hi_z_err=None, v_shock: float = v_shock.value, H0 = 70 * u.km / u.s / u.Mpc):
+             z=None, lo_z_err=None, hi_z_err=None, v_shock: float = v_shock.value, H0: float = 70):
         """
         Load manager luminosity & parameter tables and compute shock radii.
 
@@ -115,6 +116,7 @@ class CSMAnalysis:
             RuntimeError: If more than one bremss model is present.
             ValueError: If required tables/columns are missing.
         """
+        H0 = H0 * u.km / u.s / u.Mpc
         self.manager = manager
         
         m_bremss = manager.lumin['model'].str.contains('bremss', case=False, na=False)
@@ -168,9 +170,9 @@ class CSMAnalysis:
         self.fit_temp_params = None
         self.fit_density_params = None
         self.densities = None
-        self.mass_loss_rate = pd.DataFrame({'fit': [], 'm_dot': [], 'lo_m_dot_err': [], 'hi_m_dot_err': []})
+        self.mass_loss_rate = pd.DataFrame({'m_dot': [], 'lo_m_dot_err': [], 'hi_m_dot_err': []})
 
-    def fit_lumin_mcmc(self, nwalkers=500, nsteps=10000, nburn=2000, show_plots=True):
+    def fit_lumin(self, nwalkers=500, nsteps=10000, nburn=2000, show_plots=True):
         """
         Fit luminosity L ∝ t^x using MCMC.
 
@@ -181,7 +183,7 @@ class CSMAnalysis:
             show_plots (bool, optional): If True, display diagnostic plots.
 
         Returns:
-            pandas.DataFrame: columns ['model','fit','norm','lo_norm_err','hi_norm_err',
+            pandas.DataFrame: columns ['model', 'norm','lo_norm_err','hi_norm_err',
                                        'exp','lo_exp_err','hi_exp_err','ndata'].
         """
         df = self.manager.lumin.copy()
@@ -223,7 +225,6 @@ class CSMAnalysis:
 
             records.append({
                 'model':     mod,
-                'fit':    'mcmc',
                 'norm':       norm,
                 'lo_norm_err': lo_norm_err,
                 'hi_norm_err': hi_norm_err,
@@ -235,72 +236,7 @@ class CSMAnalysis:
 
         df_fits = pd.DataFrame.from_records(
             records,
-            columns=['model', 'fit', 'norm', 'lo_norm_err', 'hi_norm_err', 'exp',
-                     'lo_exp_err', 'hi_exp_err', 'ndata']
-        )
-
-        if self.fit_lumin_params is None:
-            self.fit_lumin_params = df_fits
-        else:
-            self.fit_lumin_params = pd.concat(
-                [self.fit_lumin_params, df_fits],
-                axis=0,
-                ignore_index=True
-            )
-        return df_fits
-    
-    def fit_lumin_simple(self, plot_resid=True):
-        """
-        Fit luminosity L ∝ t^x using scipy.optimize.curve_fit.
-
-        Args:
-            plot_resid (bool, optional): If True, show residual plot. Defaults to True.
-
-        Returns:
-            pandas.DataFrame: same columns as `fit_lumin_mcmc` with fit='curve_fit'.
-        """
-        df = self.manager.lumin.copy()
-        m_bremss = df['model'].str.contains('bremss', case=False, na=False)
-        df       = df.loc[m_bremss]
-        models = df['model'].unique().tolist()
-
-        records = []
-        figs = {}
-
-        for mod in models:
-            sub = df[df['model'] == mod]
-            # require positive times & luminosities
-            mask = (sub['time_since_explosion'] > 0) & (sub['lumin'] > 0)
-            sub = sub.loc[mask]
-            if len(sub) < 2:
-                continue
-            
-            t = sub['time_since_explosion']
-            t_err = sub['time_since_explosion_err']
-            L = sub['lumin']
-            lo_L_err = sub['lo_lumin_err']
-            hi_L_err = sub['hi_lumin_err']
-
-            norm, norm_err, exp, exp_err = fit_powerlaw_simple(t, L, yerr_lo=lo_L_err, yerr_hi=hi_L_err)
-            
-            chi2, chi2red = compute_chi2_powerlaw_simple(t, L, yerr_lo=lo_L_err, yerr_hi=hi_L_err, 
-                                                         norm=norm, exp=exp, plot_resid=plot_resid)
-
-            records.append({
-                'model':     mod,
-                'fit':    'curve_fit',
-                'norm':       norm,
-                'lo_norm_err': norm_err,
-                'hi_norm_err': norm_err,
-                'exp':        exp,
-                'lo_exp_err':   exp_err,
-                'hi_exp_err':   exp_err,
-                'ndata':     len(sub)
-            })
-
-        df_fits = pd.DataFrame.from_records(
-            records,
-            columns=['model', 'fit', 'norm', 'lo_norm_err', 'hi_norm_err', 'exp',
+            columns=['model',   'norm', 'lo_norm_err', 'hi_norm_err', 'exp',
                      'lo_exp_err', 'hi_exp_err', 'ndata']
         )
 
@@ -315,7 +251,7 @@ class CSMAnalysis:
         return df_fits
 
     
-    def fit_temp_mcmc(self, nwalkers=500, nsteps=10000, nburn=2000, show_plots=True):
+    def fit_temp(self, nwalkers=500, nsteps=10000, nburn=2000, show_plots=True):
         """
         Fit temperature kT ∝ t^x using MCMC from data in `.params`.
 
@@ -326,7 +262,7 @@ class CSMAnalysis:
             show_plots (bool, optional): If True, display diagnostic plots.
 
         Returns:
-            pandas.DataFrame: columns ['model','fit','norm','lo_norm_err','hi_norm_err',
+            pandas.DataFrame: columns ['model', 'norm','lo_norm_err','hi_norm_err',
                                        'exp','lo_exp_err','hi_exp_err','ndata'].
         """
         df = self.manager.params.copy()
@@ -377,7 +313,6 @@ class CSMAnalysis:
 
             records.append({
                 'model':     mod,
-                'fit':    'mcmc',
                 'norm':       norm,
                 'lo_norm_err': lo_norm_err,
                 'hi_norm_err': hi_norm_err,
@@ -392,7 +327,7 @@ class CSMAnalysis:
 
         df_fits = pd.DataFrame.from_records(
             records,
-            columns=['model', 'fit', 'norm', 'lo_norm_err', 'hi_norm_err', 'exp',
+            columns=['model',   'norm', 'lo_norm_err', 'hi_norm_err', 'exp',
                      'lo_exp_err', 'hi_exp_err', 'ndata']
         )
 
@@ -407,387 +342,155 @@ class CSMAnalysis:
 
         return df_fits
     
-    def fit_temp_simple(self, plot_resid=True):
+
+    def calc_density(self, distance=None, lo_dist_err=None, hi_dist_err=None,
+                    z=None, lo_z_err=None, hi_z_err=None, mu_e=1.14, mu_ion=1.24,
+                    radius_ratio=1.2, f=1, v_wind=v_wind.value, H0: float =70,
+                    nwalkers=500, nsteps=10000, nburn=2000, show_plots=True):
         """
-        Fit temperature kT ∝ t^x using scipy.optimize.curve_fit from data in `.params`.
+        Calculate CSM density ρ(r) and fit using MCMC based on 'bremss_norm'.
+        
+        Formula: 
+        rho_CSM = m_p/4 (2*EM*mu_e*mu_ion/V_FS)^(1/2)
+        bremss_norm = 3.02e-15/(4 pi d^2) * EM
+        V_FS = 4/3 pi f (R_out^3 - R_in^3)
+        
+        Fit rho_CSM with:
+        rho_CSM = Mdot/(4 pi r^2 v_wind)
 
         Args:
-            plot_resid (bool, optional): If True, show residual plot. Defaults to True.
+            distance (float, optional): distance to source in Mpc.
+            z (float, optional): redshift to source.
+            mu_e (float, optional): mean molecular weight per electron. Defaults to 1.14. from E. A. Zimmerman et al. 2024 for the environment of SN 2023ixf
+            mu_ion (float, optional): mean molecular weight per ion. Defaults to 1.24.
+            radius_ratio (float, optional): shock Rout/Rin ratio. Defaults to 1.2.
+            f (int, optional): filling factor. Defaults to 1.
+            v_wind (float, optional): wind velocity in km/s. Defaults to 20 km/s
+            H0 (float, optional): Hubble constant in km/s/Mpc. Defaults to 70 km/s/Mpc.
+            nwalkers (int, optional): Number of MCMC walkers. Defaults to 500.
+            nsteps (int, optional): Number of steps per walker. Defaults to 10000.
+            nburn (int, optional): Number of burn-in steps. Defaults to 2000.
+            show_plots (bool, optional): If True, display diagnostic plots. Defaults to True.
+            fit (bool, optional): If True, will fit density and get mass-loss rate in g/s. Defaults to True
+
+        Raises:
+            RuntimeError: When manager.params do not have these columns: ['bremss_norm', 'lo_bremss_norm_err', 'hi_bremss_norm_err', 'time_since_explosion']
+            ValueError: When distance or redshift is not entered
 
         Returns:
-            pandas.DataFrame: same columns as `fit_temp_mcmc` with fit='curve_fit'.
+            pd.DataFrame : DataFrame of shock density in g cm-3
         """
-        df = self.manager.params.copy()
-
-        # ─────────────────────────────────────────────────────────────
-        #  keep only rows whose model string contains “bremss”
-        # ─────────────────────────────────────────────────────────────
-        m_bremss = df['model'].str.contains('bremss', case=False, na=False)
-        df       = df.loc[m_bremss]
-
-        if df.empty:
-            raise ValueError("manager.params contains no rows with a 'bremss' model.")
-
-        models = [df['model'].unique()[0]]
+        H0 = H0 * u.km / u.s / u.Mpc
+        v_wind = v_wind * u.km / u.s
+        df_norms = None
+        try:
+            df_norms = self.manager.params.loc[ 
+                self.manager.params['model'].str.contains('bremss', case=False, na=False), 
+                ['bremss_norm', 'lo_bremss_norm_err', 'hi_bremss_norm_err', 'time_since_explosion']
+                ]
+            df_norms = df_norms.dropna(ignore_index=True)
+        except Exception as e:
+            raise RuntimeError(e)
         
-        records = []
+        
+        if distance is None and z is None:
+            if self.distance is None:
+                raise ValueError("Please enter distance/redshift")
+            else:
+                distance, lo_dist_err, hi_dist_err = self.distance
 
-        for mod in models:
-            sub = df[df['model'] == mod]
-
-            # require positive times & temperatures
-            m_valid = (sub['time_since_explosion'] > 0) & (sub['bremss_kT'] > 0)
-            sub     = sub.loc[m_valid]
-            
-            if len(sub) < 2:
-                continue                       # not enough points to fit
-            
-            t = sub['time_since_explosion']
-            t_err = sub['time_since_explosion_err']
-            T = sub['bremss_kT']
-            lo_T_err = sub['lo_bremss_kT_err']
-            hi_T_err = sub['hi_bremss_kT_err']
-
-            norm, norm_err, exp, exp_err = fit_powerlaw_simple(t, T, yerr_lo=lo_T_err, yerr_hi=hi_T_err)
-            
-            chi2, chi2red = compute_chi2_powerlaw_simple(t, T, yerr_lo=lo_T_err, yerr_hi=hi_T_err, 
-                                                         norm=norm, exp=exp, plot_resid=plot_resid)
-
-            records.append({
-                'model':     mod,
-                'fit':    'curve_fit',
-                'norm':       norm,
-                'lo_norm_err': norm_err,
-                'hi_norm_err': norm_err,
-                'exp':        exp,
-                'lo_exp_err':   exp_err,
-                'hi_exp_err':   exp_err,
-                'ndata':     len(sub)
-            })
-
-        if not records:
-            raise ValueError("No valid ‘bremss’ rows with positive t and kT to fit.")
-
-        df_fits = pd.DataFrame.from_records(
-            records,
-            columns=['model', 'fit', 'norm', 'lo_norm_err', 'hi_norm_err', 'exp',
-                     'lo_exp_err', 'hi_exp_err', 'ndata']
+        distance, lo_dist_err, hi_dist_err = self._distance_and_errors(
+            distance, lo_dist_err, hi_dist_err,
+            z, lo_z_err, hi_z_err, H0
         )
+        D  = distance * MPC_TO_CM
+        sD_lo = lo_dist_err * MPC_TO_CM
+        sD_hi = hi_dist_err * MPC_TO_CM
 
-        if self.fit_temp_params is None:
-            self.fit_temp_params = df_fits
-        else:
-            self.fit_temp_params = pd.concat(
-                [self.fit_temp_params, df_fits],
-                axis=0,
-                ignore_index=True
-            )
 
-        return df_fits
-    
-    def calc_density_mcmc(self, distance: float = None, lo_dist_err=None, hi_dist_err=None,
-                          z: float = None, lo_z_err=None, hi_z_err=None, mu_e=1.14, mu_ion=1.24, 
-                          radius_ratio=1.2, f = 1, H0=70 * u.km / u.s / u.Mpc, freeze_norm=None, freeze_exp=None,
-                          nwalkers=500, nsteps=10000, nburn=2000, show_plots=True):
-        """
-        Calculate CSM density ρ(r) and fit its power-law using MCMC based on 'bremss_norm'.
-        
-        Formula: 
-        rho_CSM = m_p/4 (2*EM*mu_e*mu_ion/V_FS)^(1/2)
-        bremss_norm = 3.02e-15/(4 pi d^2) * EM
-        V_FS = 4/3 pi f (R_out^3 - R_in^3)
+        r_in     = self.r_shock["r_shock"]
+        r_in_err = self.r_shock["r_shock_err"]
 
-        Args:
-            distance (float, optional): distance to source in Mpc.
-            z (float, optional): redshift to source.
-            mu_e (float, optional): mean molecular weight per electron. Defaults to 1.14. from E. A. Zimmerman et al. 2024 for the environment of SN 2023ixf
-            mu_ion (float, optional): mean molecular weight per ion. Defaults to 1.24.
-            radius_ratio (float, optional): shock Rout/Rin ratio. Defaults to 1.2.
-            f (int, optional): filling factor. Defaults to 1.
-            H0 (float, optional): Hubble constant in km/s/Mpc. Defaults to 70 km/s/Mpc.
 
-        Raises:
-            RuntimeError: When manager.params do not have these columns: ['bremss_norm', 'lo_bremss_norm_err', 'hi_bremss_norm_err', 'time_since_explosion']
-            ValueError: When distance or redshift is not entered
+        EM_const  = 4*np.pi*D**2/3.02e-15
+        EM        = df_norms["bremss_norm"].values        * EM_const
+        sEM_lo    = df_norms["lo_bremss_norm_err"].values * EM_const
+        sEM_hi    = df_norms["hi_bremss_norm_err"].values * EM_const
 
-        Returns:
-            pd.DataFrame : DataFrame of shock density in g cm-3
-        """
-        df_norms = None
-        try:
-            df_norms = self.manager.params.loc[  # rows where ...
-                self.manager.params['model'].str.contains('bremss', case=False, na=False), 
-                ['bremss_norm', 'lo_bremss_norm_err', 'hi_bremss_norm_err', 'time_since_explosion']
-                ]
-            df_norms = df_norms.dropna(ignore_index=True)
-        except Exception as e:
-            raise RuntimeError(e)
-        
-        
-        if distance is None and z is None:
-            if self.distance is None:
-                raise ValueError("Please enter distance/redshift")
-            else:
-                distance, lo_dist_err, hi_dist_err = self.distance
-        
-        distance, lo_dist_err, hi_dist_err = self._distance_and_errors(
-                distance, lo_dist_err, hi_dist_err,
-                z, lo_z_err, hi_z_err, H0
-            )
-        
-        # Calculate density
-            
-        distance = distance * MPC_TO_CM
-        lo_dist_err = lo_dist_err * MPC_TO_CM
-        hi_dist_err = hi_dist_err * MPC_TO_CM
-        
-        r_in = self.r_shock['r_shock']
-        r_in_err = self.r_shock['r_shock_err']
-        
-        EM_const = 4 * np.pi * distance**2 / 3.02e-15
+        rel_D_lo  = 2*sD_lo/D
+        rel_D_hi  = 2*sD_hi/D
+        sEM_lo    = np.hypot(sEM_lo, EM*rel_D_lo)
+        sEM_hi    = np.hypot(sEM_hi, EM*rel_D_hi)
 
-        EM = np.array(df_norms['bremss_norm'].to_list()) * EM_const
-        lo_EM_err = np.array(df_norms['lo_bremss_norm_err'].to_list()) * EM_const
-        hi_EM_err = np.array(df_norms['hi_bremss_norm_err'].to_list()) * EM_const
-        
+
         V_FS = 4/3 * np.pi * f * (radius_ratio**3 - 1) * r_in**3
-        
-        densities = (m_p.to(u.g).value)/4 * (2 * EM * mu_e * mu_ion / V_FS)**(1/2)
-        
-        rel_D_lo = 2 * lo_dist_err / distance
-        rel_D_hi = 2 * hi_dist_err / distance
-        lo_EM_err = np.hypot(lo_EM_err, EM * rel_D_lo)
-        hi_EM_err = np.hypot(hi_EM_err, EM * rel_D_hi)
-        
-        rel_EM_lo  = 0.5 * lo_EM_err  / EM
-        rel_EM_hi  = 0.5 * hi_EM_err  / EM
-        rel_r      = 1.5 * r_in_err   / r_in
+        rho = (m_p.to(u.g).value/4) * np.sqrt( 2*EM*mu_e*mu_ion / V_FS )
 
-        lo_rho_err = densities * np.sqrt(rel_EM_lo**2 + rel_r**2)
-        hi_rho_err = densities * np.sqrt(rel_EM_hi**2 + rel_r**2)
-        
-            
-        norm, lo_norm_err, hi_norm_err, exp, lo_exp_err, hi_exp_err, chain = fit_powerlaw_asymmetric(
-                                                                                    r_in, densities, lo_rho_err, hi_rho_err,
-                                                                                    xerr_lo=r_in_err, xerr_hi=r_in_err,
-                                                                                    nwalkers=nwalkers, nsteps=nsteps, 
-                                                                                    nburn=nburn, show_plots=show_plots,
-                                                                                    freeze_norm=freeze_norm, freeze_exp=freeze_exp
-                                                                                 )
-            
-        compute_chi2_powerlaw(
-                r_in, densities, lo_rho_err, hi_rho_err,
-                norm, lo_norm_err, hi_norm_err,
-                exp, lo_exp_err, hi_exp_err,
-                xlo=r_in_err, xhi=r_in_err,
-                dof=None, plot_resid=show_plots
+        rel_EM_lo = 0.5*sEM_lo/EM
+        rel_EM_hi = 0.5*sEM_hi/EM
+        rel_r     = 1.5*r_in_err/r_in
+
+        lo_rho_err = rho * np.sqrt(rel_EM_lo**2 + rel_r**2)
+        hi_rho_err = rho * np.sqrt(rel_EM_hi**2 + rel_r**2)
+
+        if len(np.array(rho)) >= 2:
+            mdot, mdot_lo, mdot_hi, chain = fit_mdot_mcmc(
+                r_in, rho, lo_rho_err, hi_rho_err,
+                v_wind=v_wind,
+                nwalkers=nwalkers, nsteps=nsteps, nburn=nburn,
+                show_corner=show_plots
             )
-        
-        df_densities = pd.DataFrame({
-            'fit': 'mcmc',
-            'time_since_explosion': self.times['time_since_explosion'],
-            'time_since_explosion_err': self.times['time_since_explosion_err'],
-            'rho': densities,
-            'lo_rho_err': lo_rho_err,
-            'hi_rho_err': hi_rho_err,
+
+
+            if show_plots:
+                compute_chi2_powerlaw(      # your existing routine
+                    r_in, rho, lo_rho_err, hi_rho_err,
+                    mdot/(4*np.pi*v_wind.to(u.cm/u.s).value), 0, 0,   # norm (not used)
+                    -2, 0, 0,                                       # slope fixed −2
+                    xlo=r_in_err, xhi=r_in_err, plot_resid=True
+                )
+
+            df_par = pd.DataFrame({
+                "mdot": mdot,
+                "lo_mdot_err": mdot_lo, "hi_mdot_err": mdot_hi
+            }, index=[0])
+            
+            self.fit_density_params = (df_par if self.fit_density_params is None
+                                else pd.concat([self.fit_density_params, df_par],
+                                                ignore_index=True))
+
+        df_out = pd.DataFrame({
+            "time_since_explosion": df_norms["time_since_explosion"],
+            "rho": rho, "lo_rho_err": lo_rho_err, "hi_rho_err": hi_rho_err
         })
+
+        self.densities = (df_out if self.densities is None
+                        else pd.concat([self.densities, df_out], ignore_index=True))
         
-        df_dens_params = pd.DataFrame({
-            'fit':    'mcmc',
-            'norm':       norm,
-            'lo_norm_err': lo_norm_err,
-            'hi_norm_err': hi_norm_err,
-            'exp':        exp,
-            'lo_exp_err':   lo_exp_err,
-            'hi_exp_err':   hi_exp_err,
-        }, index=[0])
-        
-        if self.densities is None:
-            self.densities = df_densities
-        else:
-            self.densities = pd.concat(
-                [self.densities, df_densities],
-                axis=0,
-                ignore_index=True
-            )
-            
-        if self.fit_density_params is None:
-            self.fit_density_params = df_dens_params
-        else:
-            self.fit_density_params = pd.concat(
-                [self.fit_density_params, df_dens_params],
-                axis=0,
-                ignore_index=True
-            )
-                    
-        return df_densities
+
+        return df_out
     
-    def calc_density_simple(self, with_error=False, distance: float = None, lo_dist_err=None, hi_dist_err=None,
-                            z: float = None, lo_z_err=None, hi_z_err=None, mu_e=1.14, mu_ion=1.24, 
-                            radius_ratio=1.2, f = 1, H0=70 * u.km / u.s / u.Mpc, plot_resid=True):
-        """
-        Calculate CSM density ρ(r) and fit its power-law using scipy.optimize.curve_fit based on 'bremss_norm'.
-        
-        Formula: 
-        rho_CSM = m_p/4 (2*EM*mu_e*mu_ion/V_FS)^(1/2)
-        bremss_norm = 3.02e-15/(4 pi d^2) * EM
-        V_FS = 4/3 pi f (R_out^3 - R_in^3)
-
-        Args:
-            with_error (bool, optional): fit the density with its error or not. Defaults to False.
-            distance (float, optional): distance to source in Mpc.
-            z (float, optional): redshift to source.
-            mu_e (float, optional): mean molecular weight per electron. Defaults to 1.14. from E. A. Zimmerman et al. 2024 for the environment of SN 2023ixf
-            mu_ion (float, optional): mean molecular weight per ion. Defaults to 1.24.
-            radius_ratio (float, optional): shock Rout/Rin ratio. Defaults to 1.2.
-            f (int, optional): filling factor. Defaults to 1.
-            H0 (float, optional): Hubble constant in km/s/Mpc. Defaults to 70 km/s/Mpc.
-
-        Raises:
-            RuntimeError: When manager.params do not have these columns: ['bremss_norm', 'lo_bremss_norm_err', 'hi_bremss_norm_err', 'time_since_explosion']
-            ValueError: When distance or redshift is not entered
-
-        Returns:
-            pd.DataFrame : DataFrame of shock density in g cm-3
-        """
-        df_norms = None
-        try:
-            df_norms = self.manager.params.loc[  # rows where ...
-                self.manager.params['model'].str.contains('bremss', case=False, na=False), 
-                ['bremss_norm', 'lo_bremss_norm_err', 'hi_bremss_norm_err', 'time_since_explosion']
-                ]
-            df_norms = df_norms.dropna(ignore_index=True)
-        except Exception as e:
-            raise RuntimeError(e)
-        
-        
-        if distance is None and z is None:
-            if self.distance is None:
-                raise ValueError("Please enter distance/redshift")
-            else:
-                distance, lo_dist_err, hi_dist_err = self.distance
-        
-        distance, lo_dist_err, hi_dist_err = self._distance_and_errors(
-                distance, lo_dist_err, hi_dist_err,
-                z, lo_z_err, hi_z_err, H0
-            )
-        
-        # Calculate density
-            
-        distance = distance * MPC_TO_CM
-        lo_dist_err = lo_dist_err * MPC_TO_CM
-        hi_dist_err = hi_dist_err * MPC_TO_CM
-        
-        r_in = self.r_shock['r_shock']
-        r_in_err = self.r_shock['r_shock_err']
-        
-        EM_const = 4 * np.pi * distance**2 / 3.02e-15
-
-        EM = np.array(df_norms['bremss_norm'].to_list()) * EM_const
-        lo_EM_err = np.array(df_norms['lo_bremss_norm_err'].to_list()) * EM_const
-        hi_EM_err = np.array(df_norms['hi_bremss_norm_err'].to_list()) * EM_const
-        
-        V_FS = 4/3 * np.pi * f * (radius_ratio**3 - 1) * r_in**3
-        
-        densities = (m_p.to(u.g).value)/4 * (2 * EM * mu_e * mu_ion / V_FS)**(1/2)
-        
-        rel_D_lo = 2 * lo_dist_err / distance
-        rel_D_hi = 2 * hi_dist_err / distance
-        lo_EM_err = np.hypot(lo_EM_err, EM * rel_D_lo)
-        hi_EM_err = np.hypot(hi_EM_err, EM * rel_D_hi)
-        
-        rel_EM_lo  = 0.5 * lo_EM_err  / EM
-        rel_EM_hi  = 0.5 * hi_EM_err  / EM
-        rel_r      = 1.5 * r_in_err   / r_in
-
-        lo_rho_err = densities * np.sqrt(rel_EM_lo**2 + rel_r**2)
-        hi_rho_err = densities * np.sqrt(rel_EM_hi**2 + rel_r**2)
-        
-        if with_error:
-            norm, norm_err, exp, exp_err = fit_powerlaw_simple(r_in, densities, yerr_lo=lo_rho_err, yerr_hi=hi_rho_err)
-                
-            chi2, chi2red = compute_chi2_powerlaw_simple(r_in, densities, yerr_lo=lo_rho_err, yerr_hi=hi_rho_err, 
-                                                         norm=norm, exp=exp, plot_resid=plot_resid)
-        else:
-            norm, norm_err, exp, exp_err = fit_powerlaw_simple(r_in, densities)
-                
-            chi2, chi2red = compute_chi2_powerlaw_simple(r_in, densities, 
-                                                         norm=norm, exp=exp, plot_resid=plot_resid)
-        
-        df_densities = pd.DataFrame({
-            'fit': 'curve_fit',
-            'time_since_explosion': self.times['time_since_explosion'],
-            'time_since_explosion_err': self.times['time_since_explosion_err'],
-            'rho': densities,
-            'lo_rho_err': lo_rho_err,
-            'hi_rho_err': hi_rho_err,
-        })
-        
-        df_dens_params = pd.DataFrame({
-            'fit':    'curve_fit',
-            'norm':       norm,
-            'lo_norm_err': norm_err,
-            'hi_norm_err': norm_err,
-            'exp':        exp,
-            'lo_exp_err':   exp_err,
-            'hi_exp_err':   exp_err,
-        }, index=[0])
-        
-        if self.densities is None:
-            self.densities = df_densities
-        else:
-            self.densities = pd.concat(
-                [self.densities, df_densities],
-                axis=0,
-                ignore_index=True
-            )
-            
-        if self.fit_density_params is None:
-            self.fit_density_params = df_dens_params
-        else:
-            self.fit_density_params = pd.concat(
-                [self.fit_density_params, df_dens_params],
-                axis=0,
-                ignore_index=True
-            )
-                    
-        return df_densities
     
-    def calc_mass_loss_rate(self, v_wind: float = v_wind.value):
+    def get_mdot(self):
         """
-        Calculate mass loss rate in Msolar/yr
-        
-        Formula:
-        M_dot = 4 pi R_sh^2 rho v_wind
-        
-        Since we know that rho = norm * r^2
-        M_dot = 4 pi norm v_wind
-        
-        Args:
-            v_wind (float, optional): stellar wind velocity in km/s. Defaults to 20 km/s.
-
+        Get mass loss rate in Msolar/yr
+            
         Returns:
             Mass-loss rate and its errors in a list: (m_dot, lo_m_dot_err, hi_m_dot_err)
         """
         try:
             dens_params = self.fit_density_params
+            m_dot = np.array(dens_params['mdot'])
+            lo_m_dot_err = np.array(dens_params['lo_mdot_err'])
+            hi_m_dot_err = np.array(dens_params['hi_mdot_err'])
         except Exception as e:
-            raise RuntimeError("Please fit density first! (Hint: use the calc_density_simple() or calc_density_mcmc() function)")
-
-        v_wind = (v_wind * u.km / u.s).to(u.cm / u.s).value
-        K = np.array(dens_params['norm'])
-        Kerr_lo = np.array(dens_params['lo_norm_err'])
-        Kerr_hi = np.array(dens_params['hi_norm_err'])
-        
-        m_dot = 4 * np.pi * v_wind * K
-        lo_m_dot_err = 4 * np.pi * v_wind * Kerr_lo
-        hi_m_dot_err = 4 * np.pi * v_wind * Kerr_hi
+            raise RuntimeError("Please fit density first! (Hint: use the calc_density()function)")
         
         m_dot = (m_dot * u.g / u.s).to(u.M_sun / u.year).value
         lo_m_dot_err = (lo_m_dot_err * u.g / u.s).to(u.M_sun / u.year).value
         hi_m_dot_err = (hi_m_dot_err * u.g / u.s).to(u.M_sun / u.year).value
         
-        df_m_dot = pd.DataFrame({'fit': dens_params['fit'], 'm_dot': m_dot, 'lo_m_dot_err': lo_m_dot_err, 'hi_m_dot_err': hi_m_dot_err})
+        df_m_dot = pd.DataFrame({'m_dot': m_dot, 'lo_m_dot_err': lo_m_dot_err, 'hi_m_dot_err': hi_m_dot_err})
         self.mass_loss_rate = pd.concat(
                 [self.mass_loss_rate, df_m_dot],
                 axis=0,
@@ -795,7 +498,7 @@ class CSMAnalysis:
             )
         return self.mass_loss_rate
     
-    def plot_lumin(self, mcmc: bool = True, model_color: str = 'red'):
+    def plot_lumin(self, model_color: str = 'red'):
         """
         Plot luminosity light curve with best-fit power-law.
 
@@ -810,10 +513,9 @@ class CSMAnalysis:
             raise RuntimeError("Run `fit_lumin()` first.")
 
         # choose the fit type
-        fit_type = 'mcmc' if mcmc else 'curve_fit'
-        df_fit = self.fit_lumin_params[self.fit_lumin_params['fit'] == fit_type]
+        df_fit = self.fit_lumin_params
         if df_fit.empty:
-            raise ValueError(f"No entries with fit=='{fit_type}' found.")
+            raise ValueError(f"Please fit the luminosity with fit_lumin() first.")
 
         # assume only one model row
         row = df_fit.iloc[0]
@@ -851,13 +553,13 @@ class CSMAnalysis:
         ax.set_yscale('log')
         ax.set_xlabel('Time since explosion (days)')
         ax.set_ylabel(r'Luminosity (erg s$^{-1}$)')
-        ax.set_title(f"Luminosity light curve (fit type: {fit_type})")
+        ax.set_title(f"Luminosity light curve")
         ax.legend()
         ax.grid(True, which='both', ls=':')
 
         return fig
 
-    def plot_temp(self, mcmc: bool = True, model_color: str = 'red'):
+    def plot_temp(self, model_color: str = 'red'):
         """
         Plot temperature evolution with best-fit power-law.
 
@@ -872,10 +574,9 @@ class CSMAnalysis:
             raise RuntimeError("Run `fit_temp()` first to populate self.fit_temp_params.")
 
         # choose the fit type
-        fit_type = 'mcmc' if mcmc else 'curve_fit'
-        df_fit = self.fit_temp_params[self.fit_temp_params['fit'] == fit_type]
+        df_fit = self.fit_temp_params
         if df_fit.empty:
-            raise ValueError(f"No entries with fit=='{fit_type}' found.")
+            raise ValueError(f"Please fit the temperature with fit_temp() first.")
 
         # assume only one model row
         row = df_fit.iloc[0]
@@ -913,50 +614,62 @@ class CSMAnalysis:
         ax.set_yscale('log')
         ax.set_xlabel('Time since explosion (days)')
         ax.set_ylabel(r'Bremsstrahlung $kT$ (keV)')
-        ax.set_title(f"Temperature evolution (fit type: {fit_type})")
+        ax.set_title(f"Temperature evolution")
         ax.grid(True, which='both', ls=':')
         ax.legend()
 
         return fig
-                  
-    def plot_density(self, mcmc: bool=True, model_color: str = "red"):
+    
+    def plot_density(self, model_color: str = "red", v_wind=20*u.km/u.s):
         """
-        Plot CSM density profile ρ(r) with best-fit power-law.
+        Plot the CSM density profile ρ(r) with its best-fit power-law (or Ṁ fit).
 
-        Args:
-            mcmc (bool, optional): If True, use MCMC fit; else curve_fit. Defaults to True.
-            model_color (str, optional): Color for the fit line. Defaults to 'red'.
+        Parameters
+        ----------
+        model_color : str
+            Colour for the fitted curve.
+        v_wind      : Quantity
+            Wind velocity (needed when the fit was made in terms of Ṁ).
 
-        Returns:
-            matplotlib.figure.Figure: Figure with data and fit.
-
-        Raises:
-            RuntimeError: If densities, r_shock or fit parameters are missing.
-            ValueError: If no data for the selected fit type.
+        Returns
+        -------
+        matplotlib.figure.Figure
         """
-        # sanity checks
+
+        # ─────────── basic checks ──────────────────────────────────────────
         if self.densities is None or self.fit_density_params is None or self.r_shock is None:
-            raise RuntimeError("Run density calc, r_shock and its fit first.")
+            raise RuntimeError("Run density calculation, r_shock and its fit first.")
 
-        # pick which fit
-        fit_type = 'mcmc' if mcmc else 'curve_fit'
 
-        # select only that fit’s points
-        df_rho   = self.densities[self.densities['fit'] == fit_type]
-        df_shock = self.r_shock     
-        df_fit   = self.fit_density_params[self.fit_density_params['fit'] == fit_type]
+        df_rho   = self.densities
+        df_shock = self.r_shock
+        df_fit   = self.fit_density_params
 
-        if df_rho.empty or df_shock.empty or df_fit.empty:
-            raise ValueError(f"No data for fit='{fit_type}'")
+        if df_rho.empty or df_fit.empty or df_shock.empty:
+            raise ValueError(f"Please fit density with calc_density() first.")
 
-        # extract fit parameters
-        norm = df_fit["norm"].iloc[0]
-        exp  = df_fit["exp"].iloc[0]
+        # ─────────── decide which parametrisation the fit used ─────────────
+        if "mdot" in df_fit.columns:               # ← new Ṁ fit
+            mdot   = df_fit["mdot"].iloc[0]                 # [Msol yr⁻¹]
+            v_cms  = v_wind.to(u.cm/u.s).value
+            def rho_model(r):                       # r in cm
+                return mdot / (4*np.pi*r**2*v_cms)
+            fit_label = fr"$\rho \,\propto\, r^{{-2}}$"     # slope fixed −2
 
-        # build figure
+        elif {"norm", "exp"}.issubset(df_fit.columns):      # ← legacy norm/exp
+            norm = df_fit["norm"].iloc[0]
+            exp  = df_fit["exp"].iloc[0]
+            def rho_model(r):
+                return norm * r**exp
+            fit_label = fr"$\rho \propto r^{{{exp:.2f}}}$"
+
+        else:
+            raise RuntimeError("Fit table has neither (norm,exp) nor mdot column.")
+
+        # ─────────── build the figure ──────────────────────────────────────
         fig, ax = plt.subplots()
 
-        # plot data with asymmetric y-errors
+        # data with asymmetric errors
         yerr = np.vstack([df_rho["lo_rho_err"], df_rho["hi_rho_err"]])
         ax.errorbar(
             df_shock["r_shock"], df_rho["rho"],
@@ -964,22 +677,16 @@ class CSMAnalysis:
             fmt="o", label="data"
         )
 
-        # overlay power-law fit
+        # fitted curve
         rmin, rmax = df_shock["r_shock"].min(), df_shock["r_shock"].max()
         r_line   = np.logspace(np.log10(rmin), np.log10(rmax), 200)
-        rho_line = norm * r_line**exp
-        ax.plot(
-            r_line, rho_line,
-            color=model_color, ls="--",
-            label=fr"Fit: $\rho\propto r^{{{exp:.2f}}}$"
-        )
+        ax.plot(r_line, rho_model(r_line), ls="--", color=model_color, label=fit_label)
 
-        # log–log formatting
-        ax.set_xscale("log")
-        ax.set_yscale("log")
+        # aesthetics
+        ax.set_xscale("log");  ax.set_yscale("log")
         ax.set_xlabel("Shock radius (cm)")
-        ax.set_ylabel(r"Density $\rho$ (g cm$^{-3}$)")
-        ax.set_title(f"CSM density profile (fit type: {fit_type})")
+        ax.set_ylabel(r"Density $\rho\;(\mathrm{g\,cm^{-3}})$")
+        ax.set_title("CSM density profile")
         ax.grid(True, which="both", ls=":")
         ax.legend()
 

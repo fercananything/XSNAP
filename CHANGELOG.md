@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.1.21] - 2025-07-17
+### Changed
+- Bug fixes
+
+## [0.1.20] - 2025-07-17
+### Changed
+- CSMAnalysis is now only mcmc-based fit
+
+## [0.1.17-19] - 2025-07-17
+### Changed
+- Bug fixes
+
 ## [0.1.16] - 2025-07-15
 ### Changed
 - `extract-nustar` now can be used with just parsing a background region, will automatically use the source region from the downloaded data

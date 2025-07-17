@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import emcee, os
 from pathlib import Path
-from ._fitting import fit_powerlaw_asymmetric, compute_chi2_powerlaw, predict_with_errors, fit_powerlaw_simple, compute_chi2_powerlaw_simple
+from ._fitting import fit_powerlaw_asymmetric, compute_chi2_powerlaw, predict_with_errors
 
 class TemperatureEstimator:
     """
@@ -85,46 +85,27 @@ class TemperatureEstimator:
                                   `lo_exp_err`, `hi_exp_err`, and `chi2_red` all set.
         """
         
-        if mcmc:
-        
-            norm, lo_norm_err, hi_norm_err, exp, lo_exp_err, hi_exp_err, chain = fit_powerlaw_asymmetric(time_since_explosion, temperature, 
+        norm, lo_norm_err, hi_norm_err, exp, lo_exp_err, hi_exp_err, chain = fit_powerlaw_asymmetric(time_since_explosion, temperature, 
                                                                                                 temp_err_lo, temp_err_hi,
                                                                                                 time_err_lo, time_err_hi,
                                                                                                 nwalkers, nsteps, nburn,
                                                                                                 show_plots)
             
-            self.norm = norm
-            self.lo_norm_err = lo_norm_err
-            self.hi_norm_err = hi_norm_err
-            self.exp = exp
-            self.lo_exp_err = lo_exp_err
-            self.hi_exp_err = hi_exp_err
+        self.norm = norm
+        self.lo_norm_err = lo_norm_err
+        self.hi_norm_err = hi_norm_err
+        self.exp = exp
+        self.lo_exp_err = lo_exp_err
+        self.hi_exp_err = hi_exp_err
             
-            chi2, chi2_red = compute_chi2_powerlaw(time_since_explosion, temperature, 
+        chi2, chi2_red = compute_chi2_powerlaw(time_since_explosion, temperature, 
                                                     temp_err_lo, temp_err_hi,
                                                     A=norm, A_err_lo=lo_norm_err, A_err_hi=hi_norm_err,
                                                     k=exp, k_err_lo=lo_exp_err, k_err_hi=hi_exp_err,
                                                     xlo=time_err_lo, xhi=time_err_hi,
                                                     dof=None, plot_resid=show_plots
                                                 )
-            self.chi2_red = chi2_red
-            
-        else:
-            
-            norm, norm_err, exp, exp_err = fit_powerlaw_simple(time_since_explosion, temperature, 
-                                                               yerr_lo=temp_err_lo, yerr_hi=temp_err_hi)
-            
-            self.norm = norm
-            self.lo_norm_err = norm_err
-            self.hi_norm_err = norm_err
-            self.exp = exp
-            self.lo_exp_err = exp_err
-            self.hi_exp_err = exp_err
-            
-            chi2, chi2red = compute_chi2_powerlaw_simple(time_since_explosion, temperature, 
-                                                         yerr_lo=temp_err_lo, yerr_hi=temp_err_hi, 
-                                                         norm=norm, exp=exp, plot_resid=show_plots)
-            self.chi2_red = chi2red
+        self.chi2_red = chi2_red
             
         return self
     

@@ -3,6 +3,7 @@ import emcee
 import corner
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
+import astropy.units as u
 
 # Helper to fit asymmetric powerlaw
 
@@ -323,103 +324,68 @@ def compute_chi2_powerlaw(
 
     return chi2, chi2_red
 
-def fit_powerlaw_simple(x, y, yerr=None, yerr_lo=None, yerr_hi=None, p0=None):
-    """Helper function that fit a powerlaw y = norm * x^exp model with scipy.optimize.curve_fit
+def fit_mdot_mcmc(r, rho, sigma_lo, sigma_hi,
+                   v_wind,         
+                   nwalkers=500, nsteps=10000, nburn=2000,
+                   show_corner=False):
+        """
+        MCMC fit for ρ(r) = Mdot / (4π r² v_wind).
 
-    Args:
-        x (array_like): x-variable values, shape (N,).
-        y (array_like): y-variable values, shape (N,).
-        yerr (array_like, optional): Symmetric uncertainties on y, shape (N,). If None and both `yerr_lo` and `yerr_hi` are provided, symmetric errors are computed as 0.5*(yerr_lo + yerr_hi). If still None, residuals are weighted by the model prediction. Defaults to None.
-        yerr_lo (array_like, optional): Lower uncertainties on y, shape (N,). Used to compute `yerr` if it is None. Defaults to None.
-        yerr_hi (array_like, optional): Upper uncertainties on y, shape (N,). Used to compute `yerr` if it is None. Defaults to None.
-        p0 (array_like, optional): Initial guess for the parameters (length N). If None, then the initial values will all be 1 (Source: scipy.optimize.curve_fit)
-        
-    Returns:
-        tuple: 
-            norm (float): Best-fit normalization
-            norm_err (float): Normalization uncertainties
-            exp (float): Best-fit exponent
-            exp_err (float): Exponent uncertainties
-    """
-    def model(logx, norm, exp):
-        return norm + exp * logx
-    
-    if yerr is None and yerr_lo is not None and yerr_hi is not None:
-        yerr = 0.5*(yerr_lo + yerr_hi)
-        
-    logx = np.log10(x)
-    logy = np.log10(y)
-    logyerr = yerr/(y * np.log(10)) if yerr is not None else 0
-    
-    if (np.array(logyerr) == 0).any():
-        popt, pcov = curve_fit(
-            model,
-            logx, logy,
-            p0=p0
-        )
-    else:
-        popt, pcov = curve_fit(
-            model,
-            logx, logy,
-            sigma=logyerr,
-            absolute_sigma=True,
-            p0=p0
-        )
-    norm, exp = popt
-    norm_err, exp_err = np.sqrt(np.diag(pcov))
-    
-    norm = 10**(norm)
-    norm_err = norm * np.log(10) * norm_err
-    
-    return norm, norm_err, exp, exp_err
+        Parameters
+        ----------
+        r           : array_like   radii   [cm]
+        rho         : array_like   densities [g cm⁻³]
+        sigma_lo/hi : array_like   asymmetric ±1 σ errors on rho
+        v_wind      : Quantity     wind speed
+        nwalkers    : int
+        nsteps      : int
+        nburn       : int
+        show_corner : bool         show corner plot (needs corner.py)
 
+        Returns
+        -------
+        mdot_best   : float   50th-percentile
+        mdot_lo/hi  : float   −/ + 1 σ (16th & 84th percentiles)
+        chain       : ndarray (nsteps−nburn)*nwalkers
+        """
+        v_cms = v_wind.to(u.cm/u.s).value
 
-def compute_chi2_powerlaw_simple(x, y, norm, exp,  yerr=None, yerr_lo=None, yerr_hi=None, dof=None, plot_resid=True):
-    """Helper function that computes χ² and reduced χ² for model y = norm * x^exp from curve_fit.
-    This function to show the user how fit their fitting is.
+        # --- log-likelihood (Gaussian with asymmetric σ) --------------------
+        def log_like(theta):
+            mdot = theta[0]
+            if mdot <= 0:
+                return -np.inf
+            model = mdot / (4*np.pi*r**2*v_cms)
+            # piecewise σ
+            sigma = np.where(rho >= model, sigma_lo, sigma_hi)
+            return -0.5*np.sum(((rho-model)/sigma)**2 + np.log(2*pi*sigma**2))
 
-    Args:
-        x (array_like): x-variable values, shape (N,).
-        y (array_like): y-variable values, shape (N,).
-        norm (float): Model normalization
-        exp (float): Model exponent
-        yerr (array_like, optional): Symmetric uncertainties on y, shape (N,). If None and both `yerr_lo` and `yerr_hi` are provided, symmetric errors are computed as 0.5*(yerr_lo + yerr_hi). If still None, residuals are weighted by the model prediction. Defaults to None.
-        yerr_lo (array_like, optional): Lower uncertainties on y, shape (N,). Used to compute `yerr` if it is None. Defaults to None.
-        yerr_hi (array_like, optional): Upper uncertainties on y, shape (N,). Used to compute `yerr` if it is None. Defaults to None.
-        dof (int, optional): Degrees of freedom; if None, defaults to N − 2. Defaults to None.
-        plot_resid (bool, optional): If True, displays a residual plot with error bars. Defaults to True.
+        # --- (weak) log-prior  ---------------------------------------------
+        def log_prior(theta):
+            mdot = theta[0]
+            # flat in log-space from 1e-8 to 1e-2 M⊙/yr
+            if 1e-8 < mdot < 1e-2:
+                return -np.log(mdot)   # Jeffreys-like
+            return -np.inf
 
-    Returns:
-        tuple:
-            chi2 (float): Total χ².
-            chi2_red (float): Reduced χ² = χ²/dof.
-    """
-    if yerr is None and yerr_lo is not None and yerr_hi is not None:
-        yerr = 0.5*(yerr_lo + yerr_hi)
-        
-    # Model prediction and residuals
-    y_pred = norm * x**exp
-    resid = y - y_pred
+        def log_prob(theta):
+            lp = log_prior(theta)
+            return lp + log_like(theta) if np.isfinite(lp) else -np.inf
 
-    # χ² calculation
-    chi2 = np.sum((resid / yerr)**2) if yerr is not None else np.sum((resid / y_pred)**2)
-    if dof is None:
-        dof = x.size - 2
-    chi2_red = chi2 / dof
+        # --- initialise walkers around analytic guess ----------------------
+        mdot_guess = np.median(rho*4*np.pi*r**2*v_cms)
+        pos = mdot_guess * (1 + 1e-4*np.random.randn(nwalkers, 1))
 
-    # Optional residual plot
-    if plot_resid:
-        plt.errorbar(
-            x, resid,
-            yerr=yerr,
-            fmt='o', capsize=3, color='k'
-        )
-        plt.axhline(0, color='C1', linestyle='--', label='zero residual')
-        plt.xscale('log')
-        plt.xlabel('x')
-        plt.ylabel('Residual = data - model')
-        plt.title(f'Residual plot, red χ² = {chi2_red:.2f}')
-        plt.legend()
-        plt.show()
-        
-    return chi2, chi2_red
+        sampler = emcee.EnsembleSampler(nwalkers, 1, log_prob)
+        sampler.run_mcmc(pos, nsteps, progress=True)
+        chain = sampler.get_chain(discard=nburn, flat=True)
+
+        mdot_median = np.percentile(chain, 50)
+        mdot_lo     = mdot_median - np.percentile(chain, 16)
+        mdot_hi     = np.percentile(chain, 84) - mdot_median
+
+        if show_corner:
+            corner.corner(chain, labels=[r"$\dot{M}$"])
+            plt.show()
+
+        return mdot_median, mdot_lo, mdot_hi, chain
