@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.1.24] - 2025-07-21
+### Changed
+- Edit the help docs for the scripts functions
+
 ## [0.1.23] - 2025-07-21
 ### Changed
 - Edit the help docs for the scripts functions

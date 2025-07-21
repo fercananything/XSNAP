@@ -3,8 +3,8 @@
 Pipeline module to run NuSTAR reduction and spectral extraction in one step.
 
 Automates the standard NuSTARDAS workflow:
-  1. Execute **nupipeline** for a given OBSID, producing cleaned FPMA/B events.
-  2. Run **nuproducts** to generate source and background spectra plus ARFs/RMFs.
+  1. Execute nupipeline for a given OBSID, producing cleaned FPMA/B events.
+  2. Run nuproducts to generate source and background spectra plus ARFs/RMFs.
   3. Optionally reuse pre-cleaned events (skip pipeline).
 
 Usage
@@ -23,8 +23,8 @@ Important options
 -----------------
   --indir DIR        Directory containing raw event files (default: ./<OBSID>).
   --outdir DIR       Output root for products (default: ./products/<OBSID>).
-  --ra / --dec       Source coordinates (deg) passed to **nupipeline**.
-  --no-pipe          Skip **nupipeline**; assume cleaned events already exist.
+  --ra / --dec       Source coordinates (deg) passed to nupipeline.
+  --no-pipe          Skip nupipeline; assume cleaned events already exist.
   --clobber          Overwrite existing products.
 
 Outputs

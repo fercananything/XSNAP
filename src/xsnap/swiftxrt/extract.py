@@ -2,7 +2,7 @@
 Pipeline module to extract 0.3–10 keV Swift/XRT spectra in PC or WT mode.
 
 Automates the standard HEASoft workflow:
-  1. *Optionally* run **xrtpipeline** to calibrate a raw OBSID.
+  1. (Optionally) run xrtpipeline to calibrate a raw OBSID.
   2. Filter cleaned events with user-supplied source / background regions.
   3. Create exposure-corrected ARFs and grouped PHA files.
 
