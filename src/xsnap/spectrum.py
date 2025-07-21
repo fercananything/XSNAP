@@ -720,18 +720,18 @@ class SpectrumFit:
 
         # --- unabsorbed fluxes ---
         if unabsorbed:
-            first = xspec.AllModels(1)
-            if not (hasattr(first,'TBabs') or hasattr(first,'zTBabs')):
-                raise RuntimeError("Cannot compute unabsorbed flux: missing TBabs/zTBabs.")
-            for g in range(1, ngrp+1):
-                m = xspec.AllModels(g)
-                # Zero Galactic absorber if it’s there
-                if hasattr(m, "TBabs"):
-                    m.TBabs.nH = 0
+            # --- zero every “nH”-type parameter in every DataGroup -------------
+            for g in range(1, ngrp + 1):
+                mod = xspec.AllModels(g)
 
-                # Zero red-shifted absorber if it’s there
-                if hasattr(m, "zTBabs"):
-                    m.zTBabs.nH = 0
+                for comp_name in mod.componentNames:    
+                    comp = getattr(mod, comp_name)
+
+                    # look through that component’s parameters
+                    for pname in comp.parameterNames:         
+                        if pname.lower() == "nh":              # matches “nH” / “NH” / “nh”
+                            setattr(comp, pname, 0)            # comp.nH = 0
+
             xspec.AllModels.calcFlux(f"{low_energy} {high_energy}")
 
             un_rows = []

@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [0.1.21] - 2025-07-17
 ### Changed
+- `SpectrumFit.get_fluxes()` now find every component that has nH in the model and set it to zero for unabsorbed flux calculations
+
+## [0.1.21] - 2025-07-17
+### Changed
 - Bug fixes
 
 ## [0.1.20] - 2025-07-17
