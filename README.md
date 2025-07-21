@@ -68,8 +68,6 @@ This software is completely optional and has minimal impact on the user experien
 
 XSNAP is organized into two main parts: command-line scripts (where users can invoke on the shell or jupyter notebook) and a built-in module or Python API (where you can import functions and classes).
 
-### Command-line scripts
-
 There are five scripts available for users to run:
 | Script             | Description                                              |
 |--------------------|----------------------------------------------------------|
@@ -80,113 +78,7 @@ There are five scripts available for users to run:
 | `extract-nustar`      | Calibrate & extract spectrum from NuSTAR.           |
 | `make-region`      | Generate ICRS source/background region files. (Physical region files will also be made if user has DS9)       |
 
-For details on how to use these scripts, you can try the `-help` argument.
-
-For example:
-```shell script
-$ make-region -help
-
-usage: make-region [-h] [--ds9 DS9] [--expimg EXPIMG]
-                   evtfile ra dec [r_in] [r_out] [outdir]
-
-Pipeline module to generate DS9-compliant ICRS source and background regions.
-
-This script produces two region files for automated processing:
-
-  1. source.reg
-     • Circular region at the specified RA/Dec with radius r_in (″).
-  2. bkg.reg
-     • First-pass annulus from r_in to r_out (″).
-     • If an XIMAGE detection (excluding the source) overlaps, relocates the
-       background to a single circle of radius r_out (″) at the first clean spot
-       ≥1′ from the source.
-
-Command-line usage:
-    make_region <evtfile> <ra> <dec> [r_in] [r_out] [outdir]
-                [--ds9 DS9_PATH] [--expimg EXP_IMG]
-
-Positional arguments:
-  evtfile    Path to event FITS file.
-  ra, dec    Source coordinates in ICRS (decimal degrees).
-  r_in       Inner radius of source region (arcsec; defaults telescope-specific).
-  r_out      Outer radius for background region (arcsec; defaults telescope-specific).
-  outdir     Output directory (default: same as evtfile’s directory).
-
-Options:
-  --ds9      Path to DS9 executable (if not on $PATH or in $DS9/_PATH).
-  --expimg   Exposure-map FITS file for contamination checks.
-```
-
-Then, you can run `make-region`, for example,
-```shell script
-make-region event.evt --expimg exposure_image.img 158 +28
-```
-
-### Built-in module / Python API
-
-There are multiple functions and classes available. Below is an example on how to fit a spectrum.
-
-```Python
-# 1. Import xsnap
-import xsnap
-explosion_mjd = 60442.40 # Supernova explosion time in MJD
-
-# 2. Extract spectrum and fit
-spec = spectrum.SpectrumFit() 
-
-# Load spectrum
-spec.load_data('grp.pha')
-
-# The same as rebin in XSPEC
-spec.set_rebin(5, 1)
-
-# Ignore energies outside 0.3 - 10.0 keV
-spec.ignore("**-0.3 10.0-**")
-
-# Set XSPEC model
-spec.set_model( 
-    "tbabs*ztbabs*bremss", # model args
-    zTBabs_nH=2.7, 
-    zTBabs_Redshift=0,
-    bremss_kT=32,
-    bremss_norm=0
-) 
-# TBabs.nH can be automatically defined by module using HEASOFT and the RA_OBJ and DEC_OBJ from spectrum file header
-
-# Fit the spectrum and plot it (will have xAxis in keV as default)
-spec.fit()
-spec.set_plot("ldata", device="/svg")
-
-# Fit the parameters and get their uncertainty
-spec.get_params("1.0 2 5")
-
-# Generate the energy and photon flux from the fitted models
-df_flux = spec.get_fluxes()
-
-# Get observation time of the spectrum
-spec.get_time() 
-
-# Get the count rate of the spectrum
-spec.get_counts()
-
-# Generate luminosity based on distance in Mpc (also available in redshift)
-spec.get_lumin(df_flux['unabsorbed'], distance=14.1) 
-
-# 3. Plot light curve
-manager = spectrum.SpectrumManager(tExplosion=explosion_mjd)
-
-# Load the SpectrumFit class to the SpectrumManager class
-manager.load(spec)
-
-# Generate a flux plot light curve in matplotlib
-manager.plot_flux_lc()
-
-# Generate a luminosity plot light curve in matplotlib
-manager.plot_lumin_lc()
-```
-
-A notebook example will be made available in the near future.
-
+A short tutorial on how to use XSNAP is available in jupyter notebooks [here](https://github.com/fercananything/XSNAP/tree/main/notebook)
 
 ## Problems and Questions
 If you encounter a bug, or would like to make a feature request, please use the GitHub
