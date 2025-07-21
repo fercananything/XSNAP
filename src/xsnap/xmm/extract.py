@@ -26,7 +26,6 @@ Requirements:
   - The script auto‐configures SAS_ODF and SAS_CCF.
   - PPS and ODF directory must have the same parent directory
 
-Designed for headless, reproducible spectral extraction in automated pipelines.
 """
 from __future__ import annotations
 import argparse, subprocess, os, re, shutil, sys, textwrap

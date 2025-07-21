@@ -27,10 +27,8 @@ Arguments:
   --pn-dec         (Optional) PN attitude Dec override (default: POINT).
 
 Requirements:
-  • Python 3 with astropy installed.
-  • xrtpipeline, extractor, farith (HEASoft) must be available.
+  • HEASoft with Swift-XRT CALDB files installed
 
-Designed for headless, reproducible Swift/XRT data reduction and time-series stacking.
 """
 import os
 import subprocess

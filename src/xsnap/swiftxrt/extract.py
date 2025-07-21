@@ -1,32 +1,48 @@
-#!/usr/bin/env python3
 """
-extract.py – Swift/XRT spectral extractor (PC / WT)
-==================================================
+Pipeline module to extract 0.3–10 keV Swift/XRT spectra in PC or WT mode.
 
-USAGE (all optionals are flags)
-------------------------------
+Automates the standard HEASoft workflow:
+  1. *Optionally* run **xrtpipeline** to calibrate a raw OBSID.
+  2. Filter cleaned events with user-supplied source / background regions.
+  3. Create exposure-corrected ARFs and grouped PHA files.
 
-Pipeline (default – runs `xrtpipeline`)
-    extract OBSID SRC.reg BKG.reg \
-            [--indir DIR] [--outdir DIR] \
-            [--src-ra RA --src-dec DEC] \
-            [--mode {PC,WT}]
+Quick usage
+-----------
+Full calibration + extraction (PC mode):
 
-Direct / *no-pipeline*
-    extract --no-pipe OBSID SRC.reg BKG.reg \
-            --indir DIR [--outdir DIR] \
-            [--evt FILE --img FILE] \
-            [--mode {PC,WT}]
+    extract 00012345001 src.reg bkg.reg \
+        --src-ra 150.123 --src-dec -12.345 --mode PC
 
-* `OBSID`, `SRC.reg`, `BKG.reg` are required positional arguments.
-* All other parameters **must** be provided through flags shown above.
-* If `--evt/--img` are omitted in `--no-pipe` mode, the script looks for a
-  single `*.evt` and `*.img` inside `--indir`.
+Skip the pipeline, work on existing events/images:
 
-Output files
-~~~~~~~~~~~~
-* **PC** → `pcsou.pha`, `pcbk.pha`, `pcsou.arf`, `pcsougr1.pha`
-* **WT** → `wtsou.pha`, `wtbk.pha`, `wtsou.arf`, `wtsougr1.pha`
+    extract --no-pipe 00012345001 src.reg bkg.reg \
+        --indir ./events --evt sw00012345001xpcw3po_cl.evt
+
+Positional arguments
+--------------------
+  OBSID        11-digit Swift observation ID.
+  SRC_REG      Source region (DS9 “physical” or “sky”).
+  BKG_REG      Background region.
+
+Key options
+-----------
+  --indir DIR        Directory with event/image files (default: ./<OBSID>).
+  --outdir DIR       Destination for PHA/ARF products (default: ./).
+  --src-ra / --src-dec
+                     Only needed when **xrtpipeline** is run.
+  --mode {PC,WT}     Extraction mode (Photon-Counting default).
+  --no-pipe          Bypass **xrtpipeline**; use existing files.
+  --evt / --img      Explicit event / image filenames in --no-pipe mode.
+
+Outputs
+--------
+PC mode → `pcsou.pha`  `pcbkg.pha`  `pcsou.arf`  `pcsougr1.pha`  
+WT mode → `wtsou.pha`  `wtbkg.pha`  `wtsou.arf`  `wtsougr1.pha`
+
+Requirements
+-------------
+  • HEASoft with Swift-XRT CALDB files installed
+
 """
 
 from __future__ import annotations

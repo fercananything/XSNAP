@@ -1,39 +1,44 @@
 #!/usr/bin/env python3
 """
-extract_nustar.py – one-command NuSTAR spectrum extractor
-=========================================================
+Pipeline module to run NuSTAR reduction and spectral extraction in one step.
 
-Steps performed
----------------
-1. **nupipeline**   – calibrate & clean the observation
-2. **nuproducts**   – extract spectra / ARFs for FPMA and FPMB
+Automates the standard NuSTARDAS workflow:
+  1. Execute **nupipeline** for a given OBSID, producing cleaned FPMA/B events.
+  2. Run **nuproducts** to generate source and background spectra plus ARFs/RMFs.
+  3. Optionally reuse pre-cleaned events (skip pipeline).
 
 Usage
 -----
-extract-nustar OBSID [SRC.REG] [BKG.REG]
-               [--indir  DIR]   (default: ./sources/OBSID)
-               [--outdir DIR]   (default: ./output/OBSID)
-               [--prod   DIR]   (default: ./products/OBSID)
-               [--ra RA --dec DEC]
+    extract-nustar <OBSID> <SRC_REG> <BKG_REG> \
+        [--indir DIR] [--outdir DIR] \
+        [--ra RA --dec DEC] [--no-pipe]
 
 Positional arguments
 --------------------
-OBSID       11-digit NuSTAR observation ID (e.g. 80902505002)
-SRC.REG     Source region file (optional)
-BKG.REG     Background region file (optional)
+  OBSID        11-digit NuSTAR observation ID.
+  SRC_REG      Source region file or literal DS9 region string.
+  BKG_REG      Background region file or literal DS9 region string.
 
-Optional arguments
-------------------
---indir DIR     directory containing the unfiltered event files
---outdir DIR    directory where **nupipeline** writes the cleaned data
---prod DIR      root directory where **nuproducts** writes FPMA/FPMB products
---ra  RA        override RA  (deg) fed to *nupipeline*
---dec DEC       override Dec (deg) fed to *nupipeline*
+Important options
+-----------------
+  --indir DIR        Directory containing raw event files (default: ./<OBSID>).
+  --outdir DIR       Output root for products (default: ./products/<OBSID>).
+  --ra / --dec       Source coordinates (deg) passed to **nupipeline**.
+  --no-pipe          Skip **nupipeline**; assume cleaned events already exist.
+  --clobber          Overwrite existing products.
 
-If --ra or --dec are not supplied, the center of the first available
-region file is used. If SRC.REG is omitted, the script searches for
-nu<OBSID>A01_src.reg and nu<OBSID>B01_src.reg in the indir/event_cl
-folders.
+Outputs
+-------
+`FPMA/` and `FPMB/` sub-directories with:
+
+    nu<OBSID>A_src.pha   nu<OBSID>A_bkg.pha
+    nu<OBSID>A_arf.arf   nu<OBSID>A_src_grp.pha
+    (same for module B)
+
+Requirements
+-------------
+  • HEASoft with NuSTAR CALDB files installed
+
 """
 from __future__ import annotations
 import argparse, subprocess, shutil, pathlib, re, sys, os, textwrap

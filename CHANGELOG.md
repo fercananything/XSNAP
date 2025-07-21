@@ -4,7 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
-## [0.1.21] - 2025-07-17
+## [0.1.23] - 2025-07-21
+### Changed
+- Edit the help docs for the scripts functions
+
+## [0.1.22] - 2025-07-21
 ### Changed
 - `SpectrumFit.get_fluxes()` now find every component that has nH in the model and set it to zero for unabsorbed flux calculations
 

@@ -23,7 +23,6 @@ Requirements:
   • CIAO (including dmcopy, mkpsfmap, specextract) installed.
   • CONDA_DEFAULT_ENV set to the requested environment name.
 
-Designed for headless, reproducible spectral‐extraction pipelines.
 """
 import sys, os, subprocess
 from pathlib import Path
