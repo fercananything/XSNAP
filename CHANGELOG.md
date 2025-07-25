@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.1.25] - 2025-07-21
+### Changed
+- fixed the `CSMAnalysis` fitting for Mdot
+- edit `SpectrumFit.set_plot()` to have logscale when `ldata` is in args
+
 ## [0.1.24] - 2025-07-21
 ### Changed
 - Edit the help docs for the scripts functions
@@ -22,7 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [0.1.20] - 2025-07-17
 ### Changed
-- CSMAnalysis is now only mcmc-based fit
+- `CSMAnalysis` is now only mcmc-based fit
 
 ## [0.1.17-19] - 2025-07-17
 ### Changed

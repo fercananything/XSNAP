@@ -434,7 +434,7 @@ class CSMAnalysis:
         hi_rho_err = rho * np.sqrt(rel_EM_hi**2 + rel_r**2)
 
         if len(np.array(rho)) >= 2:
-            mdot, mdot_lo, mdot_hi, chain = fit_mdot_mcmc(
+            mdot, mdot_lo, mdot_hi = fit_mdot_mcmc(
                 r_in, rho, lo_rho_err, hi_rho_err,
                 v_wind=v_wind,
                 nwalkers=nwalkers, nsteps=nsteps, nburn=nburn,

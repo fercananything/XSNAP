@@ -185,7 +185,7 @@ class SpectrumFit:
         
         xspec.Plot.setRebin(minSig=minSig, maxBins=maxBins, groupNum=groupNum, errType=errType)
         
-    def set_plot(self, args: str ="data", device: str ="/null", xAxis: str ="keV", fileName: str ="plot"):
+    def set_plot(self, args: str ="data", device: str ="/null", xAxis: str ="keV", fileName: str ="plot.png"):
         """
         Configure and execute an XSPEC plot.
 
@@ -243,10 +243,12 @@ class SpectrumFit:
             ax.set_xlabel(xl)
             ax.set_ylabel(yl)
             ax.set_title(title)
+            if "ldata" in args:
+                ax.loglog()
             ax.legend()
             ax.grid()
 
-            fig.savefig(f"{fileName}.png")
+            fig.savefig(f"{fileName}")
             plt.show()
             return fig, ax 
 

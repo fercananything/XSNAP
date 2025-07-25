@@ -5,6 +5,10 @@ import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 import astropy.units as u
 
+MSUN_G  = 1.989e33          # g
+YR_SEC  = 365.25*24*3600           # s
+MSUN_YR  = MSUN_G / YR_SEC     # 1 M⊙/yr  in g/s
+
 # Helper to fit asymmetric powerlaw
 
 def fit_powerlaw_asymmetric(
@@ -352,20 +356,17 @@ def fit_mdot_mcmc(r, rho, sigma_lo, sigma_hi,
 
         # --- log-likelihood (Gaussian with asymmetric σ) --------------------
         def log_like(theta):
-            mdot = theta[0]
-            if mdot <= 0:
-                return -np.inf
-            model = mdot / (4*np.pi*r**2*v_cms)
-            # piecewise σ
-            sigma = np.where(rho >= model, sigma_lo, sigma_hi)
-            return -0.5*np.sum(((rho-model)/sigma)**2 + np.log(2*pi*sigma**2))
+            log10_mdot_msun = theta[0]
+            mdot_gs = 10**log10_mdot_msun * MSUN_YR      # -> g/s
+            model   = mdot_gs / (4*np.pi*r**2*v_cms)
+            sigma   = np.where(rho >= model, sigma_lo, sigma_hi)
+            return -0.5*np.sum(((rho-model)/sigma)**2 + np.log(2*np.pi*sigma**2))
 
         # --- (weak) log-prior  ---------------------------------------------
         def log_prior(theta):
-            mdot = theta[0]
-            # flat in log-space from 1e-8 to 1e-2 M⊙/yr
-            if 1e-8 < mdot < 1e-2:
-                return -np.log(mdot)   # Jeffreys-like
+            log10_mdot_msun = theta[0]
+            if -10 < log10_mdot_msun < -2:   # 10^-10 –10^-2 M⊙/yr
+                return 0.0                  # flat in that range
             return -np.inf
 
         def log_prob(theta):
@@ -373,19 +374,22 @@ def fit_mdot_mcmc(r, rho, sigma_lo, sigma_hi,
             return lp + log_like(theta) if np.isfinite(lp) else -np.inf
 
         # --- initialise walkers around analytic guess ----------------------
-        mdot_guess = np.median(rho*4*np.pi*r**2*v_cms)
-        pos = mdot_guess * (1 + 1e-4*np.random.randn(nwalkers, 1))
+        mdot_guess_gs = np.median(rho * 4*np.pi*r**2*v_cms)      # g/s
+        log10_guess   = np.log10(mdot_guess_gs / MSUN_YR)         # → M⊙/yr
+
+        pos = log10_guess + 1e-4*np.random.randn(nwalkers, 1)    # tiny scatter
 
         sampler = emcee.EnsembleSampler(nwalkers, 1, log_prob)
         sampler.run_mcmc(pos, nsteps, progress=True)
-        chain = sampler.get_chain(discard=nburn, flat=True)
+        chain = sampler.get_chain(discard=nburn, flat=True)[:,0]     # 1-D array
+        mdot_chain_gs = 10**chain * MSUN_YR
 
-        mdot_median = np.percentile(chain, 50)
-        mdot_lo     = mdot_median - np.percentile(chain, 16)
-        mdot_hi     = np.percentile(chain, 84) - mdot_median
+        mdot_median = np.percentile(mdot_chain_gs, 50)
+        mdot_lo     = mdot_median - np.percentile(mdot_chain_gs, 16)
+        mdot_hi     = np.percentile(mdot_chain_gs, 84) - mdot_median
 
         if show_corner:
-            corner.corner(chain, labels=[r"$\dot{M}$"])
+            corner.corner(chain.reshape(-1,1), labels=[r'$\log_{10}\dot{M}\,[\mathrm{M_\odot\,yr^{-1}}]$'])
             plt.show()
 
-        return mdot_median, mdot_lo, mdot_hi, chain
+        return mdot_median, mdot_lo, mdot_hi
