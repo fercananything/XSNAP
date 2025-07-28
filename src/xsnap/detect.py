@@ -1,3 +1,4 @@
+from __future__ import annotations
 import os
 import subprocess
 import pandas as pd
@@ -8,7 +9,6 @@ import astropy.units as u
 import xspec
 import matplotlib.pyplot as plt
 from pathlib import Path
-from __future__ import annotations
 
 
 def detect_snr3(evt_file, exp_img_file=None, pha_file=None,

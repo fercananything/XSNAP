@@ -1,3 +1,4 @@
+from __future__ import annotations
 import numpy as np
 from astropy.io import fits 
 from astropy.time import Time
@@ -5,7 +6,6 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import emcee, os
 from pathlib import Path
-from __future__ import annotations
 from ._fitting import fit_powerlaw_asymmetric, compute_chi2_powerlaw, predict_with_errors
 
 class TemperatureEstimator:

@@ -1,10 +1,3 @@
-#!/usr/bin/env python3
-"""
-analysis.py - to analysis CSM shock interactions
-
-Provides CSMAnalysis, which loads SpectrumManager class and
-get the density & mass-loss rate and plot them vs radius
-"""
 from __future__ import annotations
 import numpy as np
 import pandas as pd

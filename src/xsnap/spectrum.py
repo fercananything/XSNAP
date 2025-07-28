@@ -1,10 +1,3 @@
-#!/usr/bin/env python3
-"""
-spec_fit.py
-
-Provides SpectrumFit, which is essentially a Python Wrapper to fit spectrum with PyXspec.
-"""
-
 from __future__ import annotations
 import xspec
 import numpy as np
