@@ -1,6 +1,6 @@
 <p align="center">
   <picture>
-    <img src="https://github.com/fercananything/XSNAP/blob/main/docs/_static/logo/xsnap_logo_icon_crop.jpeg" alt="My Project logo" width="200px" />
+    <img src="https://raw.githubusercontent.com/fercananything/xsnap/main/docs/_static/logo/xsnap_logo_icon_crop.jpeg" alt="My Project logo" width="200px" />
   </picture>
 </p>
 
