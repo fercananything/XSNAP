@@ -17,6 +17,7 @@ copyright = '2025, Ferdinand, Wynn V. Jacobson-Galan, and Mansi M. Kasliwal'
 author = 'Ferdinand, Wynn V. Jacobson-Galan, Mansi M. Kasliwal'
 
 import xsnap
+
 # Sphinx’s “short” version (major.minor)
 version = xsnap.__version__
 # Sphinx’s “full” release string (can include patch, alpha/beta tags)
@@ -36,7 +37,12 @@ extensions = []
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
-
+extensions = [
+    "sphinx.ext.autodoc",
+    "sphinx.ext.napoleon",           # if you use Google- or NumPy-style docstrings
+    "sphinx_autodoc_typehints",      # to include PEP 484 type hints
+    "sphinx_design",
+]
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
@@ -44,6 +50,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 html_favicon = '_static/xsnapicon.ico'
 
 html_static_path = ['_static']
+html_css_files = ["custom.css"]
 templates_path   = ["_templates"]
 
 html_theme = "pydata_sphinx_theme"
@@ -51,7 +58,7 @@ html_show_sourcelink = False
 
 
 html_theme_options = {
-    "navbar_align": "content",
+    "navbar_align": "center",
     "logo": {
         "image_light": "_static/xsnaplogo.svg",
         "image_dark": "_static/xsnaplogo_dark.svg",
@@ -62,7 +69,8 @@ html_theme_options = {
     ],
     "secondary_sidebar_items": ["page-toc"],
     "header_links_before_dropdown": 6,
-    "show_toc_level": 2,
+    "collapse_navigation": True,
+    # "show_toc_level": 2,
 }
 
 html_sidebars = {

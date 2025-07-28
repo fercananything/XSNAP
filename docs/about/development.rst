@@ -16,7 +16,7 @@ We welcome all types of contributions—bug reports, feature requests, code patc
    Please describe the problem you found or feature you would like to see. 
 2. **Submit a pull request** against the `main` branch.  
 
-   - Fork the repo and create a topic branch :code:`git checkout -b feature/my-feature`.  
+   - Fork the repo and create a topic branch (:code:`git checkout -b feature/my-feature`).  
    - Make your changes, add tests and documentation, and update `CHANGELOG.md`.  
    - Open a pull request and reference any related issues.  
 3. **Discuss on email**  

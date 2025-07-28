@@ -6,18 +6,21 @@ Installation
 ###############
 
 Installing XSNAP
-===============
+==================
 
 We strongly recommend that you make use of Python virtual environments, 
 or (even better) Conda virtual environments when installing XSNAP.
 
 Currently, XSNAP is in its development phase. It is available for download 
-at the Testing Python Package Index (TestPyPI) in `here <https://test.pypi.org/project/xsnap/>`_ 
-or through the command below::
+at the Testing Python Package Index (TestPyPI) in `here <https://test.pypi.org/project/xsnap/>`_.
+
+.. code-block:: bash
 
    pip install -i https://test.pypi.org/simple/ xsnap
 
-Additionally, XSNAP should be able to be downloaded by cloning this Github repository and run::
+Additionally, XSNAP should be able to be downloaded by cloning this Github repository and run:
+
+.. code-block:: bash
 
    git clone https://github.com/fercananything/XSNAP/
    cd XNAP
@@ -27,7 +30,7 @@ Dependencies
 ===============
 
 Required Dependencies
----------------
+-------------------------
 
 XSNAP analysis depends heavily on two non-Python softwares:
 
@@ -38,7 +41,7 @@ XSNAP analysis depends heavily on two non-Python softwares:
    Additionally, PyXspec should be automatically installed when you install HEASOFT.
 
 Recommended Dependencies
----------------
+-------------------------
 
 While it's not necessarily required, it is recommended to download these non-Python softwares:
 
@@ -61,7 +64,7 @@ While it's not necessarily required, it is recommended to download these non-Pyt
    These softwares help with the scripts dealing for data calibration and spectral extraction.
 
 Optional Dependencies
---------------
+------------------------
 
 This software is completely optional and has minimal impact on the user experience.
 

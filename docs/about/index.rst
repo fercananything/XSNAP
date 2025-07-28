@@ -7,7 +7,7 @@ About XSNAP
 This page is an overview about XSNAP, installation, and development. 
 
 Examples on how to use XSNAP are on :ref:`this page <examples>`
-and API references are on :ref:`this page <references>`
+and API references are on :ref:`this page <api>`
 
 
 .. toctree::
@@ -23,6 +23,6 @@ and API references are on :ref:`this page <references>`
    :maxdepth: 1
 
    ../examples/index
-   ../references/index
+   ../api/index
 
 

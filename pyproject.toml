@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "xsnap"   
-version = "0.1.26"
+version = "0.1.27"
 description = "A Python-based pipeline module to easily handle data calibration from Chandra, Swift-XRT, XMM-Newton, and NuSTAR data. Additionally, spectral fitting and analysis are available with the help of XSPEC"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -27,7 +27,7 @@ dependencies = [
     "corner>=2.2.2",
     "emcee>=3.1.6",
     "matplotlib>=3.10.3",
-    "numpy>=1.26.0",
+    "numpy < 2.0.0",
     "pandas>=2.2.3",
     "scipy>=1.15.1",                 
 ]

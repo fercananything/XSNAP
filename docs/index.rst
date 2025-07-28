@@ -12,10 +12,8 @@ XSNAP Documentation
    :hidden:
    :maxdepth: 1
 
-   About <about/index>
-   Installation <about/install>
-   Development <about/development>
-   API Reference <references/index>
+   Getting Started <about/index>
+   API Reference <api/index>
    Examples <examples/index>
    
 
@@ -33,5 +31,84 @@ data calibration and spectral extraction scripts for Chandra X-ray Observatory (
 Swift-XRT, XMM-Newton, and NuSTAR data.
 
 
+.. grid:: 1 1 2 2
+   :gutter: 2 3 4 4
+
+   .. grid-item-card::
+      :img-top: _static/index-images/getting_started.svg
+      :text-align: center
+
+      Getting started
+      ^^^
+
+      New to XSNAP? Check out what XSNAP is all about!
+      Start your x-ray supernova analysis journey today with XSNAP.
+
+      +++
+
+      .. button-ref:: about/installation
+         :expand:
+         :color: danger
+         :click-parent:
+
+         Go to installation
+
+   .. grid-item-card::
+      :img-top: _static/index-images/user_guide.svg
+      :text-align: center
+
+      Examples
+      ^^^
+
+      Walk through hands-on examples of the XSNAP pipeline,  
+      covering from data reduction workflows for Chandra, XMM-Newton,  
+      Swift-XRT, and NuSTAR to spectral modeling.
+
+      +++
+
+      .. button-ref:: examples/index
+         :expand:
+         :color: danger
+         :click-parent:
+
+         View examples
+
+   .. grid-item-card::
+      :img-top: _static/index-images/api.svg
+      :text-align: center
+
+      API reference
+      ^^^
+
+      Browse detailed documentation for every XSNAP module, command, class, and function.
+      Find parameter descriptions and return values to help you use XSNAP for data reduction,
+      calibration, spectral extraction, and analysis.
 
 
+      +++
+
+      .. button-ref:: api/index
+         :expand:
+         :color: danger
+         :click-parent:
+
+         Explore the API
+
+   .. grid-item-card::
+      :img-top: _static/index-images/contributor.svg
+      :text-align: center
+
+      Contributor’s guide
+      ^^^
+
+      Learn how to contribute to XSNAP—add features, fix bugs, or improve documentation.  
+      Your input helps XSNAP grow and better serve the research community.
+
+      +++
+
+      .. button-ref:: about/development
+         :expand:
+         :color: danger
+         :click-parent:
+
+         Contribute to XSNAP

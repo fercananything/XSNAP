@@ -1,4 +1,4 @@
-.. _references:
+.. _api:
 
 ###############
 XSNAP Reference
@@ -12,6 +12,14 @@ included in XSNAP, describing what they are and what they do.
 
 Python API
 ==========
+
+.. toctree::
+    :maxdepth: 1
+
+    spectrum
+    detect
+    analysis
+    temperature
 
 
 Scripts
