@@ -1,3 +1,14 @@
+<p align="center">
+  <picture>
+    <!-- When the user’s OS/theme is in dark mode… -->
+    <source srcset="docs/_static/xsnap_logo_icon_transparent_white.png" media="(prefers-color-scheme: dark)" />
+    <!-- When it’s in light mode… -->
+    <source srcset="docs/_static/xsnap_logo_icon_transparent.png" media="(prefers-color-scheme: light)" />
+    <!-- Fallback if <picture> isn’t supported -->
+    <img src="docs/_static/xsnap_logo_icon_transparent.png" alt="My Project logo" width="200px" />
+  </picture>
+</p>
+
 # XSNAP: X-ray Supernova Analysis Pipeline
 
 XSNAP (X-ray Supernova Analysis Pipeline) is a Python-based pipeline module that automates every step of X-ray supernova data reduction and analysis, from raw event processing and region selection to spectral fitting. XSNAP provides dedicated standard data calibration and spectral extraction scripts for Chandra X-ray Observatory (CXO), Swift-XRT, XMM-Newton, and NuSTAR data.

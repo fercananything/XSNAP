@@ -5,12 +5,14 @@ XSNAP Reference
 ###############
 
 :Release: |version|
-:Date: |today|
+:Last Updated: |today|
 
-This reference manual details functions, modules, and objects
-included in NumPy, describing what they are and what they do.
-For learning how to use NumPy, see the :ref:`complete documentation <numpy_docs_mainpage>`.
+This reference manual details scripts, functions, modules, and objects
+included in XSNAP, describing what they are and what they do.
 
 Python API
 ==========
 
+
+Scripts
+==========

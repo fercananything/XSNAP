@@ -2,9 +2,9 @@
 
 
 
-###############
+######################
 Contributing to XSNAP
-###############
+######################
 
 Thank you for your interest in contributing to XSNAP! 
 
