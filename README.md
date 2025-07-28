@@ -1,11 +1,6 @@
 <p align="center">
   <picture>
-    <!-- When the user’s OS/theme is in dark mode… -->
-    <source srcset="docs/_static/xsnap_logo_icon_transparent_white.png" media="(prefers-color-scheme: dark)" />
-    <!-- When it’s in light mode… -->
-    <source srcset="docs/_static/xsnap_logo_icon_transparent.png" media="(prefers-color-scheme: light)" />
-    <!-- Fallback if <picture> isn’t supported -->
-    <img src="docs/_static/xsnap_logo_icon_transparent.png" alt="My Project logo" width="200px" />
+    <img src="logos/original/xsnap_logo_icon_crop.jpeg" alt="My Project logo" width="200px" />
   </picture>
 </p>
 
