@@ -4,6 +4,7 @@ import corner
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 import astropy.units as u
+from __future__ import annotations
 
 MSUN_G  = 1.989e33          # g
 YR_SEC  = 365.25*24*3600           # s

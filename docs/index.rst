@@ -46,7 +46,7 @@ Swift-XRT, XMM-Newton, and NuSTAR data.
 
       +++
 
-      .. button-ref:: about/installation
+      .. button-ref:: about/install
          :expand:
          :color: danger
          :click-parent:

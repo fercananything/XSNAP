@@ -43,7 +43,7 @@ XSNAP analysis depends heavily on two non-Python softwares:
 Recommended Dependencies
 -------------------------
 
-While it's not necessarily required, it is recommended to download these non-Python softwares:
+While it's not necessarily required, it is strongly recommended to download these non-Python softwares:
 
 * `Chandra Interactive Analysis of Observations (CIAO) <https://cxc.harvard.edu/ciao/download/index.html>`_ - Version 4.17. 
    CIAO is needed if you want to do the spectral extraction from CXO data. 

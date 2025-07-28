@@ -39,9 +39,22 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 extensions = [
     "sphinx.ext.autodoc",
-    "sphinx.ext.napoleon",           # if you use Google- or NumPy-style docstrings
-    "sphinx_autodoc_typehints",      # to include PEP 484 type hints
+    "sphinx.ext.napoleon",
+    "sphinx_autodoc_typehints",
     "sphinx_design",
+]
+
+autodoc_mock_imports = [
+    "numpy",
+    "pandas",
+    "astropy",
+    "astropy.time",
+    "erfa",
+    "matplotlib",
+    "matplotlib.pyplot",
+    "emcee",
+    "corner",
+    "scipy"
 ]
 
 # -- Options for HTML output -------------------------------------------------
@@ -58,7 +71,7 @@ html_show_sourcelink = False
 
 
 html_theme_options = {
-    "navbar_align": "center",
+    "navbar_align": "content",
     "logo": {
         "image_light": "_static/xsnaplogo.svg",
         "image_dark": "_static/xsnaplogo_dark.svg",

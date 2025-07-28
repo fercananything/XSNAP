@@ -1,0 +1,6 @@
+.. _spectrum.SpectrumManager:
+
+################
+SpectrumManager
+################
+

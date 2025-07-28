@@ -1,6 +1,6 @@
 <p align="center">
   <picture>
-    <img src="logos/original/xsnap_logo_icon_crop.jpeg" alt="My Project logo" width="200px" />
+    <img src="docs/_static/logo/xsnap_logo_icon_crop.jpeg" alt="My Project logo" width="200px" />
   </picture>
 </p>
 
@@ -56,7 +56,7 @@ XSNAP analysis depends heavily on two non-Python softwares:
 
 ### Recommended Dependencies
 
-While it's not necessarily required, it is recommended to download these non-Python softwares:
+While it's not necessarily required, it is strongly recommended to download these non-Python softwares:
 
 * [Chandra Interactive Analysis of Observations (CIAO)](https://cxc.harvard.edu/ciao/download/index.html) - Version 4.17. CIAO is needed if you want to do the spectral extraction from CXO data. It is recommended to install CIAO using the `conda create` command, i.e. install on a different Python/Conda virtual environment. This is to seperate HEASOFT (and XSPEC) with CIAO and avoid clashes between modules. 
 * [XMM Science Analysis System (SAS)](https://www.cosmos.esa.int/web/xmm-newton/sas-download) - Version 22.1. However, other recent versions should still be compatible. SAS is needed if you want to do data calibration and spectral extraction for XMM-Newton. A few extra steps for SAS installation can be found [here](https://www.cosmos.esa.int/web/xmm-newton/sas-thread-startup#).
