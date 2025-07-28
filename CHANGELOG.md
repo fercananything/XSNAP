@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.1.26] - 2025-07-27
+### Added
+- CI/CD GitHub Testing
+
+
 ## [0.1.25] - 2025-07-21
 ### Changed
 - fixed the `CSMAnalysis` fitting for Mdot
