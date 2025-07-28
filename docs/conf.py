@@ -13,7 +13,7 @@ sys.path.insert(0, os.path.abspath("../src"))
 
 
 project = 'XSNAP'
-copyright = '2025, Ferdinand'
+copyright = '2025, Ferdinand, Wynn V. Jacobson-Galan, and Mansi M. Kasliwal'
 author = 'Ferdinand, Wynn V. Jacobson-Galan, Mansi M. Kasliwal'
 
 import xsnap
@@ -21,6 +21,12 @@ import xsnap
 version = xsnap.__version__
 # Sphinx’s “full” release string (can include patch, alpha/beta tags)
 release = xsnap.__version__
+
+# There are two options for replacing |today|: either, you set today to some
+# non-false value, then it is used:
+#today = ''
+# Else, today_fmt is used as the format for a strftime call.
+today_fmt = '%B %d, %Y'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -51,12 +57,17 @@ html_theme_options = {
         "image_dark": "_static/xsnaplogo_dark.svg",
     },
     "github_url": "https://github.com/fercananything/xsnap",
+    "external_links": [
+        {"name": "Changelog", "url": "https://github.com/fercananything/XSNAP/blob/main/CHANGELOG.md"},
+    ],
     "secondary_sidebar_items": ["page-toc"],
     "header_links_before_dropdown": 6,
+    "show_toc_level": 2,
 }
 
-# html_sidebars = {
-#     "<page_pattern>": ["list", "of", "templates"],
-#     "**": ["sidebar-nav-bs", "sidebar-ethical-ads"]
-# }
+html_sidebars = {
+
+}
+
+
 

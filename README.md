@@ -54,7 +54,7 @@ While it's not necessarily required, it is recommended to download these non-Pyt
 
 * [Chandra Interactive Analysis of Observations (CIAO)](https://cxc.harvard.edu/ciao/download/index.html) - Version 4.17. CIAO is needed if you want to do the spectral extraction from CXO data. It is recommended to install CIAO using the `conda create` command, i.e. install on a different Python/Conda virtual environment. This is to seperate HEASOFT (and XSPEC) with CIAO and avoid clashes between modules. 
 * [XMM Science Analysis System (SAS)](https://www.cosmos.esa.int/web/xmm-newton/sas-download) - Version 22.1. However, other recent versions should still be compatible. SAS is needed if you want to do data calibration and spectral extraction for XMM-Newton. A few extra steps for SAS installation can be found [here](https://www.cosmos.esa.int/web/xmm-newton/sas-thread-startup#).
-* [HEASARC Calibration Database (CALDB)](https://heasarc.gsfc.nasa.gov/docs/heasarc/caldb/install.html) - Version: 2009 Aug 04. The HEASARC CALDB is needed if you want to do data calibration and spectral extraction for Swift-XRT and NuSTAR.
+* [HEASARC Calibration Database (CALDB)](https://heasarc.gsfc.nasa.gov/docs/heasarc/caldb/install.html) - Version 2009 Aug 04. The HEASARC CALDB is needed if you want to do data calibration and spectral extraction for Swift-XRT and NuSTAR.
 * [CALDB Files for Swift-XRT and NuSTAR](https://heasarc.gsfc.nasa.gov/docs/heasarc/caldb/caldb_supported_missions.html). In addition to the CALDB, the CALDB files are needed to be downloaded too. These files are needed if you want to do data calibration and spectral extraction for Swift-XRT and NuSTAR.
 
 _Keep in mind, without these softwares, you are only able to import the spectra fitting and analysis modules. These softwares help with the scripts dealing for data calibration and spectral extraction._
@@ -68,7 +68,7 @@ This software is completely optional and has minimal impact on the user experien
 
 XSNAP is organized into two main parts: command-line scripts (where users can invoke on the shell or jupyter notebook) and a built-in module or Python API (where you can import functions and classes).
 
-There are five scripts available for users to run:
+There are six scripts available for users to run:
 | Script             | Description                                              |
 |--------------------|----------------------------------------------------------|
 | `extract-chandra`  | Calibrate & extract spectrum from Chandra observations. |
