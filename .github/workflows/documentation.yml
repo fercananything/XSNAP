@@ -31,7 +31,7 @@ jobs:
     - name: Install your package & dependencies
       run: |
         # install your package so `import xsnap` works
-        pip install -e src/
+        pip install -e .
         # install everything your conf.py and autodoc really import
         pip install astropy numpy pandas matplotlib scipy emcee corner
 
