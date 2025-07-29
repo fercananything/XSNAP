@@ -28,21 +28,28 @@ jobs:
       with:
         python-version: "3.12"
 
+    # Install pandoc so nbsphinx can run
+    - name: Install pandoc
+      run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc
+
     - name: Install your package & dependencies
       run: |
         # install your package so `import xsnap` works
         pip install -e .
         # install everything your conf.py and autodoc really import
         pip install astropy numpy pandas matplotlib scipy emcee corner
+        
+
+    - name: Install Sphinx and extensions
+      run: |
         pip install sphinx \
                 sphinx-autodoc-typehints \
                 sphinx-design \
                 pydata-sphinx-theme
         pip install "nbsphinx < 8.0.0"
-
-    - name: Install Sphinx and extensions
-      run: |
-        pip install sphinx sphinx_rtd_theme sphinx_autodoc_typehints sphinx_design myst_parser nbsphinx
+        pip install sphinx_rtd_theme myst_parser
 
     - name: Build docs
       run: |
