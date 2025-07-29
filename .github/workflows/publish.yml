@@ -1,6 +1,12 @@
 name: Publish XSNAP to PyPI and TestPyPI
 
-on: push
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'docs/**'
+      - '.github/workflows/documentation.yml'
 
 jobs:
   build:

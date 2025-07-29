@@ -1,6 +1,18 @@
 name: documentation
 
-on: [push, pull_request, workflow_dispatch]
+on: 
+    push:
+        branches:
+            - main
+        paths:
+            - 'docs/**'
+            - '.github/workflows/documentation.yml'  # so edits to the workflow itself retrigger
+    pull_request:
+        branches:
+            - main
+        paths:
+            - 'docs/**'
+            - '.github/workflows/documentation.yml'
 
 permissions:
   contents: write
@@ -16,12 +28,13 @@ jobs:
           pip install sphinx sphinx_rtd_theme myst_parser
       - name: Sphinx build
         run: |
-          sphinx-build doc _build
+          pip install pydata-sphinx-theme 
+          sphinx-build -b html docs _build/html
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         with:
           publish_branch: gh-pages
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: _build/
+          publish_dir: _build/html
           force_orphan: true
