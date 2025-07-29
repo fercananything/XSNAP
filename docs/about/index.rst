@@ -17,12 +17,7 @@ and API references are on :ref:`this page <api>`
    About <intro>
    Installation <install>
    Development <development>
+   Publication <publication>
    
-.. toctree::
-   :caption: Resources
-   :maxdepth: 1
-
-   ../examples/index
-   ../api/index
 
 

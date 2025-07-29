@@ -13,3 +13,9 @@
 html[data-theme=dark] .sd-card img[src*='.svg'] {
   filter: invert(0.82) brightness(0.8) contrast(1.2);
 }
+
+/* every <ul> inside .three-cols will be split into 3 columns */
+.three-cols ul {
+  column-count:    3;
+  column-gap:      1em;    /* space between cols */
+}

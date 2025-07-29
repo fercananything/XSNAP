@@ -4,7 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
-## [0.1.29] - 2025-07-28
+## [0.1.31] - 2025-07-28
+### Changed
+- Change the description of each scripts, objects, and functions to fit SPHINx documentation
+### Added
+- `documentation.yml` to deploy to GitHub pages
+- Finish documentation pages in SPHINx
+
+## [0.1.29 - 0.1.30] - 2025-07-28
 ### Added
 - Bug fixes
 

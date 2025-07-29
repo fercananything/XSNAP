@@ -1,29 +1,27 @@
 #!/usr/bin/env python3
 """
-Pipeline module to extract and group XMM-Newton EPIC (PN, MOS1, MOS2) spectra from an ODF.
+Pipeline module to extract and group XMM-Newton EPIC (PN, MOS1, MOS2) spectra.
 
-Automates the full SAS-based workflow:
+Automates the standard SAS (Science Analysis System) workflow:
   1. Build CCF, ingest the ODF, and set SAS environment variables.
   2. Locate the PPS directory alongside the ODF and prepare event files.
-  3. Generate detector images (optional diagnostics).
-  4. Extract source and background spectra, compute backscales.
-  5. Generate RMF/ARF and group spectra for PN, MOS1, and MOS2.
-  6. Move final grouped spectra to the specified output directory.
+  3. Extract source and background spectra.
+  4. Generate response files (RMF/ARF) and group spectra for PN, MOS1, and MOS2.
+  5. Move final grouped spectra to the specified output directory.
 
 Usage:
     extract-xmm <ODF_DIR> <source.reg> <PNbkg.reg> [MOS1bkg.reg] [MOS2bkg.reg] [OUTDIR]
 
 Positional arguments:
   ODF_DIR        Path to the XMM-Newton ODF directory.
-  source.reg     Source region (filename or literal physical “circle(x,y,r)”).
-  PNbkg.reg      PN background region (filename or literal).
-  MOS1bkg.reg    Optional MOS1 background region (defaults to PN’s if omitted).
-  MOS2bkg.reg    Optional MOS2 background region (defaults to PN’s if omitted).
+  source.reg     Source region in physical coordinates (filename or literal physical “circle(x,y,r)”).
+  PNbkg.reg      PN background region in physical coordinates (filename or literal).
+  MOS1bkg.reg    Optional MOS1 background region in physical coordinates (defaults to PNbkg.reg if omitted).
+  MOS2bkg.reg    Optional MOS2 background region in physical coordinates (defaults to PNbkg.reg if omitted).
   OUTDIR         Destination for grouped spectra (default: PPS directory).
 
 Requirements:
   - SAS (Science Analysis System) must be installed.
-  - The script auto‐configures SAS_ODF and SAS_CCF.
   - PPS and ODF directory must have the same parent directory
 
 """
@@ -31,6 +29,8 @@ from __future__ import annotations
 import argparse, subprocess, os, re, shutil, sys, textwrap
 from pathlib import Path
 from contextlib import contextmanager
+from typing import Union
+
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -51,19 +51,40 @@ def cd(path: Path):
     finally:
         os.chdir(prev)
 
-def parse_region(arg: str|Path) -> str:
-    """Return a ``circle(x,y,r)`` region string from *arg* (file or literal)."""
+def parse_region(arg: Union[str, Path]) -> str:
+    """
+    Return a DS9 region string for either circle(...) or annulus(...), by
+    reading *arg* as a file or literal.
+
+    If *arg* is a path to an existing file, this reads it line by line,
+    strips off any “#…” comments, and returns the first line matching
+    either “circle(…)” or “annulus(…)”.
+
+    Otherwise if *arg* itself (as str) starts with one of those shapes,
+    it’s returned (comments are not allowed in-line for literals).
+
+    Raises:
+        ValueError: if no matching shape is found or *arg* is neither a file
+                    nor a supported literal.
+    """
+    # compile once
+    shape_re = re.compile(r'^\s*(circle|annulus)\s*\(.*\)', re.IGNORECASE)
+
     p = Path(arg).expanduser()
-    if p.exists():                  # region file
-        for line in p.read_text().splitlines():
-            line = line.strip()
-            if line.startswith("circle("):
-                return re.sub(r"\s*#.*", "", line)  # strip comments
-        raise ValueError(f"No circle() in {p}")
-    # literal region
-    if isinstance(arg, str) and arg.strip().startswith("circle("):
-        return arg.strip()
-    raise ValueError(f"{arg} is neither a region file nor a circle literal")
+    if p.exists():
+        # region file mode
+        for raw in p.read_text().splitlines():
+            line = raw.split('#', 1)[0].strip()
+            if shape_re.match(line):
+                return line
+        raise ValueError(f"No circle(...) or annulus(...) found in {p}")
+
+    # literal mode
+    s = str(arg).strip()
+    if shape_re.match(s):
+        return s
+
+    raise ValueError(f"{arg!r} is neither a region file nor a supported literal")
 
 # ---------------------------------------------------------------------------
 # Main recipe

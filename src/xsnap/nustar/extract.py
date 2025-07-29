@@ -2,7 +2,7 @@
 """
 Pipeline module to run NuSTAR reduction and spectral extraction in one step.
 
-Automates the standard NuSTARDAS workflow:
+Automates the standard HEASOFT workflow for NuSTAR:
   1. Execute nupipeline for a given OBSID, producing cleaned FPMA/B events.
   2. Run nuproducts to generate source and background spectra plus ARFs/RMFs.
   3. Optionally reuse pre-cleaned events (skip pipeline).
@@ -21,19 +21,16 @@ Positional arguments
 
 Important options
 -----------------
-  --indir DIR        Directory containing raw event files (default: ./<OBSID>).
+  --indir DIR        Directory containing raw event files (default: ./sources/<OBSID>).
   --outdir DIR       Output root for products (default: ./products/<OBSID>).
   --ra / --dec       Source coordinates (deg) passed to nupipeline.
   --no-pipe          Skip nupipeline; assume cleaned events already exist.
-  --clobber          Overwrite existing products.
 
 Outputs
 -------
-`FPMA/` and `FPMB/` sub-directories with:
-
-    nu<OBSID>A_src.pha   nu<OBSID>A_bkg.pha
-    nu<OBSID>A_arf.arf   nu<OBSID>A_src_grp.pha
-    (same for module B)
+`FPMA/` and `FPMB/` sub-directories inside outdir with:
+    nu<OBSID>A01_sr.pha   nu<OBSID>B01_sr.pha
+which both of them are the spectrum file that will be used in :py:class:`~xsnap.spectrum.SpectrumFit`
 
 Requirements
 -------------

@@ -18,28 +18,49 @@ MPC_TO_CM = 3.085677581e24       # 1 Mpc in cm
 
 class SpectrumFit:
     """
-    A class to handle a single XSPEC spectral fit.
-    
-    Args:
-        abund (str, optional): Abundance table for XSPEC. Defaults to "aspl".
-        seed (int, optional): Random seed for reproducibility. Defaults to None.
-        mute (bool, optional): Mute XSPEC output using xspec.Xset.chatter
+    A class to handle a single `XSPEC <https://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/>`_ spectral fit.
 
-    Raises:
-        RuntimeError: If the `xspec` executable is not found in PATH.
-
-    Attributes:
-        fluxes (dict or None): Stored absorbed/unabsorbed flux DataFrames.
-        lumin (pandas.DataFrame or None): Stored luminosity DataFrame.
-        params (pandas.DataFrame or None): Parameter values and uncertainties.
-        counts (pandas.DataFrame or None): Count-rate DataFrame.
-        models (list of str): Model expressions applied.
-        obstime (pandas.DataFrame or None): Observation time DataFrame.
-        tExplosion (float or None): Explosion time in MJD.
-        pha (list of str): Loaded PHA file paths.
-        detection (SourceDetection or None): Associated detection object.
+    Attributes
+    ----------
+    fluxes : dict[str, pandas.DataFrame] or None
+        Stored absorbed and unabsorbed flux DataFrames, keyed "absorbed" and "unabsorbed", 
+        with columns are ``['data', 'model', 'flux', 'lo_flux_err', 'hi_flux_err', 'phot', 'lo_phot_err', 'hi_phot_err']``
+    lumin : pandas.DataFrame or None
+        Stored luminosity DataFrame with columns ``['data','model','lumin','lo_lumin_err','hi_lumin_err']``.
+    params : pandas.DataFrame or None
+        Parameter values and uncertainties with columns ``['data','model', '<component>_<param>', 'lo_<component>_<param>_err', 'hi_<component>_<param>_err']``.
+    counts : pandas.DataFrame or None
+        Count-rate DataFrame with columns ``['data','model','net_rate','net_err','total_rate','model_rate']``.
+    models : list[str]
+        Model expressions applied.
+    obstime : pandas.DataFrame or None
+        Observation time DataFrame with columns ``['data','obs_time','obs_time_err']``
+        plus ``['time_since_explosion','time_since_explosion_err']`` if ``tExplosion`` 
+        given when calculating ``obstime``.
+    tExplosion : float or None
+        Supernova time of explosion in MJD.
+    pha : list[str]
+        Loaded PHA file paths.
+    detection : :py:class:`~xsnap.detect.SourceDetection` or None
+        Associated :py:class:`~xsnap.detect.SourceDetection` object.
     """
     def __init__(self, abund: str = "aspl", seed: int = None, mute: bool = False):
+        """Initialize of the :py:class:`~xsnap.spectrum.SpectrumFit` class
+
+        Parameters
+        ----------
+        abund : str, optional 
+            Abundance table for XSPEC. Defaults to ``"aspl"``.
+        seed : int, optional
+            Random seed for reproducibility. Defaults to ``None``.
+        mute : bool, optional
+            Mute XSPEC output, i.e. set ``xspec.Xset.chatter = 0``. Defaults to ``False``
+
+        Raises
+        -------
+            RuntimeError
+                If the ``xspec`` executable is not found in ``$PATH``.
+        """
         
         if not which("xspec"):
             raise RuntimeError("Xspec is not available in the PATH. Please install it.")
@@ -63,13 +84,19 @@ class SpectrumFit:
         
     def __iadd__(self, pha):
         """
-        Allow `spec += pha` syntax to load a new PHA file.
+        Allow ``spec += pha`` syntax to load a new PHA file.
 
-        Args:
-            pha (str): Path to the PHA file to load.
+        Parameters
+        ----------
+            pha : str
+                Path to the PHA file to load. The PHA file must be a grouped PHA 
+                file or the background and response file must have the same name 
+                as the PHA file for PyXspec to automatically get the background and response file.
 
-        Returns:
-            SpectrumFit: self, with the file loaded.
+        Returns
+        --------
+            *self* : SpectrumFit
+                The same :py:class:`~xsnap.spectrum.SpectrumFit` instance, but with the pha file loaded.
         """
         self.load_data(pha)
         return self
@@ -96,16 +123,27 @@ class SpectrumFit:
         """
         Load a grouped PHA file into XSPEC.
 
-        Args:
-            pha (str): Path to the PHA file.
-            newGroup (bool, optional): Load into a new group if True. Defaults to False.
-            clear (bool, optional): Clear existing data before loading. Defaults to False.
-            bad (bool, optional): Ignore bad channels if True. Defaults to True.
-            detection (SourceDetection, optional): Detection object to attach. Defaults to None.
+        Parameters
+        ----------
+            pha : str
+                Path to the PHA file. Path to the PHA file to load. The PHA file must be a grouped PHA 
+                file or the background and response file must have the same name 
+                as the PHA file for PyXspec to automatically get the background and response file.
+            newGroup : bool, optional
+                Load into a new group if ``True``. Defaults to ``False``.
+            clear : bool, optional
+                Clear existing data before loading. Defaults to ``False``.
+            bad : bool, optional
+                Ignore bad channels if ``True``. Defaults to ``True``.
+            detection : SourceDetection, optional
+                Detection object to attach. Defaults to ``None``.
 
-        Raises:
-            ValueError: If `pha` is None.
-            FileNotFoundError: If the PHA file or its directory does not exist.
+        Raises
+        --------
+            ValueError
+                If ``pha`` is None.
+            FileNotFoundError
+                If the PHA file or its directory does not exist.
         """
         if pha is None:
             raise ValueError("Spectrum file must be specified.")
@@ -147,15 +185,18 @@ class SpectrumFit:
         """
         Ignore specified data channels in XSPEC.
 
-        Args:
-            ignore (str, optional): same ignore command as XSPEC.
+        Parameters
+        ----------
+            ignore : str, optional
+                same ignore command as in XSPEC. Defaults to ``None``.
         """
         if ignore is not None:
             xspec.AllData.ignore(ignore)
             
     def show(self):
         """
-        Display the currently loaded data and models in XSPEC.
+        Display the currently loaded data and models in XSPEC format.
+        Wouldn't work if XSPEC is muted, i.e. ``xspec.Xset.chatter = 0``.
         """
         if xspec.AllData.nGroups == 0:
             print("No data loaded.")
@@ -170,11 +211,16 @@ class SpectrumFit:
         """
         Set rebinning parameters for XSPEC plots.
 
-        Args:
-            minSig (float, optional): Minimum significance per bin.
-            maxBins (int, optional): Maximum number of bins.
-            groupNum (int, optional): Specific plot group number to rebin.
-            errType (str, optional): Error type for rebinning. Valid entries are "quad", "sqrt", "poiss-1","poiss-2", "poiss-3". 
+        Parameters
+        ----------
+            minSig : float, optional
+                Minimum significance per bin. Defaults to ``None``.
+            maxBins : int, optional
+                Maximum number of bins. Defaults to ``None``.
+            groupNum : int, optional
+                Specific plot group number to rebin. Defaults to ``None``.
+            errType : str, optional
+                Error type for rebinning. Valid entries are ``"quad", "sqrt", "poiss-1","poiss-2", "poiss-3"``. Defaults to ``None``.
         """
         
         xspec.Plot.setRebin(minSig=minSig, maxBins=maxBins, groupNum=groupNum, errType=errType)
@@ -183,22 +229,30 @@ class SpectrumFit:
         """
         Configure and execute an XSPEC plot.
 
-        Args:
-            args (str, optional): Plot command string (e.g., "data", "ldata").
-                Defaults to "data".
-            device (str, optional): XSPEC plot device. If "/null", plot via matplotlib.
-                Defaults to "/null".
-            xAxis (str, optional): Units for the x-axis. Valid options: "channel", "keV", "MeV", "GeV", "Hz", "angstrom", "cm", "micron", "nm" (case-insensitive)
-                Defaults to "keV".
-            fileName (str, optional): Base filename for saving the plot PNG.
-                Defaults to "plot".
+        Parameters
+        ----------
+            args : str, optional
+                Plot command string (e.g., ``"data", "ldata"``), same command as in XSPEC.
+                Defaults to ``"data"``.
+            device : str, optional
+                XSPEC plot device. If ``"/null"``, plot via matplotlib.
+                Defaults to ``"/null"``.
+            xAxis : str, optional
+                Units for the x-axis. Valid options: ``"channel", "keV", "MeV", "GeV", "Hz", "angstrom", "cm", "micron", "nm"`` (case-insensitive).
+                Defaults to ``"keV"``.
+            fileName : str, optional
+                Base filename for saving the plot PNG.
+                Defaults to ``"plot"``.
                 
-        Raise:
-            Exception: When invalid xAxis or device string is parsed.
+        Raise
+        ------
+            Exception
+                When invalid xAxis or device string is parsed.
 
-        Returns:
-            tuple(matplotlib.figure.Figure, matplotlib.axes.Axes) or None:
-                If `device` is "/null", returns the Figure and Axes so the user
+        Returns
+        --------
+            Plot : tuple(matplotlib.figure.Figure, matplotlib.axes.Axes) or None
+                If ``device == "/null"``, returns the Figure and Axes so the user
                 can customize further. Otherwise, returns None.
         """
         # configure units
@@ -252,31 +306,56 @@ class SpectrumFit:
         """
         Build and configure the XSPEC model for all data groups.
 
-        Args:
-            model_string (str): XSPEC model expression (e.g., "tbabs*pow").
-            clear (bool, optional): If True, clear existing models. Defaults to True.
-            data (int, optional): Index of PHA header to use for RA/Dec in computing nH.
-                Defaults to 0.
-            **kwargs: Component parameters in "Component_Param" format, e.g.,
-                TBabs_nH="0.059 -1", powerlaw_PhoIndex=2.
+        Parameters
+        ----------
+            model_string : str
+                XSPEC model expression (e.g., "tbabs*pow").
+            clear : bool, optional
+                If ``True``, clear existing models. Defaults to True.
+            data : int, optional
+                Index of PHA header to use for RA/Dec in computing nH.
+                Defaults to ``0``.
+            **kwargs
+                Component parameters in ``component_Param`` format, e.g.,
+                ``TBabs_nH="0.059 -1"`` or ``powerlaw_PhoIndex=2``.
 
-        Raises:
-            KeyError: If RA/Dec cannot be found in the PHA header when computing nH.
-            RuntimeError: If HEADAS or nH tool invocation fails.
-            ValueError: If a kwarg key is not "Component_Param".
-            AttributeError: If the specified component does not exist in the model.
-          
-        Example usage:
+        Raises
+        -------
+            KeyError
+                If RA/Dec cannot be found in the PHA header when computing nH.
+            RuntimeError
+                If HEADAS or nH tool invocation fails.
+            ValueError
+                If a kwarg key is not "Component_Param".
+            AttributeError
+                If the specified component does not exist in the model.
+                
+        Example usage
+            1. An absorbed power-law model
         
-        object.set_model(
-            "tbabs*ztbabs*pow",
-            data=1,                      # which data to get the RA/Dec from. To get the TBabs nH parameter, default is 0.
-            Tbabs_nH="0.059 -1",         # component TBabs, parameter nH
-            zTBabs_nH=0.5,               # component zTBabs, parameter nH
-            zTBabs_Redshift=0,           # component zTBabs, parameter Redshift
-            powerlaw_PhoIndex=2,         # component powerlaw, parameter PhoIndex
-            powerlaw_norm=1              # component powerlaw, parameter norm
-        )
+            .. code-block:: python
+            
+                SpectrumFit.set_model(
+                    "tbabs*ztbabs*pow",
+                    Tbabs_nH="0.059 -1",         # component TBabs, parameter nH
+                    zTBabs_nH=0.5,               # component zTBabs, parameter nH
+                    zTBabs_Redshift=0,           # component zTBabs, parameter Redshift
+                    powerlaw_PhoIndex=2,         # component powerlaw, parameter PhoIndex
+                    powerlaw_norm=1              # component powerlaw, parameter norm
+                )
+                
+            2. An absorbed Thermal-bremsstrahlung model (with ``TBabs.nH`` calculated automatically from `HEASoft <https://heasarc.gsfc.nasa.gov/docs/software/heasoft/>`_)
+            
+            .. code-block:: python
+
+                SpectrumFit.set_model(
+                    "tbabs*ztbabs*pow",
+                    data=1,                      # which pha data to get the RA/Dec from. To get the TBabs nH parameter, default is 0.
+                    zTBabs_nH=0.5,               # component zTBabs, parameter nH
+                    zTBabs_Redshift=0,           # component zTBabs, parameter Redshift
+                    powerlaw_PhoIndex=2,         # component powerlaw, parameter PhoIndex
+                    powerlaw_norm=1              # component powerlaw, parameter norm
+                )
         """
         # If TBabs_nH not provided, compute from header coordinates
         if 'TBabs_nH' not in kwargs and 'tbabs' in model_string.lower():
@@ -338,29 +417,40 @@ class SpectrumFit:
                  low_energy: float = 0.3, high_energy: float = 10.0,
                  unabsorbed: bool =True, plot=True, kwargs_plot="data", device_plot="/svg"):
         """
-        Simulate and count flux upper limit using the FakeIt command from XSPEC.
-        Will populate self.fluxes and self.counts
+        Simulate and count flux upper-limits using the ``FakeIt`` command from XSPEC.
+        Will populate :py:attr:`fluxes` and :py:attr:`counts`
         
-        Args:
-            nIterations (int, optional): Number of fit iterations. Defaults to 1000.
-            statMethod (str, optional): Type of fit statistic method. Valid names: 'chi', 'cstat', 'lstat', 'pgstat', 'pstat', 'whittle'. Defaults to "cstat".
-            low_energy (float, optional): Lower energy bound in keV. Defaults to 0.3.
-            high_energy (float, optional): Upper energy bound in keV. Defaults to 10.0.
-            unabsorbed (bool, optional): If True, compute unabsorbed flux as well. Defaults to True.
-            plot (bool, optional): If true, plot the simulated data. Defaults to True.
-            kwargs_plot (str, optional): Plot command string (e.g., "data", "ldata"). Defaults to "data"
-            device_plot (str, optional): XSPEC plot device. If "/null", plot via matplotlib. Defaults to "/svg"
+        Parameters
+        ----------
+            nIterations : int, optional
+                Number of fit iterations. Defaults to ``1000``.
+            statMethod : str, optional
+                Type of fit statistic method. Valid names: ``'chi', 'cstat', 'lstat', 'pgstat', 'pstat', 'whittle'``. Defaults to ``"cstat"``.
+            low_energy : float, optional
+                Lower energy bound in keV. Defaults to ``0.3``.
+            high_energy : float, optional
+                Upper energy bound in keV. Defaults to ``10.0``.
+            unabsorbed : bool, optional
+                If ``True``, compute unabsorbed flux as well. Defaults to ``True``.
+            plot : bool, optional
+                If ``True``, plot the simulated data. Defaults to ``True``.
+            kwargs_plot : str, optional
+                Plot command string (e.g., ``"data", "ldata"``). Defaults to ``"data"``.
+            device_plot : str, optional
+                XSPEC plot device. If ``"/null"``, plot via matplotlib. Defaults to ``"/svg"``.
 
-        Raises:
-            RuntimeError: When there are no model set, 
-                          When there are no spectrum loaded,
-                          When cannot compute unabsorbed flux due to no tbabs/ztbabs attribute in the model
+        Raises
+        ------
+            RuntimeError
+                When there are no model set, 
+                When there are no spectrum loaded,
+                When cannot compute unabsorbed flux due to no tbabs/ztbabs attribute in the model.
 
-        Returns:
-            dict: {
-                'absorbed': DataFrame of absorbed fluxes and photon counts,
-                'unabsorbed': DataFrame of unabsorbed fluxes (if requested)
-            }
+        Returns
+        --------
+            Flux upper-limits : dict[str, pandas.DataFrame]
+                The same absorbed and unabsorbed flux DataFrames as the one in :py:attr`fluxes`
+                with columns ``['data', 'model', 'flux', 'lo_flux_err', 'hi_flux_err', 'phot', 'lo_phot_err', 'hi_phot_err']``.
         """
         original_dir = os.getcwd()
         if len(self.models) == 0:
@@ -474,11 +564,14 @@ class SpectrumFit:
     
     def fit(self, nIterations: int =1000, statMethod: str ="cstat"):
         """
-        Fit the model to the loaded data in XSPEC.
+        Fit the model to the loaded data through XSPEC.
 
-        Args:
-            nIterations (int, optional): Number of fit iterations. Defaults to 1000.
-            statMethod (str, optional): Type of fit statistic method. Valid names: 'chi', 'cstat', 'lstat', 'pgstat', 'pstat', 'whittle'. Defaults to "cstat".
+        Parameters
+        ----------
+            nIterations : int, optional
+                Number of fit iterations. Defaults to ``1000``.
+            statMethod : str, optional
+                Type of fit statistic method. Valid names: ``'chi', 'cstat', 'lstat', 'pgstat', 'pstat', 'whittle'``. Defaults to ``"cstat"``.
         """
         xspec.Fit.renorm()
         xspec.Fit.statMethod = statMethod
@@ -537,15 +630,21 @@ class SpectrumFit:
         """
         Build a DataFrame of observation times and, if provided, time since explosion.
 
-        Args:
-            tExplosion (float, optional): Explosion time in MJD. Defaults to None.
+        Parameters
+        ----------
+            tExplosion : float, optional
+                Supernova time of explosion in MJD. Defaults to ``None``.
 
-        Returns:
-            pandas.DataFrame: Columns ['data','obs_time','obs_time_err']
-            plus ['time_since_explosion','time_since_explosion_err'] if tExplosion given.
+        Returns
+        ---------
+            Observation times : pandas.DataFrame
+                Observation times wrapped in DataFrame table with columns ``['data','obs_time','obs_time_err']``
+                plus ``['time_since_explosion','time_since_explosion_err']`` if ``tExplosion`` given.
 
-        Raises:
-            ValueError: If computed time_since_explosion is negative.
+        Raises
+        --------
+            ValueError
+                If computed ``time_since_explosion`` is negative.
         """
         cols = ['data', 'obs_time', 'obs_time_err'] + ([] if tExplosion is None else ['time_since_explosion', 'time_since_explosion_err'])
 
@@ -576,15 +675,19 @@ class SpectrumFit:
         self.tExplosion = tExplosion
         return obstime_df
     
-    def get_counts(self) -> pd.DataFrame:
+    def get_counts(self):
         """
         Return a DataFrame of count rates for each loaded spectrum.
 
-        Returns:
-            pandas.DataFrame: Columns ['data','model','net_rate','net_err','total_rate','model_rate'].
+        Returns
+        --------
+            Count rates : pandas.DataFrame
+                Count rates wrapped in DataFrame table with columns ``['data','model','net_rate','net_err','total_rate','model_rate']``.
 
-        Raises:
-            RuntimeError: If no spectra are loaded.
+        Raises
+        -------
+            RuntimeError
+                If no spectra are loaded.
         """
         nspec = xspec.AllData.nSpectra
         if nspec == 0:
@@ -611,14 +714,21 @@ class SpectrumFit:
     
     def get_params(self, error_args, replace=False):
         """
-        Compute parameter uncertainties and store them.
+        Compute best-fit parameters and their uncertainties and store them.
 
-        Args:
-            error_args (str or list): Arguments passed to xspec.Fit.error().
-            replace (bool, optional): If True, overwrite existing `params`. Defaults to False.
+        Parameters
+        ----------
+            error_args : str or list
+                The same arguments passed to :func:`xspec.Fit.error`. 
+                Details on the arguments can be found `here <https://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/python/html/fitmanager.html>`_.
+            replace : bool, optional
+                If True, overwrite existing ``params``.  Defaults to ``False``.
 
-        Returns:
-            pandas.DataFrame: Columns include ['data','model', '<component>_<param>', 'lo_<component>_<param>_err', 'hi_<component>_<param>_err'].
+        Returns
+        -------
+            Parameters : pandas.DataFrame
+                Best-fit parameters and uncertainties wrapped in a DataFrame table with columns
+                ``['data','model', '<component>_<param>', 'lo_<component>_<param>_err', 'hi_<component>_<param>_err']``.
         """
         # compute errors in XSPEC
         xspec.Fit.error(error_args)
@@ -659,21 +769,29 @@ class SpectrumFit:
         """
         Calculate absorbed (and optionally unabsorbed) fluxes for each spectrum.
 
-        Args:
-            low_energy (float, optional): Lower energy bound in keV. Defaults to 0.3.
-            high_energy (float, optional): Upper energy bound in keV. Defaults to 10.0.
-            errMCMC (int, optional): Number of MCMC error iterations. Defaults to 1000.
-            CI (float, optional): Confidence interval percentage. Defaults to 68.0.
-            unabsorbed (bool, optional): If True, compute unabsorbed flux as well. Defaults to True.
+        Parameters
+        ----------
+            low_energy : float, optional
+                Lower energy bound in keV. Defaults to ``0.3``.
+            high_energy : float, optional
+                Upper energy bound in keV. Defaults to ``10.0``.
+            errMCMC : int, optional
+                Number of MCMC error iterations. Defaults to ``1000``.
+            CI : float, optional
+                Confidence interval percentage. Defaults to ``68.0``.
+            unabsorbed : bool, optional
+                If True, compute unabsorbed flux as well. Defaults to ``True``.
 
-        Returns:
-            dict: {
-                'absorbed': DataFrame of absorbed fluxes and photon counts,
-                'unabsorbed': DataFrame of unabsorbed fluxes (if requested)
-            }
+        Returns
+        ---------
+            Fluxes : dict[str, pandas.DataFrame]
+                The same absorbed and unabsorbed flux DataFrames as the one in :py:attr`fluxes`
+                with columns ``['data', 'model', 'flux', 'lo_flux_err', 'hi_flux_err', 'phot', 'lo_phot_err', 'hi_phot_err']``.
 
-        Raises:
-            RuntimeError: If no spectra loaded or missing absorber for unabsorbed flux.
+        Raises
+        -------
+            RuntimeError
+                If no spectra loaded or missing absorber for unabsorbed flux.
         """
         nspec = xspec.AllData.nSpectra
         ngrp  = xspec.AllData.nGroups
@@ -774,27 +892,42 @@ class SpectrumFit:
                  distance: float = None, redshift: float = None,
                  lo_dist_err: float = None, hi_dist_err: float = None,
                  lo_z_err: float = None, hi_z_err: float = None,
-                 H0: float = 70.0, replace: bool = False) -> pd.DataFrame:
+                 H0: float = 70.0, replace: bool = False):
         """
         Compute luminosities from given fluxes.
 
-        Args:
-            fluxes (pandas.DataFrame): Must contain ['data','model','flux','lo_flux_err','hi_flux_err'].
-            model_name (str, optional): Override per-row model names. Defaults to None.
-            distance (float, optional): Distance in Mpc. Required if redshift is None.
-            redshift (float, optional): Redshift. Required if distance is None.
-            lo_dist_err (float, optional): Lower uncertainty of distance in Mpc.
-            hi_dist_err (float, optional): Upper uncertainty of distance in Mpc.
-            lo_z_err (float, optional): Lower uncertainty of redshift.
-            hi_z_err (float, optional): Upper uncertainty of redshift.
-            H0 (float, optional): Hubble constant (km/s/Mpc). Defaults to 70.0 km/s/Mpc.
-            replace (bool, optional): If True, overwrite existing `lumin`. Defaults to False.
+        Parameters
+        ----------
+            fluxes : pandas.DataFrame
+                Must contain ``['data','model','flux','lo_flux_err','hi_flux_err']``.
+            model_name : str, optional
+                Override per-row model names. Defaults to ``None``.
+            distance : float, optional
+                Distance in Mpc. Required if redshift is None. Defaults to ``None``.
+            redshift : float, optional
+                Redshift. Required if distance is ``None``. Defaults to ``None``.
+            lo_dist_err : float, optional
+                Lower uncertainty of distance in Mpc. Defaults to ``None``.
+            hi_dist_err : float, optional
+                Upper uncertainty of distance in Mpc. Defaults to ``None``.
+            lo_z_err : float, optional
+                Lower uncertainty of redshift. Defaults to ``None``.
+            hi_z_err : float, optional
+                Upper uncertainty of redshift. Defaults to ``None``.
+            H0 : float, optional
+                Hubble constant in km/s/Mpc. Defaults to ``70.0``.
+            replace : bool, optional
+                If True, overwrite existing :py:attr:`lumin`. Defaults to ``False``.
 
-        Returns:
-            pandas.DataFrame: Columns ['data','model','lumin','lo_lumin_err','hi_lumin_err'].
+        Returns
+        --------
+            Luminosity : pandas.DataFrame
+                Luminosity wrapped in DataFrame table with columns ``['data','model','lumin','lo_lumin_err','hi_lumin_err']``.
 
-        Raises:
-            ValueError: If neither distance nor redshift is provided.
+        Raises
+        -------
+            ValueError
+                If neither distance nor redshift is provided.
         """
         # ── distance (Mpc) & its asymmetric errors ───────────────────────────
         if distance is None and redshift is None:
@@ -875,23 +1008,35 @@ class SpectrumFit:
     
 class SpectrumManager:
     """
-    Manage a collection of SpectrumFit objects for batch analysis and plotting.
-    
-    Args:
-        specs (SpectrumFit or iterable of (SpectrumFit, str), optional):
-            A single SpectrumFit or an iterable of SpectrumFit instances
-            (or (SpectrumFit, instrument) pairs). Defaults to None.
-        tExplosion (float, optional): Explosion time in MJD to override or set. Defaults to None.
+    Manage a collection of :py:class:`~xsnap.spectrum.SpectrumFit` objects for batch analysis and plotting.
 
-    Attributes:
-        specs (list of dict): Each entry is {'spec': SpectrumFit, 'instr': str}.
-        tExplosion (float or None): Explosion time override in MJD.
-        fluxes (dict or None): Aggregated flux DataFrames, keyed by 'absorbed'/'unabsorbed'.
-        counts (pandas.DataFrame or None): Aggregated count-rate DataFrame.
-        lumin (pandas.DataFrame or None): Aggregated luminosity DataFrame.
-        params (pandas.DataFrame or None): Aggregated parameters DataFrame.
+    Attributes
+    -----------
+        specs : list[dict]
+            Each entry is ``{'spec': SpectrumFit, 'instr': str}``.
+        tExplosion : float or None
+            Supernova time of explosion in MJD.
+        fluxes : dict or None
+            Combined flux DataFrames, keyed by 'absorbed'/'unabsorbed'.
+        counts : pandas.DataFrame or None
+            Combined count-rate DataFrame.
+        lumin : pandas.DataFrame or None
+            Combined luminosity DataFrame.
+        params : pandas.DataFrame or None
+            Combined parameters DataFrame.
     """
     def __init__(self, specs=None, tExplosion=None):
+        """
+        Initialize of the :py:class:`~xsnap.spectrum.SpectrumManager` class
+
+        Parameters
+        -----------
+        specs : SpectrumFit or array[tuple(SpectrumFit, str)], optional
+            Collection of :py:class:`~xsnap.spectrum.SpectrumFit` objects, can be parsed singularly
+            or an iterable of (:py:class:`~xsnap.spectrum.SpectrumFit`, instrument) pairs. Defaults to ``None``.
+        tExplosion : float, optional
+            Supernova time of explosion in MJD to override or set. Defaults to ``None``.
+        """
         self.specs = []  # list of {'spec': SpectrumFit, 'instr': str}
         self.tExplosion = tExplosion
         self.fluxes = None
@@ -930,21 +1075,27 @@ class SpectrumManager:
 
     def load(self, specs, instrument=None):
         """
-        Load one or many SpectrumFit instances, with optional instrument labels.
+        Load one or many :py:class:`~xsnap.spectrum.SpectrumFit` instances, with optional instrument labels.
 
-        Args:
-            specs (SpectrumFit or iterable):
-                A single SpectrumFit, or iterable of SpectrumFit,
-                or iterable of (SpectrumFit, instr) pairs.
-            instrument (str, optional):
-                Instrument label to use if not provided per-SpectrumFit.
+        Parameters
+        -----------
+            specs : SpectrumFit or array[tuple(SpectrumFit, str)], optional
+                Collection of :py:class:`~xsnap.spectrum.SpectrumFit` objects, can be parsed singularly
+                or an iterable of (:py:class:`~xsnap.spectrum.SpectrumFit`, instrument) pairs. Defaults to ``None``.
+            instrument : str, optional
+                Instrument label to use if not provided per-:py:class:`~xsnap.spectrum.SpectrumFit`.
 
-        Returns:
-            SpectrumManager: self, with new specs appended.
+        Returns
+        --------
+            *self* : SpectrumManager
+                The same :py:class:`~xsnap.spectrum.SpectrumManager` with new specs appended.
 
-        Raises:
-            TypeError: If `specs` is not a SpectrumFit or valid iterable.
-            ValueError: If an instrument label cannot be determined.
+        Raises
+        ------
+            TypeError
+                If ``specs`` is not a :py:class:`~xsnap.spectrum.SpectrumFit` or valid iterable.
+            ValueError
+                If an instrument label cannot be determined.
         """
         from collections.abc import Iterable
         items = []
@@ -1020,12 +1171,18 @@ class SpectrumManager:
         """
         Plot flux light curves for each model and kind ('absorbed', 'unabsorbed').
 
-        Args:
-            scatter (bool, optional): If True, use scatter markers; otherwise lines.
-            log (bool, optional): If True, set y-axis to log scale.
+        Parameters
+        -----------
+            scatter : bool, optional
+                If ``True``, use scatter markers; otherwise lines. Defaults to ``True``.
+            log : bool, optional
+                If ``True``, set y-axis to log scale. Defaults to ``True``.
 
         Returns:
-            dict: Mapping (model: str, kind: str) → matplotlib.figure.Figure.
+            Flux light curve plots: dict[tuple(str, str), matplotlib.figure.Figure]
+                Mapping (model: str, kind: 'absorbed' | 'unabsorbed') → matplotlib.figure.Figure.
+                
+                Data are grouped and labeled by instruments.
         """
         rows = []
         for entry in self.specs:
@@ -1072,12 +1229,19 @@ class SpectrumManager:
         """
         Plot luminosity light curves for each model.
 
-        Args:
-            scatter (bool, optional): If True, use scatter markers; otherwise lines.
-            log (bool, optional): If True, set y-axis to log scale.
+        Parameters
+        -----------
+            scatter : bool, optional
+                If ``True``, use scatter markers; otherwise lines. Defaults to ``True``.
+            log : bool, optional
+                If ``True``, set y-axis to log scale. Defaults to ``True``.
 
-        Returns:
-            dict: Mapping model: str → matplotlib.figure.Figure.
+        Returns
+        --------
+            Luminosity light curve plots : dict[str, matplotlib.figure.Figure]
+                Mapping model: str → matplotlib.figure.Figure.
+                
+                Data are grouped and labeled by instruments.
         """
 
         rows = []
@@ -1124,12 +1288,19 @@ class SpectrumManager:
         """
         Plot photon-flux light curves for each model and kind.
 
-        Args:
-            scatter (bool, optional): If True, use scatter markers; otherwise lines.
-            log (bool, optional): If True, set y-axis to log scale.
+        Parameters
+        -----------
+            scatter : bool, optional
+                If ``True``, use scatter markers; otherwise lines. Defaults to ``True``.
+            log : bool, optional
+                If ``True``, set y-axis to log scale. Defaults to ``True``.
 
-        Returns:
-            dict: Mapping (model: str, kind: str) → matplotlib.figure.Figure.
+        Returns
+        -------
+            Photon flux light curve plots: dict[tuple(str, str), matplotlib.figure.Figure]
+                Mapping (model: str, kind: 'absorbed' | 'unabsorbed') → matplotlib.figure.Figure.
+                
+                Data are grouped and labeled by instruments.
         """
         rows = []
         for entry in self.specs:
@@ -1176,14 +1347,19 @@ class SpectrumManager:
         """
         Plot count-rate light curves for each model; one trace per instrument.
 
-        Args
-        ----
-        scatter : bool  – use symbols+error bars (True) or line plot (False)
-        log     : bool  – y–axis in log‐scale if True
+        Parameters
+        -----------
+            scatter : bool, optional
+                If ``True``, use scatter markers; otherwise lines. Defaults to ``True``.
+            log : bool, optional
+                If ``True``, set y-axis to log scale. Defaults to ``True``.
 
         Returns
-        -------
-        dict  {model : matplotlib.figure.Figure}
+        --------
+            Count rate light curve plots : dict[str, matplotlib.figure.Figure]
+                Mapping model: str → matplotlib.figure.Figure.
+                
+                Data are grouped and labeled by instruments.
         """
         # ---------- collect & merge ----------
         rows = []
@@ -1251,12 +1427,18 @@ class SpectrumManager:
         """
         Plot fit parameter evolution vs. time for each model and parameter.
 
-        Args:
-            scatter (bool, optional): If True, use scatter markers with error bars; otherwise lines.
-            log (bool, optional): If True and all values > 0, set y-axis to log scale.
+        Parameters
+        -----------
+            scatter : bool, optional
+                If ``True``, use scatter markers; otherwise lines. Defaults to ``True``.
+            log : bool, optional
+                If ``True``, set y-axis to log scale. Defaults to ``True``.
 
         Returns:
-            dict: Mapping (model: str, parameter: str) → matplotlib.figure.Figure.
+            Parameter evolution plots: dict[tuple(str, str), matplotlib.figure.Figure]
+                Mapping (model: str, parameter: str) → matplotlib.figure.Figure.
+                
+                Data are grouped and labeled by instruments.
         """
         import numpy as np
 

@@ -10,10 +10,9 @@ XSNAP Reference
 This reference manual details scripts, functions, modules, and objects
 included in XSNAP, describing what they are and what they do.
 
-Python API
-==========
 
 .. toctree::
+    :caption: Python API
     :maxdepth: 1
 
     spectrum
@@ -22,5 +21,13 @@ Python API
     temperature
 
 
-Scripts
-==========
+.. toctree::
+    :caption: Scripts
+    :maxdepth: 1
+
+    Making Region Files <makeregion>
+    Extract CXO Data <extractchandra>
+    Extract XRT Data <extractswift>
+    Stacking XRT Data (PC Mode) <swiftstackpc>
+    Extract NuSTAR Data <extractnustar>
+    Extract XMM Data <extractxmm>

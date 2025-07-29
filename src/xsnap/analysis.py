@@ -17,25 +17,50 @@ m_p = 1.67262192e-27 * u.kg
 
 class CSMAnalysis:
     """
-    Physics-side for Supernova CSM analysis 
-    Fitting L(t) ∝ t^x, deriving CSM densities,
-    and mass-loss rates from a SpectrumManager.lumin table.
+    Supernova circumstellar medium (CSM) analysis, 
+    including fitting :math:`L(t) \\propto t^x` to deriving unshocked CSM densities and 
+    mass-loss rates of the supernova progenitor.
     
-    Args:
-        manager (SpectrumManager, optional): Pre-populated SpectrumManager instance.
-
-    Attributes:
-        manager (SpectrumManager or None): Input manager spectra analysis.
-        distance (float or None): Source distance in Mpc.
-        r_shock (pandas.DataFrame or None): Shock radius.
-        times (pandas.DataFrame or None): Times since explosion.
-        fit_lumin_params (pandas.DataFrame or None): Luminosity fit parameters.
-        fit_temp_params (pandas.DataFrame or None): Temperature fit parameters.
-        fit_density_params (pandas.DataFrame or None): Density fit parameters.
-        densities (pandas.DataFrame or None): Computed shock densities.
-        mass_loss_rate (pandas.DataFrame): Computed mass-loss rates.
+    .. note::
+        As our emission measure (EM) comes from the normalization of the thermal-bremsstrahlung,
+        the :py:class:`~xsnap.analysis.CSMAnalysis` class can only be used 
+        if the :py:class:`~xsnap.spectrum.SpectrumManager` class contains **exactly one** bremss model.
+    
+    Attributes
+    -----------
+        manager : SpectrumManager or None
+            Input manager spectra analysis.
+        distance : float or None
+            Source distance in Mpc.
+        r_shock : pandas.DataFrame or None
+            Shock radius.
+        times : pandas.DataFrame or None
+            Times since explosion.
+        fit_lumin_params : pandas.DataFrame or None
+            Best-fit luminosity parameters wrapped in DataFrame table with 
+                columns ``['model', 'norm','lo_norm_err','hi_norm_err', 'exp','lo_exp_err','hi_exp_err','ndata']``.
+        fit_temp_params : pandas.DataFrame or None
+            Best-fit temperature parameters wrapped in DataFrame table with 
+                columns ``['model', 'norm','lo_norm_err','hi_norm_err', 'exp','lo_exp_err','hi_exp_err','ndata']``.
+        fit_density_params : pandas.DataFrame or None
+            Best-fit density parameters, i.e. the fitted mass-loss rates in :math:`\\rm g \ s^{-1}`, wrapped in 
+            DataFrame table with columns ``['mdot', 'lo_mdot_err', 'hi_mdot_err']``
+        densities : pandas.DataFrame or None
+            Computed unshocked CSM density in :math:`\\rm g \ {cm}^{-3}` wrapped in DataFrame table with columns
+            ``['time_since_explosion', 'rho', 'lo_rho_err', 'hi_rho_err']``
+        mass_loss_rate : pandas.DataFrame
+            Computed mass-loss rates of the supernova progenitor in :math:`\\rm M_{\\bigodot} \ {yr}^{-1}`,
+            wrapped in a DataFrame with columns ``['m_dot', 'lo_m_dot_err', 'hi_m_dot_err']``
     """
     def __init__(self, manager=None):
+        """
+        Initialization of the :py:class:`~xsnap.analysis.CSMAnalysis` class
+
+        Parameters
+        ----------
+            manager : SpectrumManager, optional
+                Pre-populated :py:class:`~xsnap.spectrum.SpectrumManager` instance.
+        """
         self.manager = None
         self.distance = None
         self.r_shock = None
@@ -89,25 +114,41 @@ class CSMAnalysis:
     def load(self, manager: SpectrumManager, distance=None, lo_dist_err=None, hi_dist_err=None,
              z=None, lo_z_err=None, hi_z_err=None, v_shock: float = v_shock.value, H0: float = 70):
         """
-        Load manager luminosity & parameter tables and compute shock radii.
+        Load manager luminosity & parameter tables and compute shock radius.
 
-        Args:
-            manager (SpectrumManager): Must contain one 'bremss' model in `.lumin` & `.params`.
-            distance (float, optional): Distance in Mpc. Required if `z` is None.
-            z (float, optional): Redshift to compute distance. Required if `distance` is None.
-            lo_dist_err (float, optional): Lower uncertainty of distance in Mpc.
-            hi_dist_err (float, optional): Upper uncertainty of distance in Mpc.
-            lo_z_err (float, optional): Lower uncertainty of redshift.
-            hi_z_err (float, optional): Upper uncertainty of redshift.
-            H0 (float, optional): Hubble constant (km/s/Mpc). Defaults to 70.0 km/s/Mpc.
-            v_shock (float, optional): Shock velocity in km/s. Defaults to 10000 km/s.
+        Parameters
+        ----------
+            manager : SpectrumManager
+                Must contain one ``'bremss'`` model in :py:attr:`~xsnap.spectrum.SpectrumManager.lumin` & :py:attr:`~xsnap.spectrum.SpectrumManager.params`.
+            distance : float, optional
+                Distance in Mpc. Required if ``z`` is ``None``.
+            z : float, optional
+                Redshift to compute distance. Required if `distance` is ``None``. Defaults to ``None``.
+            lo_dist_err : float, optional
+                Lower uncertainty of distance in Mpc. Defaults to ``None``.
+            hi_dist_err : float, optional
+                Upper uncertainty of distance in Mpc. Defaults to ``None``.
+            lo_z_err : float, optional
+                Lower uncertainty of redshift. Defaults to ``None``.
+            hi_z_err : float, optional
+                Upper uncertainty of redshift. Defaults to ``None``.
+            H0 : float, optional
+                Hubble constant in km/s/Mpc. Defaults to ``70.0``.
+            v_shock : float, optional
+                Shock velocity in km/s. Defaults to ``10000``.
 
-        Returns:
-            CSMAnalysis: self, with `times` and `r_shock` populated.
+        Returns
+        --------
+            *self* : CSMAnalysis
+                The same :py:class:`~xsnap.analysis.CSMAnalysis` with 
+                :py:attr:`~xsnap.analysis.CSMAnalysis.times` and :py:attr:`~xsnap.analysis.CSMAnalysis.r_shock` populated.
 
-        Raises:
-            RuntimeError: If more than one bremss model is present.
-            ValueError: If required tables/columns are missing.
+        Raises
+        --------
+            RuntimeError
+                If more than one bremss model is present.
+            ValueError
+                If required tables/columns are missing.
         """
         H0 = H0 * u.km / u.s / u.Mpc
         self.manager = manager
@@ -167,17 +208,24 @@ class CSMAnalysis:
 
     def fit_lumin(self, nwalkers=500, nsteps=10000, nburn=2000, show_plots=True):
         """
-        Fit luminosity L ∝ t^x using MCMC.
+        Fit power-law luminosity :math:`L(t) \\propto t^x` using Markov chain Monte-Carlo (MCMC).
 
-        Args:
-            nwalkers (int, optional): Number of MCMC walkers. Defaults to 500.
-            nsteps (int, optional): Number of steps per walker. Defaults to 10000.
-            nburn (int, optional): Number of burn-in steps. Defaults to 2000.
-            show_plots (bool, optional): If True, display diagnostic plots.
+        Parameters
+        ----------
+            nwalkers : int, optional
+                Number of MCMC walkers. Defaults to ``500``.
+            nsteps : int, optional
+                Number of steps per walker. Defaults to ``10000``.
+            nburn : int, optional
+                Number of burn-in steps. Defaults to ``2000``.
+            show_plots : bool, optional
+                If ``True``, display diagnostic plots. Defaults to ``True``
 
-        Returns:
-            pandas.DataFrame: columns ['model', 'norm','lo_norm_err','hi_norm_err',
-                                       'exp','lo_exp_err','hi_exp_err','ndata'].
+        Returns
+        -------
+            Best-fit luminosity parameters : pandas.DataFrame
+                Best-fit luminosity parameters wrapped in DataFrame table with 
+                columns ``['model', 'norm','lo_norm_err','hi_norm_err', 'exp','lo_exp_err','hi_exp_err','ndata']``.
         """
         df = self.manager.lumin.copy()
         m_bremss = df['model'].str.contains('bremss', case=False, na=False)
@@ -246,17 +294,24 @@ class CSMAnalysis:
     
     def fit_temp(self, nwalkers=500, nsteps=10000, nburn=2000, show_plots=True):
         """
-        Fit temperature kT ∝ t^x using MCMC from data in `.params`.
+        Fit power-law temperature :math:`T(t) \\propto t^x` using Markov chain Monte-Carlo (MCMC).
 
-        Args:
-            nwalkers (int, optional): Number of MCMC walkers. Defaults to 500.
-            nsteps (int, optional): Number of steps per walker. Defaults to 10000.
-            nburn (int, optional): Number of burn-in steps. Defaults to 2000.
-            show_plots (bool, optional): If True, display diagnostic plots.
+        Parameters
+        ----------
+            nwalkers : int, optional
+                Number of MCMC walkers. Defaults to ``500``.
+            nsteps : int, optional
+                Number of steps per walker. Defaults to ``10000``.
+            nburn : int, optional
+                Number of burn-in steps. Defaults to ``2000``.
+            show_plots : bool, optional
+                If ``True``, display diagnostic plots. Defaults to ``True``
 
-        Returns:
-            pandas.DataFrame: columns ['model', 'norm','lo_norm_err','hi_norm_err',
-                                       'exp','lo_exp_err','hi_exp_err','ndata'].
+        Returns
+        --------
+            Best-fit temperature parameters : pandas.DataFrame
+                Best-fit temperature parameters wrapped in DataFrame table with 
+                columns ``['model', 'norm','lo_norm_err','hi_norm_err', 'exp','lo_exp_err','hi_exp_err','ndata']``.
         """
         df = self.manager.params.copy()
 
@@ -341,37 +396,69 @@ class CSMAnalysis:
                     radius_ratio=1.2, f=1, v_wind=v_wind.value, H0: float =70,
                     nwalkers=500, nsteps=10000, nburn=2000, show_plots=True):
         """
-        Calculate CSM density ρ(r) and fit using MCMC based on 'bremss_norm'.
+        Calculate unshocked CSM density :math:`\\rho_{\\mathrm{CSM}}(r)` and fit using Markov chain Monte-Carlo (MCMC) 
+        based on ``'bremss_norm'`` in :py:attr:`~xsnap.spectrum.SpectrumManager.params`.
         
-        Formula: 
-        rho_CSM = m_p/4 (2*EM*mu_e*mu_ion/V_FS)^(1/2)
-        bremss_norm = 3.02e-15/(4 pi d^2) * EM
-        V_FS = 4/3 pi f (R_out^3 - R_in^3)
+        In calculating the density, we use the model of `D. Brethauer et al. (2022) <https://doi.org/10.3847/1538-4357/ac8b14>`_,
+        where the unshocked CSM density is expressed by: 
         
-        Fit rho_CSM with:
-        rho_CSM = Mdot/(4 pi r^2 v_wind)
+        .. math::
+            \\rho_{\\mathrm{CSM}}(r) = \\frac{m_p}{4} \left(\\frac{2 \\times \\mathrm{EM}(r)\\mu_e \\mu_I}{V_{\\mathrm{FS}}(r)}\\right)^{1/2}
+        
+        where we parameterized:
+        
+        .. math::
+            \\mathrm{{bremss} \ {norm}} = \\frac{3.02 \\cdot 10^{-15}}{4 \\pi d^2} \\times \\mathrm{EM} 
+            
+            \\mathrm{V}_{\\mathrm{FS}} = \\frac{4 \\pi}{3} f \\left(R_{\\mathrm{out}}^3 - R_{\\mathrm{in}}^3\\right)
+        
+        From there, we fit :math:`\\rho_{\\mathrm{CSM}}(r)` and :math:`\\dot{M}` with:
+        
+        .. math::
+            \\rho_{\\mathrm{CSM}} = \\frac{\\dot{M}}{4 \\pi r_{\\mathrm{shock}}^2 v_{\\mathrm{wind}}}
 
-        Args:
-            distance (float, optional): distance to source in Mpc.
-            z (float, optional): redshift to source.
-            mu_e (float, optional): mean molecular weight per electron. Defaults to 1.14. from E. A. Zimmerman et al. 2024 for the environment of SN 2023ixf
-            mu_ion (float, optional): mean molecular weight per ion. Defaults to 1.24.
-            radius_ratio (float, optional): shock Rout/Rin ratio. Defaults to 1.2.
-            f (int, optional): filling factor. Defaults to 1.
-            v_wind (float, optional): wind velocity in km/s. Defaults to 20 km/s
-            H0 (float, optional): Hubble constant in km/s/Mpc. Defaults to 70 km/s/Mpc.
-            nwalkers (int, optional): Number of MCMC walkers. Defaults to 500.
-            nsteps (int, optional): Number of steps per walker. Defaults to 10000.
-            nburn (int, optional): Number of burn-in steps. Defaults to 2000.
-            show_plots (bool, optional): If True, display diagnostic plots. Defaults to True.
-            fit (bool, optional): If True, will fit density and get mass-loss rate in g/s. Defaults to True
+        Parameters
+        ----------
+            distance : float, optional
+                distance to source in Mpc.
+            z : float, optional
+                redshift to source.
+            mu_e : float, optional
+                mean molecular weight per electron. Defaults to ``1.14``. `(E. A. Zimmerman et al. 2024) <http://doi.org/10.1038/s41586-024-07116-6>`_
+            mu_ion : float, optional
+                mean molecular weight per ion. Defaults to ``1.24``. `(E. A. Zimmerman et al. 2024) <http://doi.org/10.1038/s41586-024-07116-6>`_
+            radius_ratio : float, optional
+                shock Rout/Rin ratio. Defaults to ``1.2``.
+            f : int, optional
+                filling factor. Defaults to ``1``.
+            v_wind : float, optional
+                wind velocity in km/s. Defaults to ``20``.
+            H0 : float, optional
+                Hubble constant in km/s/Mpc. Defaults to ``70``.
+            nwalkers : int, optional
+                Number of MCMC walkers. Defaults to ``500``.
+            nsteps : int, optional
+                Number of steps per walker. Defaults to ``10000``.
+            nburn : int, optional
+                Number of burn-in steps. Defaults to ``2000``.
+            show_plots : bool, optional
+                If ``True``, display diagnostic plots. Defaults to ``True``.
+            fit : bool, optional
+                If ``True``, will fit density and get mass-loss rate in :math:`\\rm g \ s^{-1}``. Defaults to ``True``
 
-        Raises:
-            RuntimeError: When manager.params do not have these columns: ['bremss_norm', 'lo_bremss_norm_err', 'hi_bremss_norm_err', 'time_since_explosion']
-            ValueError: When distance or redshift is not entered
+        Raises
+        ---------
+            RuntimeError
+                When :py:attr:`~xsnap.spectrum.SpectrumManager.params` do not have these columns: 
+                ``['bremss_norm', 'lo_bremss_norm_err', 'hi_bremss_norm_err', 'time_since_explosion']``
+            ValueError
+                When distance or redshift is not entered
 
-        Returns:
-            pd.DataFrame : DataFrame of shock density in g cm-3
+        Returns
+        ---------
+            Density : pandas.DataFrame 
+                Computed unshocked CSM density in :math:`\\rm g \ {cm}^{-3}`` wrapped in DataFrame table with columns
+                ``['time_since_explosion', 'rho', 'lo_rho_err', 'hi_rho_err']``
         """
         H0 = H0 * u.km / u.s / u.Mpc
         v_wind = v_wind * u.km / u.s
@@ -466,10 +553,12 @@ class CSMAnalysis:
     
     def get_mdot(self):
         """
-        Get mass loss rate in Msolar/yr
+        Get mass loss rate in :math:`\\rm M_{\\bigodot} \ {yr}^{-1}`
             
-        Returns:
-            Mass-loss rate and its errors in a list: (m_dot, lo_m_dot_err, hi_m_dot_err)
+        Returns
+        ---------
+            Mass-loss rate and its errors in :math:`\\rm M_{\\bigodot} \ {yr}^{-1}`, wrapped in
+            a DataFrame with columns ``['m_dot', 'lo_m_dot_err', 'hi_m_dot_err']``
         """
         try:
             dens_params = self.fit_density_params
@@ -495,12 +584,17 @@ class CSMAnalysis:
         """
         Plot luminosity light curve with best-fit power-law.
 
-        Args:
-            mcmc (bool, optional): If True, use MCMC fit; else curve_fit. Defaults to True.
-            model_color (str, optional): Color for the fit line. Defaults to 'red'.
+        Parameters
+        -----------
+            model_color : str, optional
+                Color for the fit line. Defaults to ``'red'``.
 
-        Returns:
-            matplotlib.figure.Figure: Figure with data and fit.
+        Returns
+        ---------
+            Plot : matplotlib.figure.Figure
+                The fitted luminosity light curve plot with data and fit.
+                
+                Data are grouped and labeled by instruments.
         """
         if self.fit_lumin_params is None:
             raise RuntimeError("Run `fit_lumin()` first.")
@@ -556,12 +650,17 @@ class CSMAnalysis:
         """
         Plot temperature evolution with best-fit power-law.
 
-        Args:
-            mcmc (bool, optional): If True, use MCMC fit; else curve_fit. Defaults to True.
-            model_color (str, optional): Color for the fit line. Defaults to 'red'.
+        Parameters
+        -----------
+            model_color : str, optional
+                Color for the fit line. Defaults to ``'red'``.
 
-        Returns:
-            matplotlib.figure.Figure: Figure with data and fit.
+        Returns
+        ---------
+            Plot : matplotlib.figure.Figure
+                The fitted temperature evolution plot with data and fit.
+                
+                Data are grouped and labeled by instruments.
         """
         if self.fit_temp_params is None:
             raise RuntimeError("Run `fit_temp()` first to populate self.fit_temp_params.")
@@ -613,21 +712,23 @@ class CSMAnalysis:
 
         return fig
     
-    def plot_density(self, model_color: str = "red", v_wind=20*u.km/u.s):
+    def plot_density(self, model_color: str = "red", v_wind: float = 20):
         """
-        Plot the CSM density profile ρ(r) with its best-fit power-law (or Ṁ fit).
+        Plot the unshocked CSM density profile with its best-fit mass-loss rate.
 
         Parameters
-        ----------
-        model_color : str
-            Colour for the fitted curve.
-        v_wind      : Quantity
-            Wind velocity (needed when the fit was made in terms of Ṁ).
+        -----------
+            model_color : str, optional
+                Color for the fit line. Defaults to ``'red'``.
+            v_wind      : float
+                Wind velocity (needed as the best-fit parameter is in terms of the mass-loss rate).
 
         Returns
-        -------
-        matplotlib.figure.Figure
+        ---------
+            Plot : matplotlib.figure.Figure
+                The density profile plot with data and fit
         """
+        v_wind = v_wind * u.km / u.s
 
         # ─────────── basic checks ──────────────────────────────────────────
         if self.densities is None or self.fit_density_params is None or self.r_shock is None:

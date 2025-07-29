@@ -152,31 +152,42 @@ EOF
 
 class SourceDetection:
     """
-    Handle SNR=3 source detection (via XIMAGE) across multiple datasets.
+    A class to detect sources (via `XIMAGE <https://heasarc.gsfc.nasa.gov/docs/xanadu/ximage/ximage.html>`_) with certain SNR (default SNR :math:`\\geq` 3) across multiple observation datasets.
 
-    Args:
-        evt_paths (list of str, optional): Paths to event (EVT) files.
-        exp_paths (list of str, optional): Paths to image exposure (EXP) files.
-            If not provided, `evt_paths` will be reused.
-        pha_paths (list of str, optional): Paths to PHA spectrum files.
-
-    Attributes:
-        pha_paths (list of str): Absolute PHA file paths.
-        evt_paths (list of str): Absolute EVT file paths.
-        exp_paths (list of str): Absolute EXP file paths.
-        results (dict): Mapping `{evt_file: 'detected' | 'not detected'}`.
-        detect_tables (dict): Mapping `{evt_file: pandas.DataFrame}`.
-        fit_results: Placeholder for XSPEC fit outputs.
-        tExplosion: Explosion time, if used in follow-up.
+    Attributes
+    -----------
+        pha_paths : array
+            Array of absoulte PHA (spectrum) file paths.
+        evt_paths : array
+            Array of absoulte EVT (event) file paths.
+        exp_paths : array
+            Array of absoulte EXP (exposure image) file paths.
+        results : dict[str, str]
+            Source detection results per event files, mapping ``{evt_file: 'detected' | 'not detected'}``.
+        detect_tables : dict[str, pandas.DataFrame]
+            Table of detected sources in an event files, mapping ``{evt_file: pandas.DataFrame}``.
+        tExplosion : float 
+            Supernova time of explosion in MJD
     """
 
     def __init__(self, evt_paths=None, exp_paths=None,  pha_paths=None):
+        """
+        Initialization of the :py:class:`~xsnap.detect.SourceDetection` class.
+
+        Parameters
+        ----------
+        evt_paths : array_like, optional
+            Paths to event (EVT) files. Defaults to ``None``.
+        exp_paths : array_like, optional
+            Paths to exposure image (EXP) files. Defaults to ``None``.
+        pha_paths : array_like, optional
+            Paths to spectrum (PHA) files. Defaults to ``None``.
+        """
         self.pha_paths = []   # list of PHA files (abs paths)
         self.evt_paths = []   # matching list of EVT files
         self.exp_paths = []   # matching list of exposure images
         self.results = {}     # {pha: 'detected' | 'not detected'}
         self.detect_tables = {}
-        self.fit_results = None
         self.tExplosion = None
         if evt_paths:
             self.load(evt_paths, exp_paths, pha_paths)
@@ -190,20 +201,23 @@ class SourceDetection:
         self.exp_paths = []   
         self.results = {}   
         self.detect_tables = {}
-        self.fit_results = None
         self.tExplosion = None
 
     def load(self, evt_paths, exp_paths = None, pha_paths = None):
         """
-        Load parallel lists of EVT, EXP, and PHA files, checking they exist.
+        Load parallel lists of EVT, EXP, and PHA files.
 
-        Args:
-            evt_paths (list of str): EVT file paths.
-            exp_paths (list of str, optional): EXP file paths. If omitted,
-                `evt_paths` will be used as EXP paths. Defaults to None.
-            pha_paths (list of str, optional): PHA file paths. Defaults to None.
+        Parameters
+        ----------
+            evt_paths : array_like
+                Event (EVT) file paths.
+            exp_paths : array_like, optional
+                Exposure image (EXP) file paths. Defaults to ``None``.
+            pha_paths : array_like, optional
+                Spectrum (PHA) file paths. Defaults to ``None``.
 
-        Raises:
+        Raises
+        -------
             ValueError: If provided lists are not all the same length.
             FileNotFoundError: If any path does not exist.
         """
@@ -220,32 +234,36 @@ class SourceDetection:
         if pha_paths is not None:
             self.pha_paths = [self._abs_exists(p, "PHA") for p in pha_paths]
 
-    def __iadd__(self, triple):
+    def __iadd__(self, files):
         """
-        Append a dataset via ‘+=’ with a tuple of length 1–3.
+        Append a dataset via ``+=`` with an array of length 1–3.
 
-        Args:
-            triple (tuple): One of
-                - (evt,)
-                - (pha, evt)
-                - (pha, evt, exp)
+        Parameters
+        ----------
+        files : array_like
+            Files in an array_like with options: ``(evt)``; ``(pha, evt)``; or ``(pha, evt, exp)``
 
-        Returns:
-            SourceDetection: self
+        Returns
+        -------
+            *self* : SourceDetection
+                The same :py:class:`~xsnap.detect.SourceDetection` instance.
 
-        Raises:
-            ValueError: If tuple length is not 1, 2, or 3.
-            FileNotFoundError: If any file does not exist.
+        Raises
+        ------
+        RuntimeError
+            If array length is not 1, 2, or 3.
+        FileNotFoundError
+            If any file does not exist.
         """
-        if len(triple) > 3:
-            raise ValueError("Use analyzer += (pha, evt, exp) or (pha, evt) or just evt")
-        if len(triple) == 3:
-            pha, evt, exp = triple
-        elif len(triple) == 2:
-            pha, evt = triple
+        if len(files) > 3:
+            raise RuntimeError("Use analyzer += (pha, evt, exp) or (pha, evt) or just evt")
+        if len(files) == 3:
+            pha, evt, exp = files
+        elif len(files) == 2:
+            pha, evt = files
             exp = evt
         else:
-            evt = triple
+            evt = files
             exp = evt
             pha = None
             
@@ -261,11 +279,13 @@ class SourceDetection:
         """
         Convert a path to an absolute path and verify its existence.
 
-        Args:
+        Parameters
+        ----------
             path (str): The file path to check.
             kind (str): A label for the file type (e.g., "EVT", "PHA", "EXP").
 
-        Returns:
+        Returns
+        --------
             str: The absolute path.
 
         Raises:
@@ -277,23 +297,30 @@ class SourceDetection:
 
     def detect_all(self, src_ra=None, src_dec=None, snr_thresh=3.0, match_radius=25.0, details = False):
         """
-        Run SNR=3 detection on all loaded datasets.
+        Run detection with certain SNR (default SNR :math:`\\geq` 3) on all loaded datasets.
 
-        Args:
-            src_ra (float, optional): Source RA in degrees. Used if no PHA files.
-            src_dec (float, optional): Source Dec in degrees. Used if no PHA files.
-            snr_thresh (float, optional): SNR threshold to pass to detect_snr3.
-                Defaults to 3.0.
-            match_radius (float, optional): Matching radius in arcseconds.
-                Defaults to 25.0.
-            details (bool, optional): If True, print detailed matches and tables.
-                Defaults to False.
+        Parameters
+        ----------
+            src_ra : float, optional
+                Source RA in degrees. Must be parsed if there are no PHA files. Defaults to ``None``.
+            src_dec : float, optional
+                Source Dec in degrees. Must be parsed if there are no PHA files. Defaults to ``None``.
+            snr_thresh : float, optional
+                SNR threshold for detection. Defaults to ``3.0``. 
+            match_radius : float, optional
+                Detection matching radius in arcseconds. Defaults to ``25.0``.
+            details : bool, optional
+                If True, print detailed matches and tables. Defaults to ``False``.
 
-        Returns:
-            None: Populates `self.results` and `self.detect_tables` in place.
+        Returns
+        --------
+            *None* - Populates :py:attr:`results` and :py:attr:`detect_tables`.
 
-        Raises:
-            Exception: Propagates any exceptions from `detect_snr3`.
+        Raises
+        --------
+            RuntimeError: If the HEADAS environment is not set or files do not exist.
+            KeyError: If RA/Dec cannot be read from the PHA header.
+            ValueError: If neither ``pha_file`` nor both ``src_ra``/``src_dec`` are provided.
         """
         pha_empty = (len(self.pha_paths) == 0)
         
@@ -323,16 +350,20 @@ class SourceDetection:
         """
         Display the source region image through the pha spectrum files.
 
-        Args:
-            pha_files (list of str, optional): Paths to pha spectrum files to display. 
-                If provided, replaces `self.pha_paths`. Defaults to None.
-            cmap (str, optional): Matplotlib colormap name for `imshow`. Defaults to 'viridis'.
+        Parameters
+        ----------
+            pha_files : array_like, optional
+                Paths to pha spectrum files to display. If provided, replaces ``self.pha_paths``. Defaults to ``None``.
+            cmap : str, optional
+                Matplotlib colormap name for ``plt.imshow()``. Defaults to ``viridis``.
 
-        Raises:
-            RuntimeError: If neither `pha_files` nor `self.pha_paths` contains any file paths.
+        Raises
+        --------
+            RuntimeError: If neither ``pha_files`` nor :py:attr:`pha_paths` contains any file paths.
 
-        Returns:
-            None
+        Returns
+        --------
+            *None*
         """
         if len(self.pha_paths) != 0 or pha_files is not None:
             if pha_files is not None:

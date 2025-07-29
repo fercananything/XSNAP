@@ -10,28 +10,49 @@ from ._fitting import fit_powerlaw_asymmetric, compute_chi2_powerlaw, predict_wi
 
 class TemperatureEstimator:
     """
-    Estimate temperature evolution from a supernova explosion by fitting a power-law model
-    and predicting temperatures at new times.
-
-    Args:
-        tExplosion (float | None): Explosion time in MJD. If None, must be set before estimating.
-        norm (float | None): Normalization for the power-law model (if known). Defaults to None.
-        exponent (float | None): Exponent for the power-law model (if known). Defaults to None.
+    Estimate temperature evolution from a supernova explosion 
+    given a set of temperature evolution data or power-law parameters.
+    
+    If given a set of temperature evolution data, the :py:class:`~xsnap.temperature.TemperatureEstimator` will
+    fit the data in a power-law model and get the best-fit parameters.
         
-    Attributes:
-        tExplosion (float): Explosion time in MJD.
-        norm (float): Best-fit normalization for the power-law model.
-        lo_norm_err (float): Lower uncertainty of the normalization.
-        hi_norm_err (float): Upper uncertainty of the normalization.
-        exp (float): Best-fit exponent for the power-law model.
-        lo_exp_err (float): Lower uncertainty of the exponent.
-        hi_exp_err (float): Upper uncertainty of the exponent.
-        chi2_red (float): The reduced chi-squared of the fit.
-        temperatures (pd.DataFrame): DataFrame mapping the inputted time since explosion and temperatures data, including their uncertainties
+    Attributes
+    ------------
+        tExplosion : float
+            Supernova time of explosion in MJD.
+        norm : float
+            Best-fit normalization for the power-law model.
+        lo_norm_err : float
+            Lower uncertainty of the normalization.
+        hi_norm_err : float
+            Upper uncertainty of the normalization.
+        exp : float
+            Best-fit exponent for the power-law model.
+        lo_exp_err : float
+            Lower uncertainty of the exponent.
+        hi_exp_err : float
+            Upper uncertainty of the exponent.
+        chi2_red : float
+            The reduced chi-squared of the fit.
+        temperatures : pandas.DataFrame
+            Estimated temperatures wrapped in a DataFrame table with columns
+            ``['time_since_explosion', 'lo_time_err', 'hi_time_err', 'temperature', 'lo_temp_err', 'hi_temp_err']``
     """
     
     def __init__(self, tExplosion: float | None = None, norm: float | None = None, 
                  exponent: float | None = None):
+        """Initialization of the :py:class:`~xspec.temperature.TemperatureEstimator` class
+
+        Parameters
+        ----------
+            tExplosion : float, optional
+                Supernova time of explosion in MJD. If ``None``, must be set before estimating. Defaults to ``None``.
+            norm : float, optional
+                Normalization for the power-law model (if known). Defaults to ``None``.
+            exponent : float, optional
+                Exponent for the power-law model (if known). Defaults to ``None``.
+        """
+        
         self.tExplosion = tExplosion
         self.norm = norm
         self.lo_norm_err = 0
@@ -64,26 +85,41 @@ class TemperatureEstimator:
                         show_plots=True):
         
         """
-        Fit a power-law T = norm * t^exp to the data, either via MCMC or simple least-squares.
+        Fit a power-law :math:`T(t) = \\mathrm{norm} \\times t^{\mathrm{exp}}` to the data, 
+        either via Markov chain Monte-Carlo (MCMC) or simple least-squares (:py:func:`~scipy.optimize.curve_fit`).
 
-        Args:
-            time_since_explosion (array_like): Times since explosion (days).
-            temperature (array_like): Observed temperatures.
-            mcmc (bool, optional): If True, use MCMC (fit_powerlaw_asymmetric + compute_chi2_powerlaw).
-                                   If False, use simple fit (fit_powerlaw_simple + compute_chi2_powerlaw_simple).
-                                   Defaults to True.
-            temp_err_lo (array_like, optional): Lower uncertainty on temperature. Defaults to None.
-            temp_err_hi (array_like, optional): Upper uncertainty on temperature. Defaults to None.
-            time_err_lo (array_like, optional): Lower uncertainty on time. Defaults to None.
-            time_err_hi (array_like, optional): Upper uncertainty on time. Defaults to None.
-            nwalkers (int, optional): Number of MCMC walkers. Defaults to 200.
-            nsteps (int, optional): Number of MCMC steps per walker. Defaults to 6000.
-            nburn (int, optional): Number of burn-in steps to discard. Defaults to 1000.
-            show_plots (bool, optional): If True, display fitted and residual plots. Defaults to True.
+        Parameters
+        ----------
+            time_since_explosion : array_like
+                Times since explosion in days.
+            temperature : array_like
+                Observed/fitted temperatures data.
+            mcmc : bool, optional
+                If ``True``, use MCMC. If False, use :func:`~scipy.optimize.curve_fit`.
+                Defaults to ``True``.
+            temp_err_lo : array_like, optional
+                Lower uncertainty on temperature. Defaults to ``None``.
+            temp_err_hi : array_like, optional
+                Upper uncertainty on temperature. Defaults to ``None``.
+            time_err_lo : array_like, optional
+                Lower uncertainty on time. Defaults to ``None``.
+            time_err_hi : array_like, optional
+                Upper uncertainty on time. Defaults to ``None``.
+            nwalkers : int, optional
+                Number of MCMC walkers. Defaults to ``200``.
+            nsteps : int, optional
+                Number of MCMC steps per walker. Defaults to ``6000``.
+            nburn : int, optional
+                Number of burn-in steps to discard. Defaults to ``1000``.
+            show_plots (bool, optional
+                If ``True``, display fitted and residual plots. Defaults to ``True``.
 
-        Returns:
-            TemperatureEstimator: self, with `norm`, `exp`, `lo_norm_err`, `hi_norm_err`,
-                                  `lo_exp_err`, `hi_exp_err`, and `chi2_red` all set.
+        Returns
+        ---------
+            *self* : TemperatureEstimator
+                The same :py:class:`~xsnap.temperature.TemperatureEstimator` class with 
+                :py:attr:`norm`, :py:attr:`exp`, :py:attr:`lo_norm_err`, :py:attr:`hi_norm_err`, 
+                :py:attr:`lo_exp_err`, :py:attr:`hi_exp_err`, and :py:attr:`chi2_red` all set.
         """
         
         norm, lo_norm_err, hi_norm_err, exp, lo_exp_err, hi_exp_err, chain = fit_powerlaw_asymmetric(time_since_explosion, temperature, 
@@ -171,25 +207,35 @@ class TemperatureEstimator:
     def estimate(self, time_since_explosion = None, t_err_lo = 0, t_err_hi = 0, 
                  file: str | None = None, files = None, tExplosion = None):
         """
-        Estimate temperature(s) at given time(s) or from FITS file(s) and append to `temperatures`.
+        Estimate temperature(s) at given time(s) or from FITS file(s) and append to :py:attr:`temperatures`.
 
-        Args:
-            time_since_explosion (float or array_like, optional): Time(s) since explosion.
-            t_err_lo (float or array_like, optional): Lower time error(s). Defaults to 0.
-            t_err_hi (float or array_like, optional): Upper time error(s). Defaults to 0.
-            file (str, optional): Single FITS file to read time from.
-            files (list of str, optional): List of FITS files to read times from.
-            tExplosion (float, optional): Explosion time (MJD), if not already set.
+        Parameters
+        -----------
+            time_since_explosion : float or array_like, optional
+                Time(s) since explosion in days.
+            t_err_lo : float or array_like, optional
+                Lower time error(s). Defaults to 0.
+            t_err_hi : float or array_like, optional
+                Upper time error(s). Defaults to 0.
+            file : str, optional
+                Single FITS file to read time from.
+            files : list of str, optional
+                List of FITS files to read times from.
+            tExplosion : float, optional
+                Explosion time (MJD), if not already set.
 
-        Returns:
-            pandas.DataFrame: Updated `temperatures` table with columns
-                              ['time_since_explosion', 'lo_time_err', 'hi_time_err',
-                               'temperature', 'lo_temp_err', 'hi_temp_err'].
+        Returns
+        ---------
+            Temperatures : pandas.DataFrame
+                The :py:attr:`temperatures` table wrapped in DataFrame with columns
+                ``['time_since_explosion', 'lo_time_err', 'hi_time_err', 'temperature', 'lo_temp_err', 'hi_temp_err']``.
 
-        Raises:
-            RuntimeError: If neither `time_since_explosion` nor `file`/`files` provided,
-                          or if model parameters have not been fitted,
-                          or if `tExplosion` is still unset when reading FITS.
+        Raises
+        -------
+            RuntimeError
+                If neither ``time_since_explosion`` nor ``file`` or ``files`` provided,
+                or if model parameters have not been fitted,
+                or if ``tExplosion`` is still unset when reading FITS.
         """
         
         if time_since_explosion is None and file is None and files is None:

@@ -2,8 +2,8 @@
 """
 Pipeline module to generate 500–8000 eV images, PSF maps, and extracted spectra from a Chandra evt2 file.
 
-Automates the standard CIAO workflow:
-  1. Verify the user’s Conda environment.
+Streamline the standard CIAO workflow:
+  1. Locate the user’s Conda environment.
   2. Locate the appropriate aspect solution (.asol1.fits) and mask (.msk1.fits) files.
   3. Run dmcopy to filter CCD 7 events in 500–8000 eV and bin to a small image.
   4. Create a PSF map at 1.4967 keV with 90% encircled-energy fraction.
@@ -13,8 +13,8 @@ Usage:
     extract-chandra <COND ENV> <EVT2_FILE> <SRC_REG> <BKG_REG> [OUTDIR]
 
 Positional arguments:
-  COND ENV     Name of the Conda environment to check against $CONDA_DEFAULT_ENV.
-  EVT2_FILE    Path to the Chandra level-2 event file.
+  COND_ENV     Name of the Conda environment to check against $CONDA_DEFAULT_ENV.
+  EVT_FILE    Path to the Chandra level-2 event file.
   SRC_REG      Source region (filename or literal sky region).
   BKG_REG      Background region (filename or literal sky region).
   OUTDIR       Optional directory for outputs (defaults to EVT2_FILE’s directory).

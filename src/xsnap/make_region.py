@@ -10,7 +10,7 @@ This script produces two region files for automated processing:
      • First-pass annulus from r_in to r_out (″).
      • If an XIMAGE detection (excluding the source) overlaps, relocates the
        background to a single circle of radius r_out (″) at the first clean spot
-       ≥1′ from the source.
+       within around 1′ from the source.
 Command-line usage:
     make_region <evtfile> <ra> <dec> [r_in] [r_out] [outdir]
                 [--ds9 DS9_PATH] [--expimg EXP_IMG]

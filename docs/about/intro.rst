@@ -61,9 +61,3 @@ There are six scripts available for users to run:
      - Generate ICRS source/background region files.  
        (Physical region files will also be made if you have DS9)
 
-
-
-Citing
-============
-
-We will publish a research letter and users can cite our letter when publishing research with our pipeline. 

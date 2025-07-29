@@ -2,14 +2,14 @@
 """
 Pipeline module to run Swift/XRT processing in PC Mode across multiple epochs and stack time-binned products.
 
-Automates the full workflow:
+Automates the stacking workflow:
   1. Executes xrtpipeline for each epoch listed in a text file, producing calibrated event and image files.
   2. Bins the resulting event (.evt) and image (.img) files into time intervals (days since explosion) of user-defined size.
   3. Stacks events and images in each bin into dedicated subdirectories under `stacks/`, named by their first–last epochs.
   4. Updates the stacked event files with MJD-BEG and MJD-END headers.
 
 Usage:
-    swift-stack \
+    swift-stack-pc \
       --epochs source_epochs.txt \
       --bin-size 2 \
       --explosion-mjd 59000.5 \

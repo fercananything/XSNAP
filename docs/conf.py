@@ -8,6 +8,7 @@
 
 import os
 import sys
+import astropy.units as u
 
 sys.path.insert(0, os.path.abspath("../src"))
 
@@ -42,6 +43,8 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx_autodoc_typehints",
     "sphinx_design",
+    "sphinx.ext.intersphinx",
+    "nbsphinx",
 ]
 
 autodoc_mock_imports = [
@@ -49,6 +52,7 @@ autodoc_mock_imports = [
     "pandas",
     "astropy",
     "astropy.time",
+    "astropy.units",
     "erfa",
     "matplotlib",
     "matplotlib.pyplot",
@@ -57,7 +61,27 @@ autodoc_mock_imports = [
     "scipy"
 ]
 
-autodoc_typehints = "none"
+intersphinx_mapping = {
+    "python": ("https://docs.python.org/3", None),
+    "scipy":  ("https://docs.scipy.org/doc/scipy/", None),
+    "pandas": ("https://pandas.pydata.org/pandas-docs/stable/", None),
+}
+
+# autodoc_typehints = "none"
+
+autodoc_default_options = {
+  "members": True,
+  "undoc-members": True,
+  "show-inheritance": True,
+}
+
+add_module_names = False
+
+napoleon_numpy_docstring = True
+napoleon_google_docstring = False
+
+napoleon_use_param = True
+napoleon_use_rtype = False  
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output

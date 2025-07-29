@@ -10,12 +10,12 @@ Quick usage
 -----------
 Full calibration + extraction (PC mode):
 
-    extract 00012345001 src.reg bkg.reg \
+    extract-swift 00012345001 src.reg bkg.reg \
         --src-ra 150.123 --src-dec -12.345 --mode PC
 
 Skip the pipeline, work on existing events/images:
 
-    extract --no-pipe 00012345001 src.reg bkg.reg \
+    extract-swift --no-pipe 00012345001 src.reg bkg.reg \
         --indir ./events --evt sw00012345001xpcw3po_cl.evt
 
 Positional arguments
