@@ -34,6 +34,11 @@ jobs:
         pip install -e .
         # install everything your conf.py and autodoc really import
         pip install astropy numpy pandas matplotlib scipy emcee corner
+        pip install sphinx \
+                sphinx-autodoc-typehints \
+                sphinx-design \
+                pydata-sphinx-theme
+        pip install "nbsphinx < 8.0.0"
 
     - name: Install Sphinx and extensions
       run: |
