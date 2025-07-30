@@ -16,6 +16,7 @@ and API references are on :ref:`this page <api>`
 
    About <intro>
    Installation <install>
+   starting
    Development <development>
    Publication <publication>
    

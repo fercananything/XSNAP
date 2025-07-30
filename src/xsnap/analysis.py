@@ -424,9 +424,9 @@ class CSMAnalysis:
             z : float, optional
                 redshift to source.
             mu_e : float, optional
-                mean molecular weight per electron. Defaults to ``1.14``. `(E. A. Zimmerman et al. 2024) <http://doi.org/10.1038/s41586-024-07116-6>`_
+                mean molecular weight per electron. Defaults to ``1.14`` (solar value).
             mu_ion : float, optional
-                mean molecular weight per ion. Defaults to ``1.24``. `(E. A. Zimmerman et al. 2024) <http://doi.org/10.1038/s41586-024-07116-6>`_
+                mean molecular weight per ion. Defaults to ``1.24`` (solar value).
             radius_ratio : float, optional
                 shock Rout/Rin ratio. Defaults to ``1.2``.
             f : int, optional
@@ -444,7 +444,7 @@ class CSMAnalysis:
             show_plots : bool, optional
                 If ``True``, display diagnostic plots. Defaults to ``True``.
             fit : bool, optional
-                If ``True``, will fit density and get mass-loss rate in :math:`\\rm g \ s^{-1}``. Defaults to ``True``
+                If ``True``, will fit density and get mass-loss rate in :math:`\\rm g \ s^{-1}`. Defaults to ``True``
 
         Raises
         ---------
@@ -457,7 +457,7 @@ class CSMAnalysis:
         Returns
         ---------
             Density : pandas.DataFrame 
-                Computed unshocked CSM density in :math:`\\rm g \ {cm}^{-3}`` wrapped in DataFrame table with columns
+                Computed unshocked CSM density in :math:`\\rm g \ {cm}^{-3}` wrapped in DataFrame table with columns
                 ``['time_since_explosion', 'rho', 'lo_rho_err', 'hi_rho_err']``
         """
         H0 = H0 * u.km / u.s / u.Mpc

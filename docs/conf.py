@@ -58,7 +58,8 @@ autodoc_mock_imports = [
     "matplotlib.pyplot",
     "emcee",
     "corner",
-    "scipy"
+    "scipy",
+    "xspec"
 ]
 
 intersphinx_mapping = {
