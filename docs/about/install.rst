@@ -11,12 +11,11 @@ Installing XSNAP
 We strongly recommend that you make use of Python virtual environments, 
 or (even better) Conda virtual environments when installing XSNAP.
 
-Currently, XSNAP is in its development phase. It is available for download 
-at the Testing Python Package Index (TestPyPI) in `here <https://test.pypi.org/project/xsnap/>`_.
+Currently, `XSNAP <https://pypi.org/p/xsnap>`_ is available for download in the popular Python Package Index (PyPI) .
 
 .. code-block:: bash
 
-   pip install -i https://test.pypi.org/simple/ xsnap
+   pip install xsnap
 
 Additionally, XSNAP should be able to be downloaded by cloning this Github repository and run:
 

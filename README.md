@@ -28,7 +28,7 @@ More analysis functions can be made upon requests :)
 
 We strongly recommend that you make use of Python virtual environments, or (even better) Conda virtual environments when installing XSNAP. 
 
-Currently, XSNAP is available for download in the popular Python Package Index (PyPI) [here](https://pypi.org/p/xsnap).
+Currently, [XSNAP](https://pypi.org/p/xsnap) is available for download in the popular Python Package Index (PyPI).
 ```shell script
 pip install xsnap
 ```

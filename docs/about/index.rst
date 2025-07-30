@@ -20,5 +20,9 @@ and API references are on :ref:`this page <api>`
    Development <development>
    Publication <publication>
    
+.. toctree::
+   :caption: Resources
+   :maxdepth: 1
 
-
+   API Reference <../api/index>
+   ../examples/index

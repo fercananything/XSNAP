@@ -2,8 +2,8 @@ name: Publish XSNAP to PyPI and TestPyPI
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]          # build + (optionally) publish to TestPyPI
+    tags:     [ 'v*' ]          # build + publish to PyPI on tags like v0.2.0
     paths-ignore:
       - 'docs/**'
       - '.github/workflows/documentation.yml'
@@ -38,6 +38,7 @@ jobs:
   publish-to-pypi:
     name: >-
       Publish XSNAP to PyPI
+    if: github.ref_type == 'tag' && startsWith(github.ref_name, 'v')   # <— only on tag pushes
     needs:
     - build
     runs-on: ubuntu-latest
@@ -58,6 +59,7 @@ jobs:
 
   publish-to-testpypi:
     name: Publish XSNAP to TestPyPI
+    if: github.ref_type == 'branch' && github.ref_name == 'main'
     needs:
     - build
     runs-on: ubuntu-latest

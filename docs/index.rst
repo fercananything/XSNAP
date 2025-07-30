@@ -46,12 +46,12 @@ Swift-XRT, XMM-Newton, and NuSTAR data.
 
       +++
 
-      .. button-ref:: about/install
+      .. button-ref:: about/starting
          :expand:
          :color: danger
          :click-parent:
 
-         Go to installation
+         Go to quickstart guide
 
    .. grid-item-card::
       :img-top: _static/index-images/user_guide.svg
