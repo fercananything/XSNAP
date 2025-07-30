@@ -40,16 +40,12 @@ Options:
     --help      Show help message
 
 Usage formula:
-    .. code-block:: bash
-
-        extract-xmm <ODF_DIR> <source.reg> <PNbkg.reg> [MOS1bkg.reg] [MOS2bkg.reg] [OUTDIR]
+    >>> extract-xmm <ODF_DIR> <source.reg> <PNbkg.reg> [MOS1bkg.reg] [MOS2bkg.reg] [OUTDIR]
 
 Usage examples:
-    .. code-block:: bash
-
-        extract-xmm ./0882480901/odf/ sou_PN_physical.reg bkg_PN_physical.reg \ 
-            bkg_MOS1_physical.reg bkg_MOS2_physical.reg ./0882480901
-        extract-xmm ./0882480901/odf/ sou_physical.reg bkg_physical.reg
+    >>> extract-xmm ./0882480901/odf/ sou_PN_physical.reg bkg_PN_physical.reg \ 
+    ...        bkg_MOS1_physical.reg bkg_MOS2_physical.reg ./0882480901
+    >>> extract-xmm ./0882480901/odf/ sou_physical.reg bkg_physical.reg
 
 Requirements:
   - `SAS (Science Analysis System) <https://www.cosmos.esa.int/web/xmm-newton/what-is-sas>`_ must be installed.

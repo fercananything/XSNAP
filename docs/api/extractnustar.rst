@@ -26,16 +26,12 @@ Options:
 
 
 Usage formula:
-    .. code-block:: bash
-
-        extract-nustar <OBSID> <SRC_REG> <BKG_REG> \
-            [--indir DIR] [--outdir DIR] [--ra RA --dec DEC] [--no-pipe]
+    >>> extract-nustar <OBSID> <SRC_REG> <BKG_REG> \
+    ...      [--indir DIR] [--outdir DIR] [--ra RA --dec DEC] [--no-pipe]
 
 Usage examples:
-    .. code-block:: bash
-
-        extract-nustar 80902505002 source.reg bkg.reg
-        extract-nustar 80902505002 source.reg bkg.reg --ra 178.231 --dec 15.572
+    >>> extract-nustar 80902505002 source.reg bkg.reg
+    >>> extract-nustar 80902505002 source.reg bkg.reg --ra 178.231 --dec 15.572
 
 Outputs:
     1. Same outputs as `nupipeline <https://heasarc.gsfc.nasa.gov/docs/software/lheasoft/help/nupipeline.html>`_ (in ``./output/<OBSID>`` directory) and `nuproducts <https://heasarc.gsfc.nasa.gov/docs/software/lheasoft/help/nuproducts.html>`_ (in ``./products/<OBSID>`` directory)

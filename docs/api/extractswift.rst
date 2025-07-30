@@ -58,24 +58,19 @@ Options:
   --help             Show help message
 
 Usage formula:
-    .. code::
-
-        extract-swift OBSID SRC_REG BKG_REG [--indir DIR] [--outdir DIR] \
-            [--src-ra RA] [--src-dec DEC] [--mode {PC | WT}] [--no-pipe] \
-            [--evt /path/to/evt] [--img /path/to/img]
+    >>> extract-swift OBSID SRC_REG BKG_REG [--indir DIR] [--outdir DIR] \
+    ...     [--src-ra RA] [--src-dec DEC] [--mode {PC | WT}] [--no-pipe] \
+    ...     [--evt /path/to/evt] [--img /path/to/img]
 
 Usage examples:
     Full calibration + extraction (PC mode):
 
-    .. code:: bash
-
-        extract 00012345001 src.reg bkg.reg --src-ra 150.123 --src-dec -12.345 --mode PC
+      >>> extract 00012345001 src.reg bkg.reg --src-ra 150.123 --src-dec -12.345 --mode PC
 
     Skip the pipeline, work on existing events/images:
 
-    .. code:: bash
-
-        extract --no-pipe 00012345001 src.reg bkg.reg --indir ./events --evt sw00012345001xpcw3po_cl.evt
+      >>> extract --no-pipe 00012345001 src.reg bkg.reg \
+      ...     --indir ./events --evt sw00012345001xpcw3po_cl.evt
 
 Output files:
     1. PC mode: 

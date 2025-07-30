@@ -928,6 +928,24 @@ class SpectrumFit:
         -------
             ValueError
                 If neither distance nor redshift is provided.
+        
+        .. note::
+            If ``distance`` is not supplied, it is inferred from ``redshift`` via the Doppler relation:
+            
+            .. math::
+                v = 
+                \\begin{cases}
+                    c\,z, & z \\ll 1, \\\\
+                    c\,\\frac{(1 + z)^2 - 1}{(1 + z)^2 + 1}, & \\text{otherwise.}
+                \\end{cases}
+                
+            and then:
+
+            .. math::
+                d = \\frac{v}{H_0} \ (\\mathrm{Mpc}).
+            
+            References:
+                Hogg, D. W. (1999). *Distance measures in cosmology*. `arXiv:astro-ph/9905116 <https://doi.org/10.48550/arXiv.astro-ph/9905116>`_
         """
         # ── distance (Mpc) & its asymmetric errors ───────────────────────────
         if distance is None and redshift is None:

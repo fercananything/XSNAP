@@ -40,16 +40,12 @@ Output files (inside ``OUTDIR``):
     the obsid is fundamentally the parent of the parent directory of the event file.
 
 Usage formula:
-    .. code-block:: bash
-
-        extract-chandra <COND_ENV> <EVT_FILE> <SRC_REG> <BKG_REG> [OUTDIR]
+    >>> extract-chandra <COND_ENV> <EVT_FILE> <SRC_REG> <BKG_REG> [OUTDIR]
 
 Usage examples:
-    .. code-block:: bash
-        
-        extract-chandra myenv /data/obs/1234/primary/event.fits src.reg bkg.reg
-        extract-chandra myenv /data/obs/1234/primary/event.fits src.reg bkg.reg ./output 
-        extract-chandra -h # for help
+    >>> extract-chandra myenv /data/obs/1234/primary/event.fits src.reg bkg.reg
+    >>> extract-chandra myenv /data/obs/1234/primary/event.fits src.reg bkg.reg ./output 
+    >>> extract-chandra -h # for help
 
 Requirements:
   • `CIAO <https://cxc.harvard.edu/ciao/>`_ (including ``dmcopy``, ``mkpsfmap``, ``specextract``) installed.

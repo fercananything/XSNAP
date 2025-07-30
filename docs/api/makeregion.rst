@@ -30,16 +30,12 @@ Output files:
   4. ``bkg_physical.reg`` : background region in physical coordinates (will only be generated if DS9 is executable)
 
 Usage formula:
-    .. code-block:: bash
+    >>> make_region <evtfile> <ra> <dec> [r_in] [r_out] [outdir] [--ds9 DS9_PATH] [--expimg EXP_IMG]
 
-        make_region <evtfile> <ra> <dec> [r_in] [r_out] [outdir] [--ds9 DS9_PATH] [--expimg EXP_IMG]
-
-Usage examples:
-    .. code-block:: bash
-
-        make_region /path/to/event.fits 169.532 -32.456
-        make_region /path/to/event.fits --expimg /path/to/exposure.img 169.532 -32.456
-        make_region /path/to/event.fits --expimg /path/to/exposure.img 169.532 -32.456 25 150 ./output/
+Usage examples: 
+    >>> make_region /path/to/event.fits 169.532 -32.456
+    >>> make_region /path/to/event.fits --expimg /path/to/exposure.img 169.532 -32.456
+    >>> make_region /path/to/event.fits --expimg /path/to/exposure.img 169.532 -32.456 25 150 ./output/
 
 Optional requirements:
     - `DS9 <https://sites.google.com/cfa.harvard.edu/saoimageds9>`_ for more interactive region adjustments

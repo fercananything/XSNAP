@@ -62,24 +62,19 @@ Output:
    - Inside the subdirectories of ``./stacks/``, there will be a cleaned evt file (format: `evt_{obsid1}to{obsid2}.evt`) and exposure image file (format: `img_{obsid1}to{obsid2}.img`).
 
 Usage formula:
-    .. code-block:: bash
-
-        swift-stack-pc [--epochs] [--bin-size] [--explosion-mjd] \
+    >>> swift-stack-pc [--epochs] [--bin-size] [--explosion-mjd] \
             [--src-ra] [--src-dec] [--pn-tra] [--pn-dec]
 
 Usage examples:
-    .. code-block:: bash
-
-        swift-stack-pc --epochs source_epochs.txt \
-            --bin-size 2.0 \
-            --explosion-mjd 59000.5 \
-            --src-ra <RA> \
-            --src-dec <Dec> \
-
-        swift-stack-pc --epochs ./path/to/epochs.txt \
-            --explosion-mjd 59000.5 \
-            --src-ra <RA> \
-            --src-dec <Dec> \
+    >>> swift-stack-pc --epochs source_epochs.txt \
+    ...    --bin-size 2.0 \
+    ...    --explosion-mjd 59000.5 \
+    ...    --src-ra <RA> \
+    ...    --src-dec <Dec> \
+    >>> swift-stack-pc --epochs ./path/to/epochs.txt \
+    ...    --explosion-mjd 59000.5 \
+    ...    --src-ra <RA> \
+    ...    --src-dec <Dec> \
             
 
     

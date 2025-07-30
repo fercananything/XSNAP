@@ -149,6 +149,25 @@ class CSMAnalysis:
                 If more than one bremss model is present.
             ValueError
                 If required tables/columns are missing.
+                
+        .. note::
+        
+            If ``distance`` is not supplied, it is inferred from ``redshift`` via the Doppler relation:
+            
+            .. math::
+                v = 
+                \\begin{cases}
+                    c\,z, & z \\ll 1, \\\\
+                    c\,\\frac{(1 + z)^2 - 1}{(1 + z)^2 + 1}, & \\text{otherwise.}
+                \\end{cases}
+                
+            and then:
+
+            .. math::
+                d = \\frac{v}{H_0} \ (\\mathrm{Mpc}).
+            
+            References:
+                Hogg, D. W. (1999). *Distance measures in cosmology*. `arXiv:astro-ph/9905116 <https://doi.org/10.48550/arXiv.astro-ph/9905116>`_
         """
         H0 = H0 * u.km / u.s / u.Mpc
         self.manager = manager
@@ -446,6 +465,12 @@ class CSMAnalysis:
             fit : bool, optional
                 If ``True``, will fit density and get mass-loss rate in :math:`\\rm g \ s^{-1}`. Defaults to ``True``
 
+        Returns
+        ---------
+            Density : pandas.DataFrame 
+                Computed unshocked CSM density in :math:`\\rm g \ {cm}^{-3}` wrapped in DataFrame table with columns
+                ``['time_since_explosion', 'rho', 'lo_rho_err', 'hi_rho_err']``
+                
         Raises
         ---------
             RuntimeError
@@ -453,12 +478,25 @@ class CSMAnalysis:
                 ``['bremss_norm', 'lo_bremss_norm_err', 'hi_bremss_norm_err', 'time_since_explosion']``
             ValueError
                 When distance or redshift is not entered
+                
+        .. note::
+        
+            If ``distance`` is not supplied, it is inferred from ``redshift`` via the Doppler relation:
+            
+            .. math::
+                v = 
+                \\begin{cases}
+                    c\,z, & z \\ll 1, \\\\
+                    c\,\\frac{(1 + z)^2 - 1}{(1 + z)^2 + 1}, & \\text{otherwise.}
+                \\end{cases}
+                
+            and then:
 
-        Returns
-        ---------
-            Density : pandas.DataFrame 
-                Computed unshocked CSM density in :math:`\\rm g \ {cm}^{-3}` wrapped in DataFrame table with columns
-                ``['time_since_explosion', 'rho', 'lo_rho_err', 'hi_rho_err']``
+            .. math::
+                d = \\frac{v}{H_0} \ (\\mathrm{Mpc}).
+            
+            References:
+                Hogg, D. W. (1999). *Distance measures in cosmology*. `arXiv:astro-ph/9905116 <https://doi.org/10.48550/arXiv.astro-ph/9905116>`_
         """
         H0 = H0 * u.km / u.s / u.Mpc
         v_wind = v_wind * u.km / u.s
