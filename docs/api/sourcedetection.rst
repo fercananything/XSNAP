@@ -1,10 +1,10 @@
-.. _detect:
+.. _SourceDetection:
 
-*************************************
-Detect (:code:`xsnap.detect`)
-*************************************
+************************************************
+SourceDetection (:code:`xsnap.SourceDetection`)
+************************************************
 
-.. module:: xsnap.detect.SourceDetection
+.. module:: xsnap.SourceDetection
 
 .. list-table::
       :widths: 50 50
@@ -25,7 +25,7 @@ Detect (:code:`xsnap.detect`)
       * - :py:meth:`show_source`
         - :py:attr:`tExplosion`
 
-.. currentmodule:: xsnap.detect
+.. currentmodule:: xsnap
 
 .. autoclass:: SourceDetection
     :members:

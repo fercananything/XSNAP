@@ -1,11 +1,11 @@
 .. _spectrum.SpectrumFit:
 
 
-###########
-SpectrumFit
-###########
+########################################
+SpectrumFit (:code:`xsnap.SpectrumFit`)
+########################################
 
-.. module:: xsnap.spectrum.SpectrumFit
+.. module:: xsnap.SpectrumFit
 
 .. list-table::
       :widths: 50 50
@@ -46,7 +46,7 @@ SpectrumFit
       * - :py:meth:`get_lumin`
         - 
 
-.. currentmodule:: xsnap.spectrum
+.. currentmodule:: xsnap
 
 .. autoclass:: SpectrumFit
    :members:

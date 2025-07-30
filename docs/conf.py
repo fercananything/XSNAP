@@ -9,6 +9,7 @@
 import os
 import sys
 import astropy.units as u
+from importlib.metadata import version
 
 sys.path.insert(0, os.path.abspath("../src"))
 
@@ -17,12 +18,16 @@ project = 'XSNAP'
 copyright = '2025, Ferdinand, Wynn V. Jacobson-Galan, and Mansi M. Kasliwal'
 author = 'Ferdinand, Wynn V. Jacobson-Galan, Mansi M. Kasliwal'
 
-import xsnap
+# import xsnap
+
+project = "XSNAP"
+release = version("xsnap")
+version = release
 
 # Sphinx’s “short” version (major.minor)
-version = xsnap.__version__
+# version = xsnap.__version__
 # Sphinx’s “full” release string (can include patch, alpha/beta tags)
-release = xsnap.__version__
+# release = xsnap.__version__
 
 # There are two options for replacing |today|: either, you set today to some
 # non-false value, then it is used:

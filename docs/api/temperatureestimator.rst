@@ -1,11 +1,11 @@
 .. _temperature:
 
-*******************************************
-Temperature (:code:`xsnap.temperature`)
-*******************************************
+*************************************************************
+TemperatureEstimator (:code:`xsnap.TemperatureEstimator`)
+*************************************************************
 
 
-.. module:: xsnap.temperature.TemperatureEstimator
+.. module:: xsnap.TemperatureEstimator
 
 .. list-table::
       :widths: 50 50
@@ -32,7 +32,7 @@ Temperature (:code:`xsnap.temperature`)
       * -
         - :py:attr:`temperatures`
 
-.. currentmodule:: xsnap.temperature
+.. currentmodule:: xsnap
 
 .. autoclass:: TemperatureEstimator
     :members:

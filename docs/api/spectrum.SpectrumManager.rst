@@ -1,10 +1,10 @@
 .. _spectrum.SpectrumManager:
 
-################
-SpectrumManager
-################
+################################################
+SpectrumManager (:code:`xsnap.SpectrumManager`)
+################################################
 
-.. module:: xsnap.spectrum.SpectrumManager
+.. module:: xsnap.SpectrumManager
 
 
 .. list-table::
@@ -30,7 +30,7 @@ SpectrumManager
         * - :py:meth:`plot_params`
           - 
 
-.. currentmodule:: xsnap.spectrum
+.. currentmodule:: xsnap
 
 .. autoclass:: SpectrumManager
    :members:

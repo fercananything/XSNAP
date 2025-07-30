@@ -1,10 +1,10 @@
-.. _analysis:
+.. _CSMAnalysis:
 
-*************************************
-Analysis (:code:`xsnap.analysis`)
-*************************************
+****************************************
+CSMAnalysis (:code:`xsnap.CSMAnalysis`)
+****************************************
 
-.. module:: xsnap.analysis.CSMAnalysis
+.. module:: xsnap.CSMAnalysis
 
 .. list-table::
       :widths: 50 50
@@ -33,7 +33,7 @@ Analysis (:code:`xsnap.analysis`)
       * - :py:meth:`plot_temp`
         -
 
-.. currentmodule:: xsnap.analysis
+.. currentmodule:: xsnap
 
 .. autoclass:: CSMAnalysis
     :members:

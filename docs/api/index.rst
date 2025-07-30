@@ -16,9 +16,9 @@ included in XSNAP, describing what they are and what they do.
     :maxdepth: 1
 
     spectrum
-    detect
-    analysis
-    temperature
+    sourcedetection
+    csmanalysis
+    temperatureestimator
 
 
 .. toctree::

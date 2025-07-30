@@ -61,3 +61,21 @@ There are six scripts available for users to run:
      - Generate ICRS source/background region files.  
        (Physical region files will also be made if you have DS9)
 
+And there are five Python classes to call:
+
+.. list-table::
+   :widths: 20 80
+   :header-rows: 1
+
+   * - **Class**
+     - **Description**
+   * - :py:class:`~xsnap.SpectrumFit`
+     - Model a spectrum and estimate best-fit parameters.
+   * - :py:class:`~xsnap.SpectrumManager`
+     - Handling and compiling a collection of :py:class:`~xsnap.SpectrumFit`, streamlining bulk analysis of spectra.
+   * - :py:class:`~xsnap.SourceDetection`
+     - Bin & stack Swift-XRT PC-mode data (default 1-day bins).
+   * - :py:class:`~xsnap.CSMAnalysis`
+     - Analyze the circumstellar medium of the supernova.
+   * - :py:class:`~xsnap.TemperatureEstimator`
+     - Estimate temperature at a certain time with power-law, given a set of data or best-fit parameters
