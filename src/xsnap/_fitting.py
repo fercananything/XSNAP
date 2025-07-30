@@ -11,6 +11,7 @@ YR_SEC  = 365.25*24*3600           # s
 MSUN_YR  = MSUN_G / YR_SEC     # 1 M⊙/yr  in g/s
 
 # Helper to fit asymmetric powerlaw
+
 def fit_powerlaw_asymmetric(
     x, y, yerr_lo, yerr_hi,
     xerr_lo=None, xerr_hi=None,
