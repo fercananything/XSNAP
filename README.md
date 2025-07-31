@@ -1,6 +1,6 @@
 [![PyPI - Version](https://img.shields.io/pypi/v/xsnap)](https://pypi.org/project/xsnap/) 
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/xsnap)](https://pypi.org/project/xsnap/)
-<!-- [![Downloads](https://img.shields.io/pepy/dt/xsnap)](https://pepy.tech/project/xsnap) -->
+[![Downloads](https://img.shields.io/pepy/dt/xsnap)](https://pepy.tech/project/xsnap)
 
 <p align="center">
   <picture>
