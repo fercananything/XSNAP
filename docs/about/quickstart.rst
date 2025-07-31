@@ -76,7 +76,14 @@ Quick CLI Usage
 
 Once installed, XSNAP command-line interface (CLI) scripts are easy and ready-to-use. 
 
-You can immediately use in terminal, e.g.,
+Initialize `HEASoft <https://heasarc.gsfc.nasa.gov/docs/software/heasoft/>`_ in the terminal first:
+
+    >>> export HEADAS=/path/to/heasoft/software
+    >>> source $HEADAS/headas-init.sh
+
+A quick :ref:`hint <hint-heasoft>` is also available above.
+
+Then, you can immediately use in terminal, e.g.,
 
     >>> extract-xmm ./0882480901/odf/ sou_physical.reg bkg_physical.reg
 
@@ -91,11 +98,6 @@ You can also run it in vanilla Python:
     ...        "/path/to/event/file", 
     ...        "169.59", "-32.83"]
     >>> subprocess.run(cmd)
-
-.. hint::
-
-    Initialize `HEASoft <https://heasarc.gsfc.nasa.gov/docs/software/heasoft/>`_ first,
-    refer to the :ref:`hint <hint-heasoft>` above.
 
 .. note::
 

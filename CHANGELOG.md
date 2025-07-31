@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.2.4] - 2025-07-30
+### Changed
+- Edit `__init__.py` to access the Python classes directly from XSNAP, e.g. `xsnap.SpectrumFit` instead of `xsnap.spectrum.SpectrumFit`
+
+
 ## [0.2.3] - 2025-07-30
 ### Changed
 - `__init__.py` to access the Python classes directly from XSNAP, e.g. `xsnap.SpectrumFit` instead of `xsnap.spectrum.SpectrumFit`
