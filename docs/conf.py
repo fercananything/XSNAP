@@ -24,10 +24,7 @@ project = "XSNAP"
 release = version("xsnap")
 version = release
 
-# Sphinx’s “short” version (major.minor)
-# version = xsnap.__version__
-# Sphinx’s “full” release string (can include patch, alpha/beta tags)
-# release = xsnap.__version__
+
 
 # There are two options for replacing |today|: either, you set today to some
 # non-false value, then it is used:
@@ -50,6 +47,7 @@ extensions = [
     "sphinx_design",
     "sphinx.ext.intersphinx",
     "nbsphinx",
+    'notfound.extension',
 ]
 
 autodoc_mock_imports = [
@@ -93,6 +91,8 @@ napoleon_use_rtype = False
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_favicon = '_static/xsnapicon.ico'
+project = "XSNAP"
+html_title = f"{project} v{version}"
 
 html_static_path = ['_static']
 html_css_files = ["custom.css"]
@@ -106,7 +106,7 @@ html_theme_options = {
     "navbar_align": "content",
     "logo": {
         "image_light": "_static/xsnaplogo.svg",
-        "image_dark": "_static/xsnaplogo_dark.svg",
+        "image_dark": "_static/logo/xsnap_logo_header_transparent_white.png",
     },
     "github_url": "https://github.com/fercananything/xsnap",
     "external_links": [
@@ -121,6 +121,19 @@ html_theme_options = {
 html_sidebars = {
 
 }
+
+notfound_context = {
+    "title": "Page not found",
+    "body": (
+        "<h1>Oops — page not found</h1>"
+        "<p>Use the search box or go back to the "
+        "<a href='/'>homepage</a>.</p>"
+    ),
+}
+
+# If you host at a subpath (e.g., GitHub Pages project site):
+# html_baseurl = "https://fercananything.github.io/XSNAP/"
+# notfound_urls_prefix = "/XSNAP/"
 
 
 

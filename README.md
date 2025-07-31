@@ -1,3 +1,7 @@
+[![PyPI - Version](https://img.shields.io/pypi/v/xsnap)](https://pypi.org/project/xsnap/) 
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/xsnap)](https://pypi.org/project/xsnap/)
+<!-- [![Downloads](https://img.shields.io/pepy/dt/xsnap)](https://pepy.tech/project/xsnap) -->
+
 <p align="center">
   <picture>
     <img src="https://raw.githubusercontent.com/fercananything/xsnap/main/docs/_static/logo/xsnap_logo_icon_crop.jpeg" alt="My Project logo" width="200px" />
