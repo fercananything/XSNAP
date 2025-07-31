@@ -22,7 +22,8 @@ XSNAP Documentation
 **Useful links**: 
 `Source Repository <https://github.com/fercananything/xsnap>`_ | 
 `Changelog <https://github.com/fercananything/XSNAP/blob/main/CHANGELOG.md>`_ |
-`Issue Tracker <https://github.com/fercananything/XSNAP/issues>`_
+`Issue Tracker <https://github.com/fercananything/XSNAP/issues>`_ |
+:doc:`about/publication`
 
 XSNAP (X-ray Supernova Analysis Pipeline) is a Python-based pipeline module that 
 automates every step of X-ray supernova data reduction and analysis, from raw event 
