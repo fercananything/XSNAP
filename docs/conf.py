@@ -127,7 +127,7 @@ notfound_context = {
     "body": (
         "<h1>Oops — page not found</h1>"
         "<p>Use the search box or go back to the "
-        "<a href='/'>homepage</a>.</p>"
+        "<a href='/XSNAP/index.html'>homepage</a>.</p>"
     ),
 }
 
