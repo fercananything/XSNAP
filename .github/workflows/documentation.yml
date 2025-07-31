@@ -47,7 +47,8 @@ jobs:
         pip install sphinx \
                 sphinx-autodoc-typehints \
                 sphinx-design \
-                pydata-sphinx-theme
+                pydata-sphinx-theme \
+                sphinx-notfound-page
         pip install "nbsphinx < 8.0.0"
         pip install sphinx_rtd_theme myst_parser
 
