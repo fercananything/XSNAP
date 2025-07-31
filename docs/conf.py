@@ -132,8 +132,8 @@ notfound_context = {
 }
 
 # If you host at a subpath (e.g., GitHub Pages project site):
-# html_baseurl = "https://fercananything.github.io/XSNAP/"
-# notfound_urls_prefix = "/XSNAP/"
+html_baseurl = "https://fercananything.github.io/XSNAP/"
+notfound_urls_prefix = "/XSNAP/"
 
 
 
