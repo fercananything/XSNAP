@@ -115,6 +115,9 @@ html_theme_options = {
     "secondary_sidebar_items": ["page-toc"],
     "header_links_before_dropdown": 6,
     "collapse_navigation": True,
+    "analytics": {
+        "google_analytics_id": "G-MJMZJK59M0",  # GA4 measurement ID
+    },
     # "show_toc_level": 2,
 }
 
