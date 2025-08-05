@@ -31,7 +31,7 @@ Dependencies
 
 .. _required-dependencies:
 Required Dependencies
--------------------------
+------------------------
 
 XSNAP analysis depends heavily on two non-Python softwares:
 
