@@ -13,4 +13,4 @@ from .temperature import TemperatureEstimator
 __all__ = [ "SpectrumFit", "SpectrumManager", "CSMAnalysis",
             "SourceDetection", "TemperatureEstimator"
             ]
-__version__ = "0.2.4"
+__version__ = "0.2.5"

@@ -87,4 +87,4 @@ A short tutorial on how to use XSNAP is available in jupyter notebooks [here](ht
 If you encounter a bug, or would like to make a feature request, please use the GitHub
 [issues](https://github.com/fercananything/XSNAP/issues) page.
 
-In addition, if you have further questions, feel free to send me an email at ferdinand.1238073@gmail.com or ff10@illinois.edu
+In addition, if you have further questions, feel free to send me an email at support@xsnap.org

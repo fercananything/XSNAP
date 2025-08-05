@@ -112,6 +112,14 @@ html_theme_options = {
     "external_links": [
         {"name": "Changelog", "url": "https://github.com/fercananything/XSNAP/blob/main/CHANGELOG.md"},
     ],
+    "icon_links": [
+        {
+            "name": "E-mail",
+            "url": "mailto:support@xsnap.org",
+            "icon": "fas fa-inbox",   
+            "type": "fontawesome",
+        },
+    ],
     "secondary_sidebar_items": ["page-toc"],
     "header_links_before_dropdown": 6,
     "collapse_navigation": True,
