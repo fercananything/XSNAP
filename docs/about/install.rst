@@ -36,7 +36,7 @@ Required Dependencies
 XSNAP analysis depends heavily on two non-Python softwares:
 
 * `HEASOFT <https://heasarc.gsfc.nasa.gov/docs/software/lheasoft/download.html>`_ - Version 6.35. 
-   Other recent versions should be compatible even if I have yet to test it.
+   Other recent versions should be compatible even if I have yet to test it. It is best to install all the packages; otherwise, install at least ``NuSTAR``, ``Swift``, all of ``General-Use FTOOLS``, and all of ``XANADU``.
 * `HEASOFT's PyXspec <https://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/python/html/buildinstall.html>`_ - Version 2.1.4 (or XSPEC - Version 12.15.0). 
    Other recent versions should be compatible even if I have yet to test it. 
    Additionally, PyXspec should be automatically installed when you install HEASOFT.
