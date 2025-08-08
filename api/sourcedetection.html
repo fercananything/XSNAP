@@ -1,0 +1,783 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>SourceDetection (xsnap.SourceDetection) &#8212; XSNAP v0.2.5</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=5d520e33" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=cb850272"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-MJMZJK59M0"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-MJMZJK59M0');
+            </script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-MJMZJK59M0');
+            </script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/sourcedetection';</script>
+    <link rel="canonical" href="https://xsnap.org/api/sourcedetection.html" />
+    <link rel="icon" href="../_static/xsnapicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CSMAnalysis (xsnap.CSMAnalysis)" href="csmanalysis.html" />
+    <link rel="prev" title="SpectrumManager (xsnap.SpectrumManager)" href="spectrum.SpectrumManager.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.2.5" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/xsnaplogo.svg" class="logo__image only-light" alt="XSNAP v0.2.5 - Home"/>
+    <img src="../_static/xsnap_logo_header_transparent_white.png" class="logo__image only-dark pst-js-only" alt="XSNAP v0.2.5 - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../about/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://github.com/fercananything/XSNAP/blob/main/CHANGELOG.md">
+    Changelog
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/fercananything/xsnap" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="mailto:support@xsnap.org" title="E-mail" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-inbox fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">E-mail</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../about/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://github.com/fercananything/XSNAP/blob/main/CHANGELOG.md">
+    Changelog
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/fercananything/xsnap" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="mailto:support@xsnap.org" title="E-mail" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-inbox fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">E-mail</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Python API</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="spectrum.html">Spectrum (<code class="code docutils literal notranslate"><span class="pre">xsnap.spectrum</span></code>)</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">SourceDetection (<code class="code docutils literal notranslate"><span class="pre">xsnap.SourceDetection</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="csmanalysis.html">CSMAnalysis (<code class="code docutils literal notranslate"><span class="pre">xsnap.CSMAnalysis</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="temperatureestimator.html">TemperatureEstimator (<code class="code docutils literal notranslate"><span class="pre">xsnap.TemperatureEstimator</span></code>)</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Scripts</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="makeregion.html">Making Region Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extractchandra.html">Extract CXO Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extractswift.html">Extract XRT Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="swiftstackpc.html">Stacking XRT Data (PC Mode)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extractnustar.html">Extract NuSTAR Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extractxmm.html">Extract XMM Data</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">XSNAP Reference</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">SourceDetection (<code class="code docutils literal notranslate"><span class="pre">xsnap.SourceDetection</span></code>)</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-xsnap.SourceDetection">
+<span id="sourcedetection-xsnap-sourcedetection"></span><span id="sourcedetection"></span><h1>SourceDetection (<code class="code docutils literal notranslate"><span class="pre">xsnap.SourceDetection</span></code>)<a class="headerlink" href="#module-xsnap.SourceDetection" title="Link to this heading">#</a></h1>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 50.0%" />
+<col style="width: 50.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Methods</strong></p></th>
+<th class="head"><p><strong>Attributes</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="#xsnap.SourceDetection.__iadd__" title="xsnap.SourceDetection.__iadd__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__iadd__()</span></code></a> (the <code class="docutils literal notranslate"><span class="pre">+=</span></code> operator)</p></td>
+<td><p><a class="reference internal" href="#xsnap.SourceDetection.pha_paths" title="xsnap.SourceDetection.pha_paths"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pha_paths</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#xsnap.SourceDetection.__init__" title="xsnap.SourceDetection.__init__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__init__()</span></code></a></p></td>
+<td><p><a class="reference internal" href="#xsnap.SourceDetection.evt_paths" title="xsnap.SourceDetection.evt_paths"><code class="xref py py-attr docutils literal notranslate"><span class="pre">evt_paths</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#xsnap.SourceDetection.clear" title="xsnap.SourceDetection.clear"><code class="xref py py-meth docutils literal notranslate"><span class="pre">clear()</span></code></a></p></td>
+<td><p><a class="reference internal" href="#xsnap.SourceDetection.exp_paths" title="xsnap.SourceDetection.exp_paths"><code class="xref py py-attr docutils literal notranslate"><span class="pre">exp_paths</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#xsnap.SourceDetection.detect_all" title="xsnap.SourceDetection.detect_all"><code class="xref py py-meth docutils literal notranslate"><span class="pre">detect_all()</span></code></a></p></td>
+<td><p><a class="reference internal" href="#xsnap.SourceDetection.results" title="xsnap.SourceDetection.results"><code class="xref py py-attr docutils literal notranslate"><span class="pre">results</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#xsnap.SourceDetection.load" title="xsnap.SourceDetection.load"><code class="xref py py-meth docutils literal notranslate"><span class="pre">load()</span></code></a></p></td>
+<td><p><a class="reference internal" href="#xsnap.SourceDetection.detect_tables" title="xsnap.SourceDetection.detect_tables"><code class="xref py py-attr docutils literal notranslate"><span class="pre">detect_tables</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#xsnap.SourceDetection.show_source" title="xsnap.SourceDetection.show_source"><code class="xref py py-meth docutils literal notranslate"><span class="pre">show_source()</span></code></a></p></td>
+<td><p><a class="reference internal" href="#xsnap.SourceDetection.tExplosion" title="xsnap.SourceDetection.tExplosion"><code class="xref py py-attr docutils literal notranslate"><span class="pre">tExplosion</span></code></a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="xsnap.SourceDetection">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SourceDetection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">evt_paths</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exp_paths</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pha_paths</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xsnap.SourceDetection" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A class to detect sources (via <a class="reference external" href="https://heasarc.gsfc.nasa.gov/docs/xanadu/ximage/ximage.html">XIMAGE</a>) with certain SNR (default SNR <span class="math notranslate nohighlight">\(\geq\)</span> 3) across multiple observation datasets.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="xsnap.SourceDetection.pha_paths">
+<span class="sig-name descname"><span class="pre">pha_paths</span></span><a class="headerlink" href="#xsnap.SourceDetection.pha_paths" title="Link to this definition">#</a></dt>
+<dd><p>Array of absoulte PHA (spectrum) file paths.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="xsnap.SourceDetection.evt_paths">
+<span class="sig-name descname"><span class="pre">evt_paths</span></span><a class="headerlink" href="#xsnap.SourceDetection.evt_paths" title="Link to this definition">#</a></dt>
+<dd><p>Array of absoulte EVT (event) file paths.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="xsnap.SourceDetection.exp_paths">
+<span class="sig-name descname"><span class="pre">exp_paths</span></span><a class="headerlink" href="#xsnap.SourceDetection.exp_paths" title="Link to this definition">#</a></dt>
+<dd><p>Array of absoulte EXP (exposure image) file paths.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="xsnap.SourceDetection.results">
+<span class="sig-name descname"><span class="pre">results</span></span><a class="headerlink" href="#xsnap.SourceDetection.results" title="Link to this definition">#</a></dt>
+<dd><p>Source detection results per event files, mapping <code class="docutils literal notranslate"><span class="pre">{evt_file:</span> <span class="pre">'detected'</span> <span class="pre">|</span> <span class="pre">'not</span> <span class="pre">detected'}</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)">dict</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="xsnap.SourceDetection.detect_tables">
+<span class="sig-name descname"><span class="pre">detect_tables</span></span><a class="headerlink" href="#xsnap.SourceDetection.detect_tables" title="Link to this definition">#</a></dt>
+<dd><p>Table of detected sources in an event files, mapping <code class="docutils literal notranslate"><span class="pre">{evt_file:</span> <span class="pre">pandas.DataFrame}</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)">dict</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v2.3.1)">pandas.DataFrame</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="xsnap.SourceDetection.tExplosion">
+<span class="sig-name descname"><span class="pre">tExplosion</span></span><a class="headerlink" href="#xsnap.SourceDetection.tExplosion" title="Link to this definition">#</a></dt>
+<dd><p>Supernova time of explosion in MJD</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="xsnap.SourceDetection.__iadd__">
+<span class="sig-name descname"><span class="pre">__iadd__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">files</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xsnap.SourceDetection.__iadd__" title="Link to this definition">#</a></dt>
+<dd><p>Append a dataset via <code class="docutils literal notranslate"><span class="pre">+=</span></code> with an array of length 1–3.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>files</strong> (<em>array_like</em>) – Files in an array_like with options: <code class="docutils literal notranslate"><span class="pre">(evt)</span></code>; <code class="docutils literal notranslate"><span class="pre">(pha,</span> <span class="pre">evt)</span></code>; or <code class="docutils literal notranslate"><span class="pre">(pha,</span> <span class="pre">evt,</span> <span class="pre">exp)</span></code></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt><em>self</em><span class="classifier">SourceDetection</span></dt><dd><p>The same <a class="reference internal" href="#xsnap.SourceDetection" title="xsnap.detect.SourceDetection"><code class="xref py py-class docutils literal notranslate"><span class="pre">SourceDetection</span></code></a> instance.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.13)"><strong>RuntimeError</strong></a> – If array length is not 1, 2, or 3.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#FileNotFoundError" title="(in Python v3.13)"><strong>FileNotFoundError</strong></a> – If any file does not exist.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="xsnap.SourceDetection.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">evt_paths</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exp_paths</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pha_paths</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xsnap.SourceDetection.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Initialization of the <a class="reference internal" href="#xsnap.SourceDetection" title="xsnap.detect.SourceDetection"><code class="xref py py-class docutils literal notranslate"><span class="pre">SourceDetection</span></code></a> class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>evt_paths</strong> (<em>array_like</em><em>, </em><em>optional</em>) – Paths to event (EVT) files. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>exp_paths</strong> (<em>array_like</em><em>, </em><em>optional</em>) – Paths to exposure image (EXP) files. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>pha_paths</strong> (<em>array_like</em><em>, </em><em>optional</em>) – Paths to spectrum (PHA) files. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="xsnap.SourceDetection.clear">
+<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#xsnap.SourceDetection.clear" title="Link to this definition">#</a></dt>
+<dd><p>Reset all stored paths, results, and tables.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="xsnap.SourceDetection.detect_all">
+<span class="sig-name descname"><span class="pre">detect_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src_ra</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">src_dec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">snr_thresh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">details</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xsnap.SourceDetection.detect_all" title="Link to this definition">#</a></dt>
+<dd><p>Run detection with certain SNR (default SNR <span class="math notranslate nohighlight">\(\geq\)</span> 3) on all loaded datasets.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>src_ra</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>optional</em>) – Source RA in degrees. Must be parsed if there are no PHA files. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>src_dec</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>optional</em>) – Source Dec in degrees. Must be parsed if there are no PHA files. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>snr_thresh</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>optional</em>) – SNR threshold for detection. Defaults to <code class="docutils literal notranslate"><span class="pre">3.0</span></code>.</p></li>
+<li><p><strong>match_radius</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>optional</em>) – Detection matching radius in arcseconds. Defaults to <code class="docutils literal notranslate"><span class="pre">25.0</span></code>.</p></li>
+<li><p><strong>details</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>optional</em>) – If True, print detailed matches and tables. Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>None</em> - Populates <a class="reference internal" href="#xsnap.SourceDetection.results" title="xsnap.SourceDetection.results"><code class="xref py py-attr docutils literal notranslate"><span class="pre">results</span></code></a> and <a class="reference internal" href="#xsnap.SourceDetection.detect_tables" title="xsnap.SourceDetection.detect_tables"><code class="xref py py-attr docutils literal notranslate"><span class="pre">detect_tables</span></code></a>.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.13)"><strong>RuntimeError</strong></a> – If the HEADAS environment is not set or files do not exist.:</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.13)"><strong>KeyError</strong></a> – If RA/Dec cannot be read from the PHA header.:</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> – If neither <code class="docutils literal notranslate"><span class="pre">pha_file</span></code> nor both <code class="docutils literal notranslate"><span class="pre">src_ra</span></code>/<code class="docutils literal notranslate"><span class="pre">src_dec</span></code> are provided.:</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="xsnap.SourceDetection.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">evt_paths</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exp_paths</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pha_paths</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xsnap.SourceDetection.load" title="Link to this definition">#</a></dt>
+<dd><p>Load parallel lists of EVT, EXP, and PHA files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>evt_paths</strong> (<em>array_like</em>) – Event (EVT) file paths.</p></li>
+<li><p><strong>exp_paths</strong> (<em>array_like</em><em>, </em><em>optional</em>) – Exposure image (EXP) file paths. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>pha_paths</strong> (<em>array_like</em><em>, </em><em>optional</em>) – Spectrum (PHA) file paths. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> – If provided lists are not all the same length.:</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#FileNotFoundError" title="(in Python v3.13)"><strong>FileNotFoundError</strong></a> – If any path does not exist.:</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="xsnap.SourceDetection.show_source">
+<span class="sig-name descname"><span class="pre">show_source</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pha_files</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'viridis'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xsnap.SourceDetection.show_source" title="Link to this definition">#</a></dt>
+<dd><p>Display the source region image through the pha spectrum files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pha_files</strong> (<em>array_like</em><em>, </em><em>optional</em>) – Paths to pha spectrum files to display. If provided, replaces <code class="docutils literal notranslate"><span class="pre">self.pha_paths</span></code>. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>cmap</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>optional</em>) – Matplotlib colormap name for <code class="docutils literal notranslate"><span class="pre">plt.imshow()</span></code>. Defaults to <code class="docutils literal notranslate"><span class="pre">viridis</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.13)"><strong>RuntimeError</strong></a> – If neither <code class="docutils literal notranslate"><span class="pre">pha_files</span></code> nor <a class="reference internal" href="#xsnap.SourceDetection.pha_paths" title="xsnap.SourceDetection.pha_paths"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pha_paths</span></code></a> contains any file paths.:</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>None</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="spectrum.SpectrumManager.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">SpectrumManager (<code class="code docutils literal notranslate"><span class="pre">xsnap.SpectrumManager</span></code>)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="csmanalysis.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">CSMAnalysis (<code class="code docutils literal notranslate"><span class="pre">xsnap.CSMAnalysis</span></code>)</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.SourceDetection"><code class="docutils literal notranslate"><span class="pre">SourceDetection</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.SourceDetection.pha_paths"><code class="docutils literal notranslate"><span class="pre">SourceDetection.pha_paths</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.SourceDetection.evt_paths"><code class="docutils literal notranslate"><span class="pre">SourceDetection.evt_paths</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.SourceDetection.exp_paths"><code class="docutils literal notranslate"><span class="pre">SourceDetection.exp_paths</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.SourceDetection.results"><code class="docutils literal notranslate"><span class="pre">SourceDetection.results</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.SourceDetection.detect_tables"><code class="docutils literal notranslate"><span class="pre">SourceDetection.detect_tables</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.SourceDetection.tExplosion"><code class="docutils literal notranslate"><span class="pre">SourceDetection.tExplosion</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.SourceDetection.__iadd__"><code class="docutils literal notranslate"><span class="pre">SourceDetection.__iadd__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.SourceDetection.__init__"><code class="docutils literal notranslate"><span class="pre">SourceDetection.__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.SourceDetection.clear"><code class="docutils literal notranslate"><span class="pre">SourceDetection.clear()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.SourceDetection.detect_all"><code class="docutils literal notranslate"><span class="pre">SourceDetection.detect_all()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.SourceDetection.load"><code class="docutils literal notranslate"><span class="pre">SourceDetection.load()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.SourceDetection.show_source"><code class="docutils literal notranslate"><span class="pre">SourceDetection.show_source()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, Ferdinand, Wynn V. Jacobson-Galan, and Mansi M. Kasliwal.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

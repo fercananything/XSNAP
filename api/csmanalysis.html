@@ -1,0 +1,995 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>CSMAnalysis (xsnap.CSMAnalysis) &#8212; XSNAP v0.2.5</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=5d520e33" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=cb850272"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-MJMZJK59M0"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-MJMZJK59M0');
+            </script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-MJMZJK59M0');
+            </script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/csmanalysis';</script>
+    <link rel="canonical" href="https://xsnap.org/api/csmanalysis.html" />
+    <link rel="icon" href="../_static/xsnapicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="TemperatureEstimator (xsnap.TemperatureEstimator)" href="temperatureestimator.html" />
+    <link rel="prev" title="SourceDetection (xsnap.SourceDetection)" href="sourcedetection.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.2.5" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/xsnaplogo.svg" class="logo__image only-light" alt="XSNAP v0.2.5 - Home"/>
+    <img src="../_static/xsnap_logo_header_transparent_white.png" class="logo__image only-dark pst-js-only" alt="XSNAP v0.2.5 - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../about/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://github.com/fercananything/XSNAP/blob/main/CHANGELOG.md">
+    Changelog
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/fercananything/xsnap" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="mailto:support@xsnap.org" title="E-mail" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-inbox fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">E-mail</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../about/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://github.com/fercananything/XSNAP/blob/main/CHANGELOG.md">
+    Changelog
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/fercananything/xsnap" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="mailto:support@xsnap.org" title="E-mail" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-inbox fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">E-mail</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Python API</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="spectrum.html">Spectrum (<code class="code docutils literal notranslate"><span class="pre">xsnap.spectrum</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sourcedetection.html">SourceDetection (<code class="code docutils literal notranslate"><span class="pre">xsnap.SourceDetection</span></code>)</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">CSMAnalysis (<code class="code docutils literal notranslate"><span class="pre">xsnap.CSMAnalysis</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="temperatureestimator.html">TemperatureEstimator (<code class="code docutils literal notranslate"><span class="pre">xsnap.TemperatureEstimator</span></code>)</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Scripts</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="makeregion.html">Making Region Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extractchandra.html">Extract CXO Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extractswift.html">Extract XRT Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="swiftstackpc.html">Stacking XRT Data (PC Mode)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extractnustar.html">Extract NuSTAR Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extractxmm.html">Extract XMM Data</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">XSNAP Reference</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">CSMAnalysis (<code class="code docutils literal notranslate"><span class="pre">xsnap.CSMAnalysis</span></code>)</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-xsnap.CSMAnalysis">
+<span id="csmanalysis-xsnap-csmanalysis"></span><span id="csmanalysis"></span><h1>CSMAnalysis (<code class="code docutils literal notranslate"><span class="pre">xsnap.CSMAnalysis</span></code>)<a class="headerlink" href="#module-xsnap.CSMAnalysis" title="Link to this heading">#</a></h1>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 50.0%" />
+<col style="width: 50.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Methods</strong></p></th>
+<th class="head"><p><strong>Attributes</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="#xsnap.CSMAnalysis.__init__" title="xsnap.CSMAnalysis.__init__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__init__()</span></code></a></p></td>
+<td><p><a class="reference internal" href="#xsnap.CSMAnalysis.manager" title="xsnap.CSMAnalysis.manager"><code class="xref py py-attr docutils literal notranslate"><span class="pre">manager</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#xsnap.CSMAnalysis.calc_density" title="xsnap.CSMAnalysis.calc_density"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calc_density()</span></code></a></p></td>
+<td><p><a class="reference internal" href="#xsnap.CSMAnalysis.distance" title="xsnap.CSMAnalysis.distance"><code class="xref py py-attr docutils literal notranslate"><span class="pre">distance</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#xsnap.CSMAnalysis.clear" title="xsnap.CSMAnalysis.clear"><code class="xref py py-meth docutils literal notranslate"><span class="pre">clear()</span></code></a></p></td>
+<td><p><a class="reference internal" href="#xsnap.CSMAnalysis.r_shock" title="xsnap.CSMAnalysis.r_shock"><code class="xref py py-attr docutils literal notranslate"><span class="pre">r_shock</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#xsnap.CSMAnalysis.fit_lumin" title="xsnap.CSMAnalysis.fit_lumin"><code class="xref py py-meth docutils literal notranslate"><span class="pre">fit_lumin()</span></code></a></p></td>
+<td><p><a class="reference internal" href="#xsnap.CSMAnalysis.times" title="xsnap.CSMAnalysis.times"><code class="xref py py-attr docutils literal notranslate"><span class="pre">times</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#xsnap.CSMAnalysis.fit_temp" title="xsnap.CSMAnalysis.fit_temp"><code class="xref py py-meth docutils literal notranslate"><span class="pre">fit_temp()</span></code></a></p></td>
+<td><p><a class="reference internal" href="#xsnap.CSMAnalysis.fit_lumin_params" title="xsnap.CSMAnalysis.fit_lumin_params"><code class="xref py py-attr docutils literal notranslate"><span class="pre">fit_lumin_params</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#xsnap.CSMAnalysis.get_mdot" title="xsnap.CSMAnalysis.get_mdot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_mdot()</span></code></a></p></td>
+<td><p><a class="reference internal" href="#xsnap.CSMAnalysis.fit_temp_params" title="xsnap.CSMAnalysis.fit_temp_params"><code class="xref py py-attr docutils literal notranslate"><span class="pre">fit_temp_params</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#xsnap.CSMAnalysis.load" title="xsnap.CSMAnalysis.load"><code class="xref py py-meth docutils literal notranslate"><span class="pre">load()</span></code></a></p></td>
+<td><p><a class="reference internal" href="#xsnap.CSMAnalysis.fit_density_params" title="xsnap.CSMAnalysis.fit_density_params"><code class="xref py py-attr docutils literal notranslate"><span class="pre">fit_density_params</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#xsnap.CSMAnalysis.plot_density" title="xsnap.CSMAnalysis.plot_density"><code class="xref py py-meth docutils literal notranslate"><span class="pre">plot_density()</span></code></a></p></td>
+<td><p><a class="reference internal" href="#xsnap.CSMAnalysis.densities" title="xsnap.CSMAnalysis.densities"><code class="xref py py-attr docutils literal notranslate"><span class="pre">densities</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#xsnap.CSMAnalysis.plot_lumin" title="xsnap.CSMAnalysis.plot_lumin"><code class="xref py py-meth docutils literal notranslate"><span class="pre">plot_lumin()</span></code></a></p></td>
+<td><p><a class="reference internal" href="#xsnap.CSMAnalysis.mass_loss_rate" title="xsnap.CSMAnalysis.mass_loss_rate"><code class="xref py py-attr docutils literal notranslate"><span class="pre">mass_loss_rate</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#xsnap.CSMAnalysis.plot_temp" title="xsnap.CSMAnalysis.plot_temp"><code class="xref py py-meth docutils literal notranslate"><span class="pre">plot_temp()</span></code></a></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="xsnap.CSMAnalysis">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">CSMAnalysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">manager</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xsnap.CSMAnalysis" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Supernova circumstellar medium (CSM) analysis,
+including fitting <span class="math notranslate nohighlight">\(L(t) \propto t^x\)</span> to deriving unshocked CSM densities and
+mass-loss rates of the supernova progenitor.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>As our emission measure (EM) comes from the normalization of the thermal-bremsstrahlung,
+the <a class="reference internal" href="#xsnap.CSMAnalysis" title="xsnap.analysis.CSMAnalysis"><code class="xref py py-class docutils literal notranslate"><span class="pre">CSMAnalysis</span></code></a> class can only be used
+if the <a class="reference internal" href="spectrum.SpectrumManager.html#xsnap.SpectrumManager" title="xsnap.spectrum.SpectrumManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpectrumManager</span></code></a> class contains <strong>exactly one</strong> bremss model.</p>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="xsnap.CSMAnalysis.manager">
+<span class="sig-name descname"><span class="pre">manager</span></span><a class="headerlink" href="#xsnap.CSMAnalysis.manager" title="Link to this definition">#</a></dt>
+<dd><p>Input manager spectra analysis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="spectrum.SpectrumManager.html#xsnap.SpectrumManager" title="xsnap.SpectrumManager">SpectrumManager</a> or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="xsnap.CSMAnalysis.distance">
+<span class="sig-name descname"><span class="pre">distance</span></span><a class="headerlink" href="#xsnap.CSMAnalysis.distance" title="Link to this definition">#</a></dt>
+<dd><p>Source distance in Mpc.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)">float</a> or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="xsnap.CSMAnalysis.r_shock">
+<span class="sig-name descname"><span class="pre">r_shock</span></span><a class="headerlink" href="#xsnap.CSMAnalysis.r_shock" title="Link to this definition">#</a></dt>
+<dd><p>Shock radius.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v2.3.1)">pandas.DataFrame</a> or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="xsnap.CSMAnalysis.times">
+<span class="sig-name descname"><span class="pre">times</span></span><a class="headerlink" href="#xsnap.CSMAnalysis.times" title="Link to this definition">#</a></dt>
+<dd><p>Times since explosion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v2.3.1)">pandas.DataFrame</a> or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="xsnap.CSMAnalysis.fit_lumin_params">
+<span class="sig-name descname"><span class="pre">fit_lumin_params</span></span><a class="headerlink" href="#xsnap.CSMAnalysis.fit_lumin_params" title="Link to this definition">#</a></dt>
+<dd><dl class="simple">
+<dt>Best-fit luminosity parameters wrapped in DataFrame table with</dt><dd><p>columns <code class="docutils literal notranslate"><span class="pre">['model',</span> <span class="pre">'norm','lo_norm_err','hi_norm_err',</span> <span class="pre">'exp','lo_exp_err','hi_exp_err','ndata']</span></code>.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v2.3.1)">pandas.DataFrame</a> or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="xsnap.CSMAnalysis.fit_temp_params">
+<span class="sig-name descname"><span class="pre">fit_temp_params</span></span><a class="headerlink" href="#xsnap.CSMAnalysis.fit_temp_params" title="Link to this definition">#</a></dt>
+<dd><dl class="simple">
+<dt>Best-fit temperature parameters wrapped in DataFrame table with</dt><dd><p>columns <code class="docutils literal notranslate"><span class="pre">['model',</span> <span class="pre">'norm','lo_norm_err','hi_norm_err',</span> <span class="pre">'exp','lo_exp_err','hi_exp_err','ndata']</span></code>.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v2.3.1)">pandas.DataFrame</a> or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="xsnap.CSMAnalysis.fit_density_params">
+<span class="sig-name descname"><span class="pre">fit_density_params</span></span><a class="headerlink" href="#xsnap.CSMAnalysis.fit_density_params" title="Link to this definition">#</a></dt>
+<dd><p>Best-fit density parameters, i.e. the fitted mass-loss rates in <span class="math notranslate nohighlight">\(\rm g \ s^{-1}\)</span>, wrapped in
+DataFrame table with columns <code class="docutils literal notranslate"><span class="pre">['mdot',</span> <span class="pre">'lo_mdot_err',</span> <span class="pre">'hi_mdot_err']</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v2.3.1)">pandas.DataFrame</a> or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="xsnap.CSMAnalysis.densities">
+<span class="sig-name descname"><span class="pre">densities</span></span><a class="headerlink" href="#xsnap.CSMAnalysis.densities" title="Link to this definition">#</a></dt>
+<dd><p>Computed unshocked CSM density in <span class="math notranslate nohighlight">\(\rm g \ {cm}^{-3}\)</span> wrapped in DataFrame table with columns
+<code class="docutils literal notranslate"><span class="pre">['time_since_explosion',</span> <span class="pre">'rho',</span> <span class="pre">'lo_rho_err',</span> <span class="pre">'hi_rho_err']</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v2.3.1)">pandas.DataFrame</a> or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="xsnap.CSMAnalysis.mass_loss_rate">
+<span class="sig-name descname"><span class="pre">mass_loss_rate</span></span><a class="headerlink" href="#xsnap.CSMAnalysis.mass_loss_rate" title="Link to this definition">#</a></dt>
+<dd><p>Computed mass-loss rates of the supernova progenitor in <span class="math notranslate nohighlight">\(\rm M_{\bigodot} \ {yr}^{-1}\)</span>,
+wrapped in a DataFrame with columns <code class="docutils literal notranslate"><span class="pre">['m_dot',</span> <span class="pre">'lo_m_dot_err',</span> <span class="pre">'hi_m_dot_err']</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v2.3.1)">pandas.DataFrame</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="xsnap.CSMAnalysis.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">manager</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xsnap.CSMAnalysis.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Initialization of the <a class="reference internal" href="#xsnap.CSMAnalysis" title="xsnap.analysis.CSMAnalysis"><code class="xref py py-class docutils literal notranslate"><span class="pre">CSMAnalysis</span></code></a> class</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>manager</strong> (<a class="reference internal" href="spectrum.SpectrumManager.html#xsnap.SpectrumManager" title="xsnap.SpectrumManager"><em>SpectrumManager</em></a><em>, </em><em>optional</em>) – Pre-populated <a class="reference internal" href="spectrum.SpectrumManager.html#xsnap.SpectrumManager" title="xsnap.spectrum.SpectrumManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpectrumManager</span></code></a> instance.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="xsnap.CSMAnalysis.calc_density">
+<span class="sig-name descname"><span class="pre">calc_density</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lo_dist_err</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hi_dist_err</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lo_z_err</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hi_z_err</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu_e</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.14</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu_ion</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.24</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_wind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">H0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">70</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nwalkers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">500</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nsteps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nburn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_plots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xsnap.CSMAnalysis.calc_density" title="Link to this definition">#</a></dt>
+<dd><p>Calculate unshocked CSM density <span class="math notranslate nohighlight">\(\rho_{\mathrm{CSM}}(r)\)</span> and fit using Markov chain Monte-Carlo (MCMC)
+based on <code class="docutils literal notranslate"><span class="pre">'bremss_norm'</span></code> in <code class="xref py py-attr docutils literal notranslate"><span class="pre">params</span></code>.</p>
+<p>In calculating the density, we use the model of <a class="reference external" href="https://doi.org/10.3847/1538-4357/ac8b14">D. Brethauer et al. (2022)</a>,
+where the unshocked CSM density is expressed by:</p>
+<div class="math notranslate nohighlight">
+\[\rho_{\mathrm{CSM}}(r) = \frac{m_p}{4} \left(\frac{2 \times \mathrm{EM}(r)\mu_e \mu_I}{V_{\mathrm{FS}}(r)}\right)^{1/2}\]</div>
+<p>where we parameterized:</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}\mathrm{{bremss} \ {norm}} = \frac{3.02 \cdot 10^{-15}}{4 \pi d^2} \times \mathrm{EM}\\\mathrm{V}_{\mathrm{FS}} = \frac{4 \pi}{3} f \left(R_{\mathrm{out}}^3 - R_{\mathrm{in}}^3\right)\end{aligned}\end{align} \]</div>
+<p>From there, we fit <span class="math notranslate nohighlight">\(\rho_{\mathrm{CSM}}(r)\)</span> and <span class="math notranslate nohighlight">\(\dot{M}\)</span> with:</p>
+<div class="math notranslate nohighlight">
+\[\rho_{\mathrm{CSM}} = \frac{\dot{M}}{4 \pi r_{\mathrm{shock}}^2 v_{\mathrm{wind}}}\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>distance</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>optional</em>) – distance to source in Mpc.</p></li>
+<li><p><strong>z</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>optional</em>) – redshift to source.</p></li>
+<li><p><strong>mu_e</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>optional</em>) – mean molecular weight per electron. Defaults to <code class="docutils literal notranslate"><span class="pre">1.14</span></code> (solar value).</p></li>
+<li><p><strong>mu_ion</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>optional</em>) – mean molecular weight per ion. Defaults to <code class="docutils literal notranslate"><span class="pre">1.24</span></code> (solar value).</p></li>
+<li><p><strong>radius_ratio</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>optional</em>) – shock Rout/Rin ratio. Defaults to <code class="docutils literal notranslate"><span class="pre">1.2</span></code>.</p></li>
+<li><p><strong>f</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><em>optional</em>) – filling factor. Defaults to <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p></li>
+<li><p><strong>v_wind</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>optional</em>) – wind velocity in km/s. Defaults to <code class="docutils literal notranslate"><span class="pre">20</span></code>.</p></li>
+<li><p><strong>H0</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>optional</em>) – Hubble constant in km/s/Mpc. Defaults to <code class="docutils literal notranslate"><span class="pre">70</span></code>.</p></li>
+<li><p><strong>nwalkers</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><em>optional</em>) – Number of MCMC walkers. Defaults to <code class="docutils literal notranslate"><span class="pre">500</span></code>.</p></li>
+<li><p><strong>nsteps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><em>optional</em>) – Number of steps per walker. Defaults to <code class="docutils literal notranslate"><span class="pre">10000</span></code>.</p></li>
+<li><p><strong>nburn</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><em>optional</em>) – Number of burn-in steps. Defaults to <code class="docutils literal notranslate"><span class="pre">2000</span></code>.</p></li>
+<li><p><strong>show_plots</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, display diagnostic plots. Defaults to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
+<li><p><strong>fit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, will fit density and get mass-loss rate in <span class="math notranslate nohighlight">\(\rm g \ s^{-1}\)</span>. Defaults to <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Density<span class="classifier">pandas.DataFrame</span></dt><dd><p>Computed unshocked CSM density in <span class="math notranslate nohighlight">\(\rm g \ {cm}^{-3}\)</span> wrapped in DataFrame table with columns
+<code class="docutils literal notranslate"><span class="pre">['time_since_explosion',</span> <span class="pre">'rho',</span> <span class="pre">'lo_rho_err',</span> <span class="pre">'hi_rho_err']</span></code></p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.13)"><strong>RuntimeError</strong></a> – When <code class="xref py py-attr docutils literal notranslate"><span class="pre">params</span></code> do not have these columns:
+    <code class="docutils literal notranslate"><span class="pre">['bremss_norm',</span> <span class="pre">'lo_bremss_norm_err',</span> <span class="pre">'hi_bremss_norm_err',</span> <span class="pre">'time_since_explosion']</span></code></p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> – When distance or redshift is not entered</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">distance</span></code> is not supplied, it is inferred from <code class="docutils literal notranslate"><span class="pre">redshift</span></code> via the Doppler relation:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}v =
+\begin{cases}
+    c\,z, &amp; z \ll 1, \\
+    c\,\frac{(1 + z)^2 - 1}{(1 + z)^2 + 1}, &amp; \text{otherwise.}
+\end{cases}\end{split}\]</div>
+<p>and then:</p>
+<div class="math notranslate nohighlight">
+\[d = \frac{v}{H_0} \ (\mathrm{Mpc}).\]</div>
+<dl class="simple">
+<dt>References:</dt><dd><p>Hogg, D. W. (1999). <em>Distance measures in cosmology</em>. <a class="reference external" href="https://doi.org/10.48550/arXiv.astro-ph/9905116">arXiv:astro-ph/9905116</a></p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="xsnap.CSMAnalysis.clear">
+<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#xsnap.CSMAnalysis.clear" title="Link to this definition">#</a></dt>
+<dd><p>Reset all loaded data and computed results.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="xsnap.CSMAnalysis.fit_lumin">
+<span class="sig-name descname"><span class="pre">fit_lumin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nwalkers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">500</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nsteps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nburn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_plots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xsnap.CSMAnalysis.fit_lumin" title="Link to this definition">#</a></dt>
+<dd><p>Fit power-law luminosity <span class="math notranslate nohighlight">\(L(t) \propto t^x\)</span> using Markov chain Monte-Carlo (MCMC).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nwalkers</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><em>optional</em>) – Number of MCMC walkers. Defaults to <code class="docutils literal notranslate"><span class="pre">500</span></code>.</p></li>
+<li><p><strong>nsteps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><em>optional</em>) – Number of steps per walker. Defaults to <code class="docutils literal notranslate"><span class="pre">10000</span></code>.</p></li>
+<li><p><strong>nburn</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><em>optional</em>) – Number of burn-in steps. Defaults to <code class="docutils literal notranslate"><span class="pre">2000</span></code>.</p></li>
+<li><p><strong>show_plots</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, display diagnostic plots. Defaults to <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Best-fit luminosity parameters<span class="classifier">pandas.DataFrame</span></dt><dd><p>Best-fit luminosity parameters wrapped in DataFrame table with
+columns <code class="docutils literal notranslate"><span class="pre">['model',</span> <span class="pre">'norm','lo_norm_err','hi_norm_err',</span> <span class="pre">'exp','lo_exp_err','hi_exp_err','ndata']</span></code>.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="xsnap.CSMAnalysis.fit_temp">
+<span class="sig-name descname"><span class="pre">fit_temp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nwalkers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">500</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nsteps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nburn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_plots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xsnap.CSMAnalysis.fit_temp" title="Link to this definition">#</a></dt>
+<dd><p>Fit power-law temperature <span class="math notranslate nohighlight">\(T(t) \propto t^x\)</span> using Markov chain Monte-Carlo (MCMC).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nwalkers</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><em>optional</em>) – Number of MCMC walkers. Defaults to <code class="docutils literal notranslate"><span class="pre">500</span></code>.</p></li>
+<li><p><strong>nsteps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><em>optional</em>) – Number of steps per walker. Defaults to <code class="docutils literal notranslate"><span class="pre">10000</span></code>.</p></li>
+<li><p><strong>nburn</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><em>optional</em>) – Number of burn-in steps. Defaults to <code class="docutils literal notranslate"><span class="pre">2000</span></code>.</p></li>
+<li><p><strong>show_plots</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, display diagnostic plots. Defaults to <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Best-fit temperature parameters<span class="classifier">pandas.DataFrame</span></dt><dd><p>Best-fit temperature parameters wrapped in DataFrame table with
+columns <code class="docutils literal notranslate"><span class="pre">['model',</span> <span class="pre">'norm','lo_norm_err','hi_norm_err',</span> <span class="pre">'exp','lo_exp_err','hi_exp_err','ndata']</span></code>.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="xsnap.CSMAnalysis.get_mdot">
+<span class="sig-name descname"><span class="pre">get_mdot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#xsnap.CSMAnalysis.get_mdot" title="Link to this definition">#</a></dt>
+<dd><p>Get mass loss rate in <span class="math notranslate nohighlight">\(\rm M_{\bigodot} \ {yr}^{-1}\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Mass-loss rate and its errors in <span class="math notranslate nohighlight">\(\rm M_{\bigodot} \ {yr}^{-1}\)</span>, wrapped in
+a DataFrame with columns <code class="docutils literal notranslate"><span class="pre">['m_dot',</span> <span class="pre">'lo_m_dot_err',</span> <span class="pre">'hi_m_dot_err']</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="xsnap.CSMAnalysis.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">manager</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lo_dist_err</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hi_dist_err</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lo_z_err</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hi_z_err</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_shock</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10000.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">H0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">70</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xsnap.CSMAnalysis.load" title="Link to this definition">#</a></dt>
+<dd><p>Load manager luminosity &amp; parameter tables and compute shock radius.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>manager</strong> (<a class="reference internal" href="spectrum.SpectrumManager.html#xsnap.SpectrumManager" title="xsnap.SpectrumManager"><em>SpectrumManager</em></a>) – Must contain one <code class="docutils literal notranslate"><span class="pre">'bremss'</span></code> model in <code class="xref py py-attr docutils literal notranslate"><span class="pre">lumin</span></code> &amp; <code class="xref py py-attr docutils literal notranslate"><span class="pre">params</span></code>.</p></li>
+<li><p><strong>distance</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>optional</em>) – Distance in Mpc. Required if <code class="docutils literal notranslate"><span class="pre">z</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>z</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>optional</em>) – Redshift to compute distance. Required if <cite>distance</cite> is <code class="docutils literal notranslate"><span class="pre">None</span></code>. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>lo_dist_err</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>optional</em>) – Lower uncertainty of distance in Mpc. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>hi_dist_err</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>optional</em>) – Upper uncertainty of distance in Mpc. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>lo_z_err</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>optional</em>) – Lower uncertainty of redshift. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>hi_z_err</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>optional</em>) – Upper uncertainty of redshift. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>H0</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>optional</em>) – Hubble constant in km/s/Mpc. Defaults to <code class="docutils literal notranslate"><span class="pre">70.0</span></code>.</p></li>
+<li><p><strong>v_shock</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>optional</em>) – Shock velocity in km/s. Defaults to <code class="docutils literal notranslate"><span class="pre">10000</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt><em>self</em><span class="classifier">CSMAnalysis</span></dt><dd><p>The same <a class="reference internal" href="#xsnap.CSMAnalysis" title="xsnap.analysis.CSMAnalysis"><code class="xref py py-class docutils literal notranslate"><span class="pre">CSMAnalysis</span></code></a> with
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">times</span></code> and <code class="xref py py-attr docutils literal notranslate"><span class="pre">r_shock</span></code> populated.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.13)"><strong>RuntimeError</strong></a> – If more than one bremss model is present.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> – If required tables/columns are missing.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">distance</span></code> is not supplied, it is inferred from <code class="docutils literal notranslate"><span class="pre">redshift</span></code> via the Doppler relation:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}v =
+\begin{cases}
+    c\,z, &amp; z \ll 1, \\
+    c\,\frac{(1 + z)^2 - 1}{(1 + z)^2 + 1}, &amp; \text{otherwise.}
+\end{cases}\end{split}\]</div>
+<p>and then:</p>
+<div class="math notranslate nohighlight">
+\[d = \frac{v}{H_0} \ (\mathrm{Mpc}).\]</div>
+<dl class="simple">
+<dt>References:</dt><dd><p>Hogg, D. W. (1999). <em>Distance measures in cosmology</em>. <a class="reference external" href="https://doi.org/10.48550/arXiv.astro-ph/9905116">arXiv:astro-ph/9905116</a></p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="xsnap.CSMAnalysis.plot_density">
+<span class="sig-name descname"><span class="pre">plot_density</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'red'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_wind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xsnap.CSMAnalysis.plot_density" title="Link to this definition">#</a></dt>
+<dd><p>Plot the unshocked CSM density profile with its best-fit mass-loss rate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model_color</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>optional</em>) – Color for the fit line. Defaults to <code class="docutils literal notranslate"><span class="pre">'red'</span></code>.</p></li>
+<li><p><strong>v_wind</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – Wind velocity (needed as the best-fit parameter is in terms of the mass-loss rate).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Plot<span class="classifier">matplotlib.figure.Figure</span></dt><dd><p>The density profile plot with data and fit</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="xsnap.CSMAnalysis.plot_lumin">
+<span class="sig-name descname"><span class="pre">plot_lumin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'red'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xsnap.CSMAnalysis.plot_lumin" title="Link to this definition">#</a></dt>
+<dd><p>Plot luminosity light curve with best-fit power-law.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>model_color</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>optional</em>) – Color for the fit line. Defaults to <code class="docutils literal notranslate"><span class="pre">'red'</span></code>.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl>
+<dt>Plot<span class="classifier">matplotlib.figure.Figure</span></dt><dd><p>The fitted luminosity light curve plot with data and fit.</p>
+<p>Data are grouped and labeled by instruments.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="xsnap.CSMAnalysis.plot_temp">
+<span class="sig-name descname"><span class="pre">plot_temp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'red'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xsnap.CSMAnalysis.plot_temp" title="Link to this definition">#</a></dt>
+<dd><p>Plot temperature evolution with best-fit power-law.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>model_color</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>optional</em>) – Color for the fit line. Defaults to <code class="docutils literal notranslate"><span class="pre">'red'</span></code>.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl>
+<dt>Plot<span class="classifier">matplotlib.figure.Figure</span></dt><dd><p>The fitted temperature evolution plot with data and fit.</p>
+<p>Data are grouped and labeled by instruments.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="sourcedetection.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">SourceDetection (<code class="code docutils literal notranslate"><span class="pre">xsnap.SourceDetection</span></code>)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="temperatureestimator.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">TemperatureEstimator (<code class="code docutils literal notranslate"><span class="pre">xsnap.TemperatureEstimator</span></code>)</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.CSMAnalysis"><code class="docutils literal notranslate"><span class="pre">CSMAnalysis</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.CSMAnalysis.manager"><code class="docutils literal notranslate"><span class="pre">CSMAnalysis.manager</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.CSMAnalysis.distance"><code class="docutils literal notranslate"><span class="pre">CSMAnalysis.distance</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.CSMAnalysis.r_shock"><code class="docutils literal notranslate"><span class="pre">CSMAnalysis.r_shock</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.CSMAnalysis.times"><code class="docutils literal notranslate"><span class="pre">CSMAnalysis.times</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.CSMAnalysis.fit_lumin_params"><code class="docutils literal notranslate"><span class="pre">CSMAnalysis.fit_lumin_params</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.CSMAnalysis.fit_temp_params"><code class="docutils literal notranslate"><span class="pre">CSMAnalysis.fit_temp_params</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.CSMAnalysis.fit_density_params"><code class="docutils literal notranslate"><span class="pre">CSMAnalysis.fit_density_params</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.CSMAnalysis.densities"><code class="docutils literal notranslate"><span class="pre">CSMAnalysis.densities</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.CSMAnalysis.mass_loss_rate"><code class="docutils literal notranslate"><span class="pre">CSMAnalysis.mass_loss_rate</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.CSMAnalysis.__init__"><code class="docutils literal notranslate"><span class="pre">CSMAnalysis.__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.CSMAnalysis.calc_density"><code class="docutils literal notranslate"><span class="pre">CSMAnalysis.calc_density()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.CSMAnalysis.clear"><code class="docutils literal notranslate"><span class="pre">CSMAnalysis.clear()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.CSMAnalysis.fit_lumin"><code class="docutils literal notranslate"><span class="pre">CSMAnalysis.fit_lumin()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.CSMAnalysis.fit_temp"><code class="docutils literal notranslate"><span class="pre">CSMAnalysis.fit_temp()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.CSMAnalysis.get_mdot"><code class="docutils literal notranslate"><span class="pre">CSMAnalysis.get_mdot()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.CSMAnalysis.load"><code class="docutils literal notranslate"><span class="pre">CSMAnalysis.load()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.CSMAnalysis.plot_density"><code class="docutils literal notranslate"><span class="pre">CSMAnalysis.plot_density()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.CSMAnalysis.plot_lumin"><code class="docutils literal notranslate"><span class="pre">CSMAnalysis.plot_lumin()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.CSMAnalysis.plot_temp"><code class="docutils literal notranslate"><span class="pre">CSMAnalysis.plot_temp()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, Ferdinand, Wynn V. Jacobson-Galan, and Mansi M. Kasliwal.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

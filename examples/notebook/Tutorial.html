@@ -1,0 +1,1526 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>2. Spectrum fitting for SN2014C from Chandra data. &#8212; XSNAP v0.2.5</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/nbsphinx-code-cells.css?v=2aa19091" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=5d520e33" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=cb850272"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-MJMZJK59M0"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-MJMZJK59M0');
+            </script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-MJMZJK59M0');
+            </script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/notebook/Tutorial';</script>
+    <link rel="canonical" href="https://xsnap.org/examples/notebook/Tutorial.html" />
+    <link rel="icon" href="../../_static/xsnapicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="1. Scripts Tutorial" href="Scripts.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.2.5" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/xsnaplogo.svg" class="logo__image only-light" alt="XSNAP v0.2.5 - Home"/>
+    <img src="../../_static/xsnap_logo_header_transparent_white.png" class="logo__image only-dark pst-js-only" alt="XSNAP v0.2.5 - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../about/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://github.com/fercananything/XSNAP/blob/main/CHANGELOG.md">
+    Changelog
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/fercananything/xsnap" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="mailto:support@xsnap.org" title="E-mail" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-inbox fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">E-mail</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../about/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://github.com/fercananything/XSNAP/blob/main/CHANGELOG.md">
+    Changelog
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/fercananything/xsnap" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="mailto:support@xsnap.org" title="E-mail" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-inbox fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">E-mail</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Example notebooks</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Scripts.html">1. Scripts Tutorial</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">2. Spectrum fitting for SN2014C from Chandra data.</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Examples</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis"><span class="section-number">2. </span>Spectrum fitting for SN2014C from Chandra data.</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="Spectrum-fitting-for-SN2014C-from-Chandra-data.">
+<h1><span class="section-number">2. </span>Spectrum fitting for SN2014C from Chandra data.<a class="headerlink" href="#Spectrum-fitting-for-SN2014C-from-Chandra-data." title="Link to this heading">#</a></h1>
+<p>ObsId: 17549 and 21077</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Standard imports
+import os
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+import pandas as pd
+try:
+    import xspec
+except: # If ModuleNotFoundError, initialize HEASOFT.
+    print(f&quot;PyXspec was not found, please initialize HEASOFT first in shell&quot;)
+import xsnap
+from xsnap import *
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>spec_files = [&#39;./data/17569/primary/spec17569_grp.pi&#39;,
+              &#39;./data/21077/primary/spec21077_grp.pi&#39;]
+
+# Using parameters from this paper:
+# https://iopscience.iop.org/article/10.3847/1538-4357/ad9c76
+
+# Time of explosion in MJD
+tExplosion= 56658.91 # MJD
+
+# Distance in Mpc
+dist = 15.1 # Mpc
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Use constrain temperature with T = 34 keV (t/13)^(-0.25)
+# Meaning it&#39;s 34 * (1/13)^(-0.25) t^(-0.25)
+norm = 34 * (1/13)**(-0.25)
+exp = -0.25
+
+temp = TemperatureEstimator(norm=norm, exponent=exp, tExplosion=tExplosion)
+df_temp = temp.estimate(files=spec_files)
+df_temp # here we estimate the temperature based on our model
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>time_since_explosion</th>
+      <th>lo_time_err</th>
+      <th>hi_time_err</th>
+      <th>temperature</th>
+      <th>lo_temp_err</th>
+      <th>hi_temp_err</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>393.706775</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>14.493442</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1565.644759</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>10.263405</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Initialize SpectrumManager class to help in plotting light curve
+manager = SpectrumManager(tExplosion = tExplosion)
+
+# Fit the first spectrum
+# SpectrumFit by default use &#39;aspl&#39; for Solar Abundance
+spec17569 = SpectrumFit()
+spec17569.load_data(spec_files[0])
+spec17569.set_rebin(5, 3)
+spec17569.ignore(&quot;**-0.5 8.0-**&quot;) # Chandra is well-calibrated in 0.5 - 8.0 keV
+
+# Now, we set the model that we want
+# Supposedly we use TBabs, TBabs can be automatically
+# calculated through the RA and Dec Obj available in
+# the header of the spectrum file
+spec17569.set_model(
+    &quot;tbabs*ztbabs*bremss&quot;,
+    zTBabs_nH=2.7,
+    zTBabs_Redshift=0,
+    # Here, we freeze the temperature for tutorial purposes
+    bremss_kT=f&quot;{df_temp[&#39;temperature&#39;].iloc[0]} -1&quot;,
+    bremss_norm=0
+)
+
+spec17569.fit()
+# We set plot, if device=&quot;/null&quot; it automatically uses matplotlib to plot
+spec17569.set_plot(&quot;ldata&quot;, device=&quot;/svg&quot;)
+# Fitting the parameters for zTBabs nH and bremss norm
+spec17569.get_params(&quot;1.0 2 5&quot;)
+# Get both absorbed and unabsorbed fluxes
+df_flux = spec17569.get_fluxes()
+# Getting observation time to help in plotting the light curve
+spec17569.get_time()
+# Getting count rates
+spec17569.get_counts()
+# Getting luminosity based on given flux and distance
+spec17569.get_lumin(fluxes=df_flux[&#39;unabsorbed&#39;], distance=dist)
+
+# Load the spectrum to the manager
+# Due to the nature of PyXspec,
+# You must fit the spectrum and
+# load it to the manager one by one
+manager.load(spec17569)
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ Solar Abundance Vector set to aspl:  Asplund M., Grevesse N., Sauval A.J. &amp; Scott P., ARAA, 47, 481 (2009)
+Warning: RMF DETNAM keyword (ACIS-7) is not consistent with that in spectrum (ACIS-35678)
+
+1 spectrum  in use
+
+Spectral Data File: /Users/ferdinand/Research/WynnXraySN/XSNAP/notebook/data/17569/primary/spec17569_grp.pi  Spectrum 1
+Net count rate (cts/s) for Spectrum:1  2.536e-02 +/- 1.601e-03 (99.8 % total)
+ Assigned to Data Group 1 and Plot Group 1
+  Noticed Channels:  1-192
+  Telescope: CHANDRA Instrument: ACIS  Channel Type: PI
+  Exposure Time: 9914 sec
+ Using fit statistic: chi
+ Using Background File                spec17569_bkg.pi
+  Background Exposure Time: 9914 sec
+ Using Response (RMF) File            spec17569.rmf for Source 1
+ Using Auxiliary Response (ARF) File  spec17569.corr.arf
+
+
+ignore:     1 channels ignored from  source number 1
+     2 channels (1-2) ignored in spectrum #     1
+     5 channels (188-192) ignored in spectrum #     1
+
+
+========================================================================
+Model TBabs&lt;1&gt;*zTBabs&lt;2&gt;*bremss&lt;3&gt; Source No.: 1   Active/On
+Model Model Component  Parameter  Unit     Value
+ par  comp
+X-axis set to &#39;keV&#39;
+Plot device set to &#39;/svg&#39;
+   1    1   TBabs      nH         10^22    1.00000      +/-  0.0
+   2    2   zTBabs     nH         10^22    1.00000      +/-  0.0
+   3    2   zTBabs     Redshift            0.0          frozen
+   4    3   bremss     kT         keV      7.00000      +/-  0.0
+   5    3   bremss     norm                1.00000      +/-  0.0
+________________________________________________________________________
+
+tbvabs Version 2.3
+Cosmic absorption with grains and H2, modified from
+Wilms, Allen, &amp; McCray, 2000, ApJ 542, 914-924
+Questions: Joern Wilms
+joern.wilms@sternwarte.uni-erlangen.de
+joern.wilms@fau.de
+
+http://pulsar.sternwarte.uni-erlangen.de/wilms/research/tbabs/
+
+PLEASE NOTICE:
+To get the model described by the above paper
+you will also have to set the abundances:
+   abund wilm
+
+Note that this routine ignores the current cross section setting
+as it always HAS to use the Verner cross sections as a baseline.
+
+Fit statistic  : Chi-Squared              2.054384e+10     using 185 bins.
+
+Test statistic : Chi-Squared              2.054384e+10     using 185 bins.
+ Null hypothesis probability of 0.000000e+00 with 181 degrees of freedom
+ Current data and model not fit yet.
+
+Fit statistic  : Chi-Squared              9.643801e+09     using 185 bins.
+
+Test statistic : Chi-Squared              9.643801e+09     using 185 bins.
+ Null hypothesis probability of 0.000000e+00 with 181 degrees of freedom
+ Current data and model not fit yet.
+
+Fit statistic  : Chi-Squared              9.643801e+09     using 185 bins.
+
+Test statistic : Chi-Squared              9.643801e+09     using 185 bins.
+ Null hypothesis probability of 0.000000e+00 with 181 degrees of freedom
+ Current data and model not fit yet.
+
+Fit statistic  : Chi-Squared              1.151778e+10     using 185 bins.
+
+Test statistic : Chi-Squared              1.151778e+10     using 185 bins.
+ Null hypothesis probability of 0.000000e+00 with 182 degrees of freedom
+ Current data and model not fit yet.
+
+Fit statistic  : Chi-Squared                  245.85     using 185 bins.
+
+Test statistic : Chi-Squared                  245.85     using 185 bins.
+ Null hypothesis probability of 1.13e-03 with 182 degrees of freedom
+ Current data and model not fit yet.
+
+Fit statistic  : Chi-Squared                  245.85     using 185 bins.
+
+Test statistic : Chi-Squared                  245.85     using 185 bins.
+ Null hypothesis probability of 1.33e-03 with 183 degrees of freedom
+ Current data and model not fit yet.
+
+Parameters defined:
+========================================================================
+Model TBabs&lt;1&gt;*zTBabs&lt;2&gt;*bremss&lt;3&gt; Source No.: 1   Active/On
+Model Model Component  Parameter  Unit     Value
+ par  comp
+   1    1   TBabs      nH         10^22    6.98000E-02  frozen
+   2    2   zTBabs     nH         10^22    2.70000      +/-  0.0
+   3    2   zTBabs     Redshift            0.0          frozen
+   4    3   bremss     kT         keV      14.4934      frozen
+   5    3   bremss     norm                0.0          +/-  0.0
+________________________________________________________________________
+
+ renorm: no renormalization necessary
+
+Fit statistic  : Chi-Squared                  245.85     using 185 bins.
+
+Test statistic : Chi-Squared                  245.85     using 185 bins.
+ Null hypothesis probability of 1.33e-03 with 183 degrees of freedom
+ Current data and model not fit yet.
+Default fit statistic is set to: C-Statistic
+   This will apply to all current and newly loaded spectra.
+
+Fit statistic  : C-Statistic                 3246.11     using 185 bins.
+
+Test statistic : Chi-Squared                  245.85     using 185 bins.
+ Null hypothesis probability of 1.33e-03 with 183 degrees of freedom
+ Current data and model not fit yet.
+                                   Parameters
+C-Statistic  |beta|/N    Lvl          2:nH        5:norm
+ Due to zero model norms, the following fit parameters are temporarily frozen:2
+1766.41      6.10364e+08  -3       2.70000   2.72161e-06
+1434.83      4.26514e+07  -4       2.66308   5.49692e-06
+1114.95      2.12355e+07  -5       2.61286   1.08644e-05
+817.719      1.05007e+07  -6       2.58912   2.10969e-05
+560.232      5.09056e+06  -7       2.57989   3.96708e-05
+366.37       2.38114e+06  -8       2.57887   7.02965e-05
+256.092      1.03597e+06  -9       2.58318   0.000112106
+219.99       385658      -10       2.59027   0.000151748
+215.913      100536      -11       2.59667   0.000170793
+215.853      11191.4     -12       2.60030   0.000173575
+215.853      179.794     -13       2.60192   0.000173676
+==============================
+ Variances and Principal Axes
+                 2        5
+ 1.2263E-10| -0.0000   1.0000
+ 5.4982E-02|  1.0000   0.0000
+------------------------------
+
+========================
+  Covariance Matrix
+        1           2
+   5.498e-02   1.923e-06
+   1.923e-06   1.899e-10
+------------------------
+
+========================================================================
+Model TBabs&lt;1&gt;*zTBabs&lt;2&gt;*bremss&lt;3&gt; Source No.: 1   Active/On
+Model Model Component  Parameter  Unit     Value
+ par  comp
+   1    1   TBabs      nH         10^22    6.98000E-02  frozen
+   2    2   zTBabs     nH         10^22    2.60192      +/-  0.234482
+   3    2   zTBabs     Redshift            0.0          frozen
+   4    3   bremss     kT         keV      14.4934      frozen
+   5    3   bremss     norm                1.73676E-04  +/-  1.37798E-05
+________________________________________________________________________
+
+
+Fit statistic  : C-Statistic                  215.85     using 185 bins.
+
+Test statistic : Chi-Squared                  238.21     using 185 bins.
+ Null hypothesis probability of 3.77e-03 with 183 degrees of freedom
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/examples_notebook_Tutorial_4_1.svg" src="../../_images/examples_notebook_Tutorial_4_1.svg" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ Parameter   Confidence Range (1)
+     2      2.30414      2.92709    (-0.29848,0.32447)
+     5  0.000158819   0.00018985    (-1.48813e-05,1.61498e-05)
+Spectrum 1: Lower range bound          0.3 reset by matrix bound to          0.3
+Parameter distribution is derived from fit covariance matrix.
+ Model Flux 8.638e-05 photons (5.9419e-13 ergs/cm^2/s) range (0.30000 - 10.000 keV)
+     Error range 8.022e-05 - 9.217e-05    (5.500e-13 - 6.356e-13)  (68.00% confidence)
+
+Fit statistic  : C-Statistic                  215.96     using 185 bins.
+
+Test statistic : Chi-Squared                  244.75     using 185 bins.
+ Null hypothesis probability of 1.56e-03 with 183 degrees of freedom
+ Current data and model not fit yet.
+
+Fit statistic  : C-Statistic                  609.99     using 185 bins.
+
+Test statistic : Chi-Squared                 3405.62     using 185 bins.
+ Null hypothesis probability of 0.00e+00 with 183 degrees of freedom
+ Current data and model not fit yet.
+Warning: Either variance is not available through
+         valid fit or chains, or no models are currently
+         active. flux error will not be calculated.
+Spectrum 1: Lower range bound          0.3 reset by matrix bound to          0.3
+ Model Flux 0.00032857 photons (9.6665e-13 ergs/cm^2/s) range (0.30000 - 10.000 keV)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;xsnap.spectrum.SpectrumManager at 0x32d9ecfb0&gt;
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Fit the second spectrum by re-doing what we did in the first spectrum
+spec21077 = SpectrumFit()
+
+# Use clear=True in loading new data to clear the previous spectrum loaded in PyXspec
+# One can also just use xspec.AllData.clear() before fitting the second spectrum
+spec21077.load_data(spec_files[1], clear=True)
+spec21077.set_rebin(5, 3)
+spec21077.ignore(&quot;**-0.5 8.0-**&quot;) # Chandra is well-calibrated in 0.5 - 8.0 keV
+
+spec21077.set_model(
+    &quot;tbabs*ztbabs*bremss&quot;,
+    zTBabs_nH=2.7,
+    zTBabs_Redshift=0,
+    # Here, we freeze the temperature for tutorial purposes
+    bremss_kT=f&quot;{df_temp[&#39;temperature&#39;].iloc[1]} -1&quot;,
+    bremss_norm=0
+)
+
+spec21077.fit()
+spec21077.set_plot(&quot;ldata&quot;, device=&quot;/svg&quot;)
+spec21077.get_params(&quot;1.0 2 5&quot;)
+df_flux = spec21077.get_fluxes()
+spec21077.get_time()
+spec21077.get_counts()
+spec21077.get_lumin(fluxes=df_flux[&#39;unabsorbed&#39;], distance=dist)
+manager.load(spec21077)
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ Solar Abundance Vector set to aspl:  Asplund M., Grevesse N., Sauval A.J. &amp; Scott P., ARAA, 47, 481 (2009)
+
+Fit statistic  : C-Statistic                  609.99     using 185 bins.
+
+Test statistic : Chi-Squared                 3405.62     using 185 bins.
+ Null hypothesis probability of 0.00e+00 with 183 degrees of freedom
+ Current data and model not fit yet.
+Warning: RMF DETNAM keyword (ACIS-7) is not consistent with that in spectrum (ACIS-35678)
+
+1 spectrum  in use
+
+Spectral Data File: /Users/ferdinand/Research/WynnXraySN/XSNAP/notebook/data/21077/primary/spec21077_grp.pi  Spectrum 1
+Net count rate (cts/s) for Spectrum:1  4.856e-02 +/- 1.568e-03 (99.8 % total)
+ Assigned to Data Group 1 and Plot Group 1
+  Noticed Channels:  1-345
+  Telescope: CHANDRA Instrument: ACIS  Channel Type: PI
+  Exposure Time: 1.979e+04 sec
+ Using fit statistic: cstat
+ Using Background File                spec21077_bkg.pi
+  Background Exposure Time: 1.979e+04 sec
+ Using Response (RMF) File            spec21077.rmf for Source 1
+ Using Auxiliary Response (ARF) File  spec21077.corr.arf
+
+
+Fit statistic  : C-Statistic                  510.29     using 345 bins.
+
+Test statistic : Chi-Squared                 1892.81     using 345 bins.
+ Null hypothesis probability of 3.25e-212 with 343 degrees of freedom
+ Current data and model not fit yet.
+
+ignore:     1 channels ignored from  source number 1
+Fit statistic  : C-Statistic                  508.69     using 344 bins.
+
+Test statistic : Chi-Squared                 1134.81     using 344 bins.
+ Null hypothesis probability of 1.08e-85 with 342 degrees of freedom
+ Current data and model not fit yet.
+
+     5 channels (1-5) ignored in spectrum #     1
+     9 channels (337-345) ignored in spectrum #     1
+
+Fit statistic  : C-Statistic                  478.33     using 331 bins.
+
+Test statistic : Chi-Squared                 1054.76     using 331 bins.
+ Null hypothesis probability of 6.04e-77 with 329 degrees of freedom
+ Current data and model not fit yet.
+
+
+========================================================================
+Model TBabs&lt;1&gt;*zTBabs&lt;2&gt;*bremss&lt;3&gt; Source No.: 1   Active/On
+X-axis set to &#39;keV&#39;
+Plot device set to &#39;/svg&#39;
+Model Model Component  Parameter  Unit     Value
+ par  comp
+   1    1   TBabs      nH         10^22    1.00000      +/-  0.0
+   2    2   zTBabs     nH         10^22    1.00000      +/-  0.0
+   3    2   zTBabs     Redshift            0.0          frozen
+   4    3   bremss     kT         keV      7.00000      +/-  0.0
+   5    3   bremss     norm                1.00000      +/-  0.0
+________________________________________________________________________
+
+
+Fit statistic  : C-Statistic              5.932920e+06     using 331 bins.
+
+Test statistic : Chi-Squared              1.681188e+10     using 331 bins.
+ Null hypothesis probability of 0.000000e+00 with 327 degrees of freedom
+ Current data and model not fit yet.
+
+Fit statistic  : C-Statistic              4.192245e+06     using 331 bins.
+
+Test statistic : Chi-Squared              1.028532e+10     using 331 bins.
+ Null hypothesis probability of 0.000000e+00 with 327 degrees of freedom
+ Current data and model not fit yet.
+
+Fit statistic  : C-Statistic              4.192245e+06     using 331 bins.
+
+Test statistic : Chi-Squared              1.028532e+10     using 331 bins.
+ Null hypothesis probability of 0.000000e+00 with 327 degrees of freedom
+ Current data and model not fit yet.
+
+Fit statistic  : C-Statistic              4.532751e+06     using 331 bins.
+
+Test statistic : Chi-Squared              1.228026e+10     using 331 bins.
+ Null hypothesis probability of 0.000000e+00 with 328 degrees of freedom
+ Current data and model not fit yet.
+
+Fit statistic  : C-Statistic                12299.55     using 331 bins.
+
+Test statistic : Chi-Squared                  948.49     using 331 bins.
+ Null hypothesis probability of 1.28e-61 with 328 degrees of freedom
+ Current data and model not fit yet.
+
+Fit statistic  : C-Statistic                12299.55     using 331 bins.
+
+Test statistic : Chi-Squared                  948.49     using 331 bins.
+ Null hypothesis probability of 2.18e-61 with 329 degrees of freedom
+ Current data and model not fit yet.
+
+Parameters defined:
+========================================================================
+Model TBabs&lt;1&gt;*zTBabs&lt;2&gt;*bremss&lt;3&gt; Source No.: 1   Active/On
+Model Model Component  Parameter  Unit     Value
+ par  comp
+   1    1   TBabs      nH         10^22    6.98000E-02  frozen
+   2    2   zTBabs     nH         10^22    2.70000      +/-  0.0
+   3    2   zTBabs     Redshift            0.0          frozen
+   4    3   bremss     kT         keV      10.2634      frozen
+   5    3   bremss     norm                0.0          +/-  0.0
+________________________________________________________________________
+
+
+Fit statistic  : C-Statistic                12299.55     using 331 bins.
+
+Test statistic : Chi-Squared                  948.49     using 331 bins.
+ Null hypothesis probability of 2.18e-61 with 329 degrees of freedom
+ Current data and model not fit yet.
+Default fit statistic is set to: C-Statistic
+   This will apply to all current and newly loaded spectra.
+
+Fit statistic  : C-Statistic                12299.55     using 331 bins.
+
+Test statistic : Chi-Squared                  948.49     using 331 bins.
+ Null hypothesis probability of 2.18e-61 with 329 degrees of freedom
+ Current data and model not fit yet.
+                                   Parameters
+C-Statistic  |beta|/N    Lvl          2:nH        5:norm
+ Due to zero model norms, the following fit parameters are temporarily frozen:2
+6802.43      1.04612e+09  -3       2.70000   5.66522e-06
+5378.93      7.85834e+07  -4       2.33674   1.09382e-05
+4125.92      4.12148e+07  -5       2.25075   2.13491e-05
+2959.85      2.05841e+07  -6       2.15847   4.06991e-05
+1934.47      1.01187e+07  -7       2.01221   7.40124e-05
+1135.48      4.8535e+06   -8       1.76836   0.000123194
+641.173      2.2087e+06   -9       1.40295   0.000175890
+432.525      888078      -10      0.971197   0.000202312
+379.995      274436      -11      0.639207   0.000197142
+374.326
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/examples_notebook_Tutorial_5_1.svg" src="../../_images/examples_notebook_Tutorial_5_1.svg" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+    63224       -12      0.510655   0.000191171
+374.162      7984.31     -13      0.487432   0.000189817
+374.16       261.196     -14      0.484883   0.000189622
+==============================
+ Variances and Principal Axes
+                 2        5
+ 3.7992E-11| -0.0001   1.0000
+ 3.8787E-03|  1.0000   0.0001
+------------------------------
+
+========================
+  Covariance Matrix
+        1           2
+   3.879e-03   3.271e-07
+   3.271e-07   6.558e-11
+------------------------
+
+========================================================================
+Model TBabs&lt;1&gt;*zTBabs&lt;2&gt;*bremss&lt;3&gt; Source No.: 1   Active/On
+Model Model Component  Parameter  Unit     Value
+ par  comp
+   1    1   TBabs      nH         10^22    6.98000E-02  frozen
+   2    2   zTBabs     nH         10^22    0.484883     +/-  6.22796E-02
+   3    2   zTBabs     Redshift            0.0          frozen
+   4    3   bremss     kT         keV      10.2634      frozen
+   5    3   bremss     norm                1.89622E-04  +/-  8.09837E-06
+________________________________________________________________________
+
+
+Fit statistic  : C-Statistic                  374.16     using 331 bins.
+
+Test statistic : Chi-Squared                  504.96     using 331 bins.
+ Null hypothesis probability of 1.41e-09 with 329 degrees of freedom
+ Parameter   Confidence Range (1)
+     2     0.420216     0.551138    (-0.0644189,0.0665032)
+     5  0.000181486  0.000198013    (-8.11503e-06,8.4117e-06)
+Spectrum 1: Lower range bound          0.3 reset by matrix bound to          0.3
+Parameter distribution is derived from fit covariance matrix.
+ Model Flux 0.00016218 photons (7.9563e-13 ergs/cm^2/s) range (0.30000 - 10.000 keV)
+     Error range 0.0001571 - 0.0001678    (7.686e-13 - 8.252e-13)  (68.00% confidence)
+
+Fit statistic  : C-Statistic                  376.27     using 331 bins.
+
+Test statistic : Chi-Squared                  537.16     using 331 bins.
+ Null hypothesis probability of 3.18e-12 with 329 degrees of freedom
+ Current data and model not fit yet.
+
+Fit statistic  : C-Statistic                  567.72     using 331 bins.
+
+Test statistic : Chi-Squared                 1483.87     using 331 bins.
+ Null hypothesis probability of 6.09e-146 with 329 degrees of freedom
+ Current data and model not fit yet.
+Warning: Either variance is not available through
+         valid fit or chains, or no models are currently
+         active. flux error will not be calculated.
+Spectrum 1: Lower range bound          0.3 reset by matrix bound to          0.3
+ Model Flux 0.00037657 photons (1.0385e-12 ergs/cm^2/s) range (0.30000 - 10.000 keV)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;xsnap.spectrum.SpectrumManager at 0x32d9ecfb0&gt;
+</pre></div></div>
+</div>
+<section id="Plotting-light-curves">
+<h2><span class="section-number">2.1. </span>Plotting light curves<a class="headerlink" href="#Plotting-light-curves" title="Link to this heading">#</a></h2>
+<p>The light curves will be a normal matplotlib plot with labels is grouped by instruments</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig_fluxes = manager.plot_flux()
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/examples_notebook_Tutorial_7_0.png" src="../../_images/examples_notebook_Tutorial_7_0.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/examples_notebook_Tutorial_7_1.png" src="../../_images/examples_notebook_Tutorial_7_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig_lumin = manager.plot_lumin()
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/examples_notebook_Tutorial_8_0.png" src="../../_images/examples_notebook_Tutorial_8_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig_counts = manager.plot_counts()
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/examples_notebook_Tutorial_9_0.png" src="../../_images/examples_notebook_Tutorial_9_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig_params = manager.plot_params()
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/examples_notebook_Tutorial_10_0.png" src="../../_images/examples_notebook_Tutorial_10_0.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/examples_notebook_Tutorial_10_1.png" src="../../_images/examples_notebook_Tutorial_10_1.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/examples_notebook_Tutorial_10_2.png" src="../../_images/examples_notebook_Tutorial_10_2.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/examples_notebook_Tutorial_10_3.png" src="../../_images/examples_notebook_Tutorial_10_3.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/examples_notebook_Tutorial_10_4.png" src="../../_images/examples_notebook_Tutorial_10_4.png" />
+</div>
+</div>
+</section>
+<section id="CSM-Analysis">
+<h2><span class="section-number">2.2. </span>CSM Analysis<a class="headerlink" href="#CSM-Analysis" title="Link to this heading">#</a></h2>
+<p>With this analysis class, we can fit luminosity, temperature, and CSM density. From there, we can also estimate the mass-loss rate of the supernova progenitor.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>analyzer = CSMAnalysis(manager)
+df_fit = analyzer.fit_lumin()
+df_fit
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+  0%|          | 0/10000 [00:00&lt;?, ?it/s]/opt/anaconda3/lib/python3.12/site-packages/emcee/moves/red_blue.py:99: RuntimeWarning: invalid value encountered in scalar subtract
+  lnpdiff = f + nlp - state.log_prob[j]
+100%|██████████| 10000/10000 [00:12&lt;00:00, 798.62it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/examples_notebook_Tutorial_12_1.png" src="../../_images/examples_notebook_Tutorial_12_1.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/examples_notebook_Tutorial_12_2.png" src="../../_images/examples_notebook_Tutorial_12_2.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/ferdinand/Research/WynnXraySN/XSNAP/src/xsnap/_fitting.py:312: RuntimeWarning: divide by zero encountered in scalar divide
+  chi2_red = chi2 / dof
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/examples_notebook_Tutorial_12_4.png" src="../../_images/examples_notebook_Tutorial_12_4.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>model</th>
+      <th>norm</th>
+      <th>lo_norm_err</th>
+      <th>hi_norm_err</th>
+      <th>exp</th>
+      <th>lo_exp_err</th>
+      <th>hi_exp_err</th>
+      <th>ndata</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>tbabs*ztbabs*bremss</td>
+      <td>1.904780e+40</td>
+      <td>4.960042e+39</td>
+      <td>4.312637e+39</td>
+      <td>0.045843</td>
+      <td>0.093367</td>
+      <td>0.099176</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig_lumin = analyzer.plot_lumin()
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/examples_notebook_Tutorial_13_0.png" src="../../_images/examples_notebook_Tutorial_13_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>df_densities = analyzer.calc_density(distance=dist, nwalkers=200, nsteps=5000, nburn=1000)
+df_densities
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 5000/5000 [02:45&lt;00:00, 30.25it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/examples_notebook_Tutorial_14_1.png" src="../../_images/examples_notebook_Tutorial_14_1.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/ferdinand/Research/WynnXraySN/XSNAP/src/xsnap/_fitting.py:312: RuntimeWarning: divide by zero encountered in scalar divide
+  chi2_red = chi2 / dof
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/examples_notebook_Tutorial_14_3.png" src="../../_images/examples_notebook_Tutorial_14_3.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>time_since_explosion</th>
+      <th>rho</th>
+      <th>lo_rho_err</th>
+      <th>hi_rho_err</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>393.706775</td>
+      <td>2.542176e-18</td>
+      <td>1.088969e-19</td>
+      <td>1.181796e-19</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1565.644759</td>
+      <td>3.349231e-19</td>
+      <td>7.167439e-21</td>
+      <td>7.429471e-21</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig_density = analyzer.plot_density()
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/examples_notebook_Tutorial_15_0.png" src="../../_images/examples_notebook_Tutorial_15_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>df_mass_loss = analyzer.get_mdot()
+df_mass_loss # in Msolar/yr
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>m_dot</th>
+      <th>lo_m_dot_err</th>
+      <th>hi_m_dot_err</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.001835</td>
+      <td>0.000038</td>
+      <td>0.000037</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Scripts.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">1. </span>Scripts Tutorial</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Plotting-light-curves">2.1. Plotting light curves</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#CSM-Analysis">2.2. CSM Analysis</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, Ferdinand, Wynn V. Jacobson-Galan, and Mansi M. Kasliwal.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
