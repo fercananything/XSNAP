@@ -1,0 +1,18 @@
+{% extends "!layout.html" %}
+
+{% block extrahead %}
+  {{ super() }}
+
+  {# Canonical: /foo/ for index pages, /foo.html otherwise #}
+  {% if pagename.endswith("index") %}
+    <link rel="canonical" href="{{ (html_baseurl ~ pagename ~ '/')|replace('//', '/')|replace(':/','://') }}">
+  {% else %}
+    <link rel="canonical" href="{{ (html_baseurl ~ pagename ~ '.html')|replace('//', '/')|replace(':/','://') }}">
+  {% endif %}
+
+  {# Noindex low-value utility pages #}
+  {% set noindex_pages = ["search", "genindex", "py-modindex", "install", "modindex"] %}
+  {% if pagename in noindex_pages %}
+    <meta name="robots" content="noindex,follow">
+  {% endif %}
+{% endblock %}

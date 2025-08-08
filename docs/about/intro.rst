@@ -8,10 +8,12 @@ What is XSNAP?
 .. image:: ../_static/logo/xsnap_logo_icon_transparent.png
    :class: only-light
    :width: 200px
+   :alt: XSNAP Logo
 
 .. image:: ../_static/logo/xsnap_logo_icon_transparent_white.png
    :class: only-dark
    :width: 200px
+   :alt: XSNAP Logo
 
 
 Introduction

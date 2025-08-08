@@ -136,15 +136,52 @@ html_sidebars = {
 notfound_context = {
     "title": "Page not found",
     "body": (
-        "<h1>Oops — page not found</h1>"
-        "<p>Use the search box or go back to the "
-        "<a href='/XSNAP/index.html'>homepage</a>.</p>"
+        "<h1>Oops! <br /> The page you are looking for is not found</h1>"
+        "<h2>Please go back to the "
+        "<a href='/index.html'>homepage</a>.</h2>"
     ),
 }
 
 # If you host at a subpath (e.g., GitHub Pages project site):
-html_baseurl = "https://fercananything.github.io/XSNAP/"
-notfound_urls_prefix = "/XSNAP/"
+html_baseurl = "https://xsnap.org/"
+notfound_urls_prefix = "/"
+
+# ---------------- SEO extensions ----------------
+extensions += [
+    "sphinx_sitemap",          # sitemap.xml
+    "sphinxext.opengraph",     # OG/Twitter cards
+    "sphinxcontrib.robots",    # robots.txt
+    "sphinxext.rediraffe",     # 301 redirects when pages move
+]
+
+# Required by sitemap & canonical logic (you already set this)
+html_baseurl = "https://xsnap.org/"
+
+# Sitemap: use pretty links that match how pages resolve
+sitemap_url_scheme = "{link}"
+
+# Robots: point to the sitemap; (optionally) disallow source dumps
+robots_txt = f"""User-agent: *
+Allow: /
+Sitemap: {html_baseurl}sitemap.xml
+Disallow: /_sources/
+"""
+
+# OpenGraph defaults (customize image if you have a social card)
+ogp_site_url = html_baseurl
+ogp_site_name = project
+ogp_type = "website"
+# Recommended: a 1200x630 PNG/JPG hosted on your site
+ogp_image = "https://xsnap.org/_static/logo/xsnap_logo_icon_crop.jpeg"
+
+# Treat broken xrefs as warnings (helps internal linking quality)
+nitpicky = True
+
+# If you ever rename/move pages, declare 301s here:
+rediraffe_redirects = {
+    # "old/path/index.rst": "new/path/",
+    # "faq.rst": "guide/faq/",
+}
 
 
 
