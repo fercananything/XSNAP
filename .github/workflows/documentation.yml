@@ -52,6 +52,7 @@ jobs:
                 sphinx-notfound-page 
         pip install "nbsphinx < 8.0.0"
         pip install sphinx_rtd_theme myst_parser
+        pip install sphinx-sitemap sphinxext-opengraph sphinxcontrib-robots sphinxext-rediraffe
 
     - name: Build docs
       run: |
