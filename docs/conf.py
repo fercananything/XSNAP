@@ -48,7 +48,7 @@ extensions = [
     "sphinx.ext.intersphinx",
     "nbsphinx",
     'notfound.extension',
-    # "sphinx_sitemap",          # sitemap.xml
+    "sphinx_sitemap",          # sitemap.xml
     # "sphinxext.opengraph",     # OG/Twitter cards
     # "sphinxcontrib.robots",    # robots.txt
     # "sphinxext.rediraffe",     # 301 redirects when pages move
@@ -153,7 +153,7 @@ notfound_urls_prefix = "/"
 # ---------------- SEO extensions ----------------
 
 # Sitemap: use pretty links that match how pages resolve
-# sitemap_url_scheme = "{link}"
+html_extra_path = ['robots.txt']
 
 # # Robots: point to the sitemap; (optionally) disallow source dumps
 # robots_txt = f"""User-agent: *

@@ -1,4 +1,7 @@
 .. _about:
+.. meta::
+   :description lang=en:
+      XSNAP Overview Page
 
 ###############
 About XSNAP

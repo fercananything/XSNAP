@@ -2,7 +2,7 @@
    :description lang=en: 
          XSNAP (X-ray Supernova Analysis Pipeline) is a Python-based pipeline module that 
          automates every step of X-ray supernova data reduction and analysis, from raw event 
-         processing and region selection to spectral fitting. 
+         processing and region selection to spectral fitting.
 
 .. image:: _static/logo/xsnap_logo_header_transparent.png
    :class: only-light

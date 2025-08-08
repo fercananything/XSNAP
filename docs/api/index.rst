@@ -1,4 +1,7 @@
 .. _api:
+.. meta::
+    :description lang=en:
+        XSNAP Scripts & API Reference 
 
 ###############
 XSNAP Reference

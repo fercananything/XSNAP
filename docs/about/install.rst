@@ -1,5 +1,7 @@
 .. _install:
-
+.. meta::
+   :description lang=en:
+      How to install XSNAP?
 
 ###############
 Installation

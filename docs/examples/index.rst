@@ -1,4 +1,7 @@
 .. _examples:
+.. meta::
+   :description lang=en:
+      XSNAP Example Notebooks!
 
 Examples
 ========

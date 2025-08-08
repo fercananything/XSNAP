@@ -1,4 +1,7 @@
 .. _quickstart:
+.. meta::
+   :description lang=en:
+      Quickguide to XSNAP. Prerequisites, installation, to quickstarting!
 
 ######################
 Quickstart with XSNAP

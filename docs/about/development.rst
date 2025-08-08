@@ -1,5 +1,7 @@
 .. _development:
-
+.. meta::
+   :description lang=en:
+      Contribute to XSNAP! 
 
 
 ######################
