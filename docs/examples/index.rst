@@ -1,5 +1,7 @@
 .. _examples:
 .. meta::
+   :keywords: x-ray, astrophysics, transient, spectra, supernova, astronomy, pipeline, python, analysis, circumstellar medium, mass-loss rate
+   :author: Ferdinand, Wynn V. Jacobson-Galan, Mansi M. Kasliwal
    :description lang=en:
       XSNAP Example Notebooks!
 
