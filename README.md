@@ -16,7 +16,9 @@ XSNAP, with the help of PyXspec, is able to model and fit spectra using a wide r
 
 A follow-up analysis using the Thermal-Bremsstrahlung model can be made, specifically for Type II Supernova. From luminosity fitting to estimating Circumstellar Medium (CSM) densities and mass-loss rates of the supernova progenitors, XSNAP streamines the workflow so you can spend less time on rewriting each analysis manually.
 
-More analysis functions can be made upon requests :)
+Documentation of XSNAP can be seen in this [page](https://xsnap.org/)
+
+More on analysis functions can be made upon requests :)
 
 ## Contents
 
