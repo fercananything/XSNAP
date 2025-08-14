@@ -83,7 +83,7 @@ And there are five Python classes to call:
    * - :py:class:`~xsnap.SpectrumManager`
      - Handling and compiling a collection of :py:class:`~xsnap.SpectrumFit`, streamlining bulk analysis of spectra.
    * - :py:class:`~xsnap.SourceDetection`
-     - Bin & stack Swift-XRT PC-mode data (default 1-day bins).
+     - Detect a source with certain SNR (default SNR > 3), given the source's RA and Dec.
    * - :py:class:`~xsnap.CSMAnalysis`
      - Analyze the circumstellar medium of the supernova.
    * - :py:class:`~xsnap.TemperatureEstimator`
