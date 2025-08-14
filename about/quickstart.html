@@ -1,0 +1,861 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="x-ray, astrophysics, transient, spectra, supernova, astronomy, pipeline, python, analysis, circumstellar medium, mass-loss rate" name="keywords" />
+<meta content="Ferdinand, Wynn V. Jacobson-Galan, Mansi M. Kasliwal" name="author" />
+<meta content="Quickguide to XSNAP. Prerequisites, installation, to quickstarting!" lang="en" name="description" xml:lang="en" />
+
+    <title>Quickstart with XSNAP &#8212; XSNAP v0.2.5</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=5d520e33" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=cb850272"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-MJMZJK59M0"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-MJMZJK59M0');
+            </script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-MJMZJK59M0');
+            </script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'about/quickstart';</script>
+    <link rel="canonical" href="https://xsnap.org/about/quickstart.html" />
+    <link rel="icon" href="../_static/xsnapicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Contributing to XSNAP" href="development.html" />
+    <link rel="prev" title="Installation" href="install.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.2.5" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/xsnaplogo.svg" class="logo__image only-light" alt="XSNAP v0.2.5 - Home"/>
+    <img src="../_static/xsnap_logo_header_transparent_white.png" class="logo__image only-dark pst-js-only" alt="XSNAP v0.2.5 - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://github.com/fercananything/XSNAP/blob/main/CHANGELOG.md">
+    Changelog
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/fercananything/xsnap" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="mailto:support@xsnap.org" title="E-mail" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-inbox fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">E-mail</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://github.com/fercananything/XSNAP/blob/main/CHANGELOG.md">
+    Changelog
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/fercananything/xsnap" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="mailto:support@xsnap.org" title="E-mail" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-inbox fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">E-mail</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Quickstart with XSNAP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="publication.html">Publication</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">About XSNAP</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Quickstart with XSNAP</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="quickstart-with-xsnap">
+<span id="quickstart"></span><h1>Quickstart with XSNAP<a class="headerlink" href="#quickstart-with-xsnap" title="Link to this heading">#</a></h1>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h2>
+<p>You’ll need to know a bit of <a class="reference external" href="https://www.python.org">Python</a>, <a class="reference external" href="https://numpy.org">NumPy</a>,
+<a class="reference external" href="https://matplotlib.org">Matplotlib</a>, <a class="reference external" href="https://www.astropy.org">Astropy</a>,
+and <a class="reference external" href="https://heasarc.gsfc.nasa.gov/xanadu/xspec/">XSPEC</a> (or <a class="reference external" href="https://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/python/html/index.html">PyXspec</a>).
+Please refer to each of their own documentation for details.</p>
+<p>Additionally, a little understanding on basic astronomical <a class="reference external" href="https://en.wikipedia.org/wiki/Photometry_(astronomy)">photometry</a>,
+<a class="reference external" href="https://en.wikipedia.org/wiki/Astronomical_spectroscopy">spectroscopy</a>, and <a class="reference external" href="https://ads.harvard.edu/books/1989fsa..book/">stellar physics</a>
+would help.</p>
+</section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h2>
+<p>Details are available on <a class="reference internal" href="install.html"><span class="doc">Installation</span></a> but a quick command below can be used.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>xsnap
+</pre></div>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>You <strong>must remember to first</strong> install <a class="reference external" href="https://heasarc.gsfc.nasa.gov/docs/software/heasoft/download.html">HEASoft + XSPEC</a> and <a class="reference external" href="https://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/python/html/buildinstall.html">PyXspec</a>.
+Details of the required dependencies are <a class="reference internal" href="install.html#required-dependencies"><span class="std std-ref">here</span></a>.</p>
+<p>Before doing anything with XSNAP, <strong>make sure</strong> to initialize <a class="reference external" href="https://heasarc.gsfc.nasa.gov/docs/software/heasoft/">HEASoft</a>:</p>
+<p>If you have Bourne shell variants (bash/sh/zsh):</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; export HEADAS=/path/to/heasoft/platform/
+&gt;&gt;&gt; source $HEADAS/headas-init.sh
+</pre></div>
+</div>
+<p>Or if you have C-shell variants (tcsh/csh):</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; setenv HEADAS /path/to/heasoft/platform/
+&gt;&gt;&gt; source $HEADAS/headas-init.csh
+</pre></div>
+</div>
+</div>
+<div class="admonition hint" id="hint-heasoft">
+<p class="admonition-title">Hint</p>
+<p>It is best to use a new virtual environment, particularly <a class="reference external" href="https://anaconda.org/anaconda/conda">conda</a> environment, for XSNAP.</p>
+<p>In addition, it may be a good idea to make an alias for <a class="reference external" href="https://heasarc.gsfc.nasa.gov/docs/software/heasoft/">HEASoft</a>
+in your <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> or <code class="docutils literal notranslate"><span class="pre">~/.zshrc</span></code> by doing:</p>
+<ol class="arabic">
+<li><p>Open the <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> or <code class="docutils literal notranslate"><span class="pre">~/.zshrc</span></code> file:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">nano</span> <span class="o">~/.</span><span class="n">bashrc</span>       <span class="c1"># or ~/.zshrc</span>
+</pre></div>
+</div>
+</li>
+<li><p>Add these two lines:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">export</span> <span class="n">HEADAS</span><span class="o">=/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">heasoft</span><span class="o">/</span><span class="n">platform</span><span class="o">/</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">alias</span> <span class="n">heainit</span><span class="o">=</span><span class="s1">&#39;. $HEADAS/headas-init.sh&#39;</span>
+</pre></div>
+</div>
+</li>
+<li><p>Reload the shell config:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">source</span> <span class="o">~/.</span><span class="n">bashrc</span>     <span class="c1"># or ~/.zshrc</span>
+</pre></div>
+</div>
+</li>
+<li><p>Now, you can initialize <a class="reference external" href="https://heasarc.gsfc.nasa.gov/docs/software/heasoft/">HEASoft</a> by:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">heainit</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>Please adjust accordingly if you have C-shell variants (tcsh/csh).</p>
+</div>
+</section>
+<section id="quick-cli-usage">
+<h2>Quick CLI Usage<a class="headerlink" href="#quick-cli-usage" title="Link to this heading">#</a></h2>
+<p>Once installed, XSNAP command-line interface (CLI) scripts are easy and ready-to-use.</p>
+<p>Initialize <a class="reference external" href="https://heasarc.gsfc.nasa.gov/docs/software/heasoft/">HEASoft</a> in the terminal first:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; export HEADAS=/path/to/heasoft/software
+&gt;&gt;&gt; source $HEADAS/headas-init.sh
+</pre></div>
+</div>
+<p>A quick <a class="reference internal" href="#hint-heasoft"><span class="std std-ref">hint</span></a> is also available above.</p>
+<p>Then, you can immediately use in terminal, e.g.,</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">extract</span><span class="o">-</span><span class="n">xmm</span> <span class="o">./</span><span class="mi">0882480901</span><span class="o">/</span><span class="n">odf</span><span class="o">/</span> <span class="n">sou_physical</span><span class="o">.</span><span class="n">reg</span> <span class="n">bkg_physical</span><span class="o">.</span><span class="n">reg</span>
+</pre></div>
+</div>
+<p>If you want to run it in an <code class="docutils literal notranslate"><span class="pre">.ipynb</span></code> file:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; ! extract-xmm ./0882480901/odf/ sou_physical.reg bkg_physical.reg
+</pre></div>
+</div>
+<p>You can also run it in vanilla Python:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cmd</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;make-region&quot;</span><span class="p">,</span>
+<span class="gp">... </span>       <span class="s2">&quot;/path/to/event/file&quot;</span><span class="p">,</span>
+<span class="gp">... </span>       <span class="s2">&quot;169.59&quot;</span><span class="p">,</span> <span class="s2">&quot;-32.83&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Make sure to have install the <a class="reference internal" href="install.html#recommended-dependencies"><span class="std std-ref">dependencies</span></a> of each script.
+Details of each script is also available <a class="reference internal" href="../api/index.html"><span class="doc">here</span></a>.
+Some examples are also made <a class="reference internal" href="../examples/notebook/Scripts.html"><span class="doc">here</span></a>.</p>
+</div>
+</section>
+<section id="quick-api-usage">
+<h2>Quick API Usage<a class="headerlink" href="#quick-api-usage" title="Link to this heading">#</a></h2>
+<section id="importing-xsnap">
+<h3>Importing XSNAP<a class="headerlink" href="#importing-xsnap" title="Link to this heading">#</a></h3>
+<p>Fundamentally, you can import XSNAP by:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">xsnap</span>
+</pre></div>
+</div>
+<p>However, it can be tricky as it heavily relies on
+<a class="reference external" href="https://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/python/html/index.html">PyXspec</a>,
+which is not available in <a class="reference external" href="https://pypi.org/">PyPI</a>.</p>
+<p>In this page, there will be two walkthroughs on importing XSNAP, i.e. through <a class="reference external" href="(tcsh/csh)">Jupyter</a> and <a class="reference external" href="https://code.visualstudio.com">Visual Studio Code (VS Code)</a></p>
+<section id="importing-through-jupyter">
+<h4>Importing through Jupyter<a class="headerlink" href="#importing-through-jupyter" title="Link to this heading">#</a></h4>
+<ol class="arabic">
+<li><p>Activate the virtual environment that you installed XSNAP in:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">conda</span> <span class="n">activate</span> <span class="n">xsnap</span><span class="o">-</span><span class="n">venv</span>
+</pre></div>
+</div>
+</li>
+<li><p>Initialize HEASoft in the environment:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; export HEADAS=/path/to/heasoft/software
+&gt;&gt;&gt; source $HEADAS/headas-init.sh
+</pre></div>
+</div>
+</li>
+<li><p>Run Jupyter lab or Jupyter Notebook</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">jupyter</span> <span class="n">lab</span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">jupyter</span> <span class="n">notebook</span>
+</pre></div>
+</div>
+</li>
+<li><p>Import XSNAP through the <code class="docutils literal notranslate"><span class="pre">.ipynb</span></code> file:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">xsnap</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="importing-through-vs-code">
+<h4>Importing through VS Code<a class="headerlink" href="#importing-through-vs-code" title="Link to this heading">#</a></h4>
+<ol class="arabic">
+<li><p>Make sure to add VS Code to the <code class="docutils literal notranslate"><span class="pre">PATH</span></code> environment variable, such that you can open VS Code using <code class="docutils literal notranslate"><span class="pre">code</span></code> in terminal.
+Details can be found in the VS Code setup page for <a class="reference external" href="https://code.visualstudio.com/docs/setup/linux#_install-vs-code-on-linux">Linux</a>, <a class="reference external" href="https://code.visualstudio.com/docs/setup/mac#_launch-vs-code-from-the-command-line">macOS</a>, and <a class="reference external" href="https://code.visualstudio.com/docs/setup/windows#_install-vs-code-on-windows">Windows</a>.</p></li>
+<li><p>Activate the virtual environment that you installed XSNAP in:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">conda</span> <span class="n">activate</span> <span class="n">xsnap</span><span class="o">-</span><span class="n">venv</span>
+</pre></div>
+</div>
+</li>
+<li><p>Initialize HEASoft in the environment:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; export HEADAS=/path/to/heasoft/software
+&gt;&gt;&gt; source $HEADAS/headas-init.sh
+</pre></div>
+</div>
+</li>
+<li><p>Open VS Code through the exact same terminal:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">code</span> <span class="o">.</span>
+</pre></div>
+</div>
+</li>
+<li><p>Import XSNAP through the <code class="docutils literal notranslate"><span class="pre">.ipynb</span></code> file:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">xsnap</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+</section>
+<section id="spectrum-fitting">
+<h3>Spectrum Fitting<a class="headerlink" href="#spectrum-fitting" title="Link to this heading">#</a></h3>
+<p>Below is a minimal example to fit a spectrum.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>The <a class="reference internal" href="../api/spectrum.SpectrumFit.html#xsnap.SpectrumFit" title="xsnap.SpectrumFit"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpectrumFit</span></code></a> assumes you have a grouped spectrum file <code class="docutils literal notranslate"><span class="pre">myspectrum.pi</span></code> or at least have the same name as the background and response file</p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">xsnap</span>
+
+<span class="c1"># 1) Create the fit object</span>
+<span class="n">spec</span> <span class="o">=</span> <span class="n">xsnap</span><span class="o">.</span><span class="n">SpectrumFit</span><span class="p">(</span><span class="n">abund</span><span class="o">=</span><span class="s2">&quot;aspl&quot;</span><span class="p">)</span>
+
+<span class="c1"># 2) Load your PHA spectrum file</span>
+<span class="n">spec</span><span class="o">.</span><span class="n">load_data</span><span class="p">(</span><span class="s2">&quot;myspectrum.pi&quot;</span><span class="p">)</span>
+
+<span class="c1"># 3) Define a model (e.g. absorbed power law)</span>
+<span class="n">spec</span><span class="o">.</span><span class="n">set_model</span><span class="p">(</span><span class="s2">&quot;tbabs*pow&quot;</span><span class="p">,</span>
+                <span class="n">TBabs_nH</span><span class="o">=</span><span class="s2">&quot;0.05 -1&quot;</span><span class="p">,</span>
+                <span class="n">powerlaw_PhoIndex</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="c1"># The model has 3 parameters here:</span>
+<span class="c1"># TBabs.nH, powerlaw.PhoIndex, and powerlaw.norm</span>
+
+<span class="c1"># 4) Fit!</span>
+<span class="n">spec</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">nIterations</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+
+<span class="c1"># 5) Plot (if you want to see the plot in svg for example)</span>
+<span class="n">spec</span><span class="o">.</span><span class="n">set_plot</span><span class="p">(</span><span class="s2">&quot;ldata&quot;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s2">&quot;/svg&quot;</span><span class="p">)</span>
+
+<span class="c1"># 6) Getting best-fit parameters for powerlaw PhoIndex and norm.</span>
+<span class="c1"># This means that we&#39;re fitting for 1σ for parameter 2 and 3 (PhoIndex and norm)</span>
+<span class="n">spec</span><span class="o">.</span><span class="n">get_params</span><span class="p">(</span><span class="s2">&quot;1.0 2 3&quot;</span><span class="p">)</span>
+
+<span class="c1"># 7) Getting observation times and count rates</span>
+<span class="n">spec</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>
+<span class="n">spec</span><span class="o">.</span><span class="n">get_time</span><span class="p">()</span>
+
+<span class="c1"># 8) Getting flux and luminosity</span>
+<span class="n">df_flux</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">get_fluxes</span><span class="p">()</span>
+<span class="n">spec</span><span class="o">.</span><span class="n">get_lumin</span><span class="p">(</span><span class="n">df_flux</span><span class="p">[</span><span class="s1">&#39;unabsorbed&#39;</span><span class="p">],</span> <span class="n">redshift</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="handling-a-collection-of-spectrum">
+<h3>Handling a Collection of Spectrum<a class="headerlink" href="#handling-a-collection-of-spectrum" title="Link to this heading">#</a></h3>
+<p>Below is a minimal example to plot light curves and parameter evolutions from multiple spectra.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">xsnap</span>
+
+<span class="c1"># 1) Create manager object</span>
+<span class="n">manager</span> <span class="o">=</span> <span class="n">xsnap</span><span class="o">.</span><span class="n">SpectrumManager</span><span class="p">()</span>
+
+<span class="c1"># 2) Analyze a spectrum</span>
+<span class="n">spec1</span> <span class="o">=</span> <span class="n">xsnap</span><span class="o">.</span><span class="n">SpectrumFit</span><span class="p">(</span><span class="n">abund</span><span class="o">=</span><span class="s2">&quot;aspl&quot;</span><span class="p">)</span>
+<span class="n">spec1</span><span class="o">.</span><span class="n">load_data</span><span class="p">(</span><span class="s2">&quot;spectrum1.pha&quot;</span><span class="p">)</span>
+<span class="n">spec1</span><span class="o">.</span><span class="n">set_model</span><span class="p">(</span><span class="s2">&quot;tbabs*pow&quot;</span><span class="p">,</span>
+                <span class="n">TBabs_nH</span><span class="o">=</span><span class="s2">&quot;0.05 -1&quot;</span><span class="p">,</span>
+                <span class="n">powerlaw_PhoIndex</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">spec1</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">spec1</span><span class="o">.</span><span class="n">get_params</span><span class="p">(</span><span class="s2">&quot;1.0 2 3&quot;</span><span class="p">)</span>
+<span class="n">spec1</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>
+<span class="n">spec1</span><span class="o">.</span><span class="n">get_time</span><span class="p">()</span>
+<span class="n">df_flux</span> <span class="o">=</span> <span class="n">spec1</span><span class="o">.</span><span class="n">get_fluxes</span><span class="p">()</span>
+<span class="n">spec1</span><span class="o">.</span><span class="n">get_lumin</span><span class="p">(</span><span class="n">df_flux</span><span class="p">[</span><span class="s1">&#39;unabsorbed&#39;</span><span class="p">],</span> <span class="n">redshift</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+
+<span class="c1"># 3) Load the spectrum to manager</span>
+<span class="c1"># (Optionally) you can also specify</span>
+<span class="c1"># the instrument by manager.load(spec1, instrument=&quot;XMM&quot;)</span>
+<span class="c1"># Otherwise, the manager will try to find the instrument</span>
+<span class="c1"># from the spectrum file</span>
+<span class="n">manager</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">spec1</span><span class="p">)</span>
+
+<span class="c1"># 4) Repeat analysis of other spectrums</span>
+<span class="c1"># Due to the nature of PyXspec, it is</span>
+<span class="c1"># best to load spectrum each time after analysis</span>
+
+<span class="n">spec2</span> <span class="o">=</span> <span class="n">xsnap</span><span class="o">.</span><span class="n">SpectrumFit</span><span class="p">(</span><span class="n">abund</span><span class="o">=</span><span class="s2">&quot;aspl&quot;</span><span class="p">)</span>
+<span class="c1"># clear existing data before loading a new one by doing:</span>
+<span class="n">spec2</span><span class="o">.</span><span class="n">load_data</span><span class="p">(</span><span class="s2">&quot;spectrum2.pha&quot;</span><span class="p">,</span> <span class="n">clear</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># you can also clear by importing xspec and run:</span>
+<span class="c1"># xspec.AllData.clear()</span>
+<span class="n">spec2</span><span class="o">.</span><span class="n">set_model</span><span class="p">(</span><span class="s2">&quot;tbabs*pow&quot;</span><span class="p">,</span>
+                <span class="n">TBabs_nH</span><span class="o">=</span><span class="s2">&quot;0.05 -1&quot;</span><span class="p">,</span>
+                <span class="n">powerlaw_PhoIndex</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">spec2</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">spec2</span><span class="o">.</span><span class="n">get_params</span><span class="p">(</span><span class="s2">&quot;1.0 2 3&quot;</span><span class="p">)</span>
+<span class="n">spec2</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>
+<span class="n">spec2</span><span class="o">.</span><span class="n">get_time</span><span class="p">()</span>
+<span class="n">df_flux</span> <span class="o">=</span> <span class="n">spec2</span><span class="o">.</span><span class="n">get_fluxes</span><span class="p">()</span>
+<span class="n">spec2</span><span class="o">.</span><span class="n">get_lumin</span><span class="p">(</span><span class="n">df_flux</span><span class="p">[</span><span class="s1">&#39;unabsorbed&#39;</span><span class="p">],</span> <span class="n">redshift</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+
+<span class="c1"># 5) Load the spectrum again to manager</span>
+<span class="n">manager</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">spec2</span><span class="p">)</span>
+
+<span class="c1"># 6) Plot flux and luminosity light curves</span>
+<span class="n">manager</span><span class="o">.</span><span class="n">plot_flux</span><span class="p">()</span>
+<span class="n">manager</span><span class="o">.</span><span class="n">plot_lumin</span><span class="p">()</span>
+
+<span class="c1"># 7) Plot parameter evolution</span>
+<span class="n">manager</span><span class="o">.</span><span class="n">plot_params</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="detecting-sources">
+<h3>Detecting Sources<a class="headerlink" href="#detecting-sources" title="Link to this heading">#</a></h3>
+<p>Below is a minimal example to detect a source given an event file and the source coordinates.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">glob</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">xsnap</span><span class="w"> </span><span class="kn">import</span> <span class="n">SourceDetection</span>
+
+<span class="c1"># 1) Define the paths to the event files and exposure image files</span>
+<span class="c1"># (exposure image are optional but helpful and recommended to use)</span>
+<span class="c1"># Here, I use glob to list all the .evt and .img file inside of a directory</span>
+
+<span class="n">evt_paths</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;./parent/dir/of/event/*.evt&quot;</span><span class="p">))</span>
+<span class="n">img_paths</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;./parent/dir/of/image/*.img&quot;</span><span class="p">))</span>
+
+<span class="c1"># Keep in mind that the amount of event path and image must be the same</span>
+<span class="c1"># i.e. len(evt_paths) == len(img_paths)</span>
+<span class="c1"># This is because they will be paired up when used for detecting, i.e.</span>
+<span class="c1"># evt_paths[0] with img_paths[0]</span>
+
+<span class="c1"># 2) Create the detection object and load the files</span>
+<span class="n">detect</span> <span class="o">=</span> <span class="n">SourceDetection</span><span class="p">()</span>
+<span class="n">detect</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">evt_paths</span><span class="p">,</span> <span class="n">img_paths</span><span class="p">)</span>
+
+<span class="c1"># 3) Define the source RA and dec</span>
+<span class="c1"># Make sure it&#39;s in decimal degrees</span>
+<span class="n">RA</span> <span class="o">=</span> <span class="mf">169.59</span>
+<span class="n">dec</span> <span class="o">=</span> <span class="o">-</span><span class="mf">32.83</span>
+
+<span class="c1"># 4) Detect the source in all event files!</span>
+<span class="n">detect</span><span class="o">.</span><span class="n">detect_all</span><span class="p">(</span><span class="n">RA</span><span class="p">,</span> <span class="n">dec</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="more-examples">
+<h3>More Examples<a class="headerlink" href="#more-examples" title="Link to this heading">#</a></h3>
+<p>More examples are available in the <a class="reference internal" href="../examples/index.html"><span class="doc">Examples</span></a> page (more notebooks will be made soon!).</p>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="install.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Installation</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="development.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Contributing to XSNAP</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-cli-usage">Quick CLI Usage</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-api-usage">Quick API Usage</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-xsnap">Importing XSNAP</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-through-jupyter">Importing through Jupyter</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-through-vs-code">Importing through VS Code</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spectrum-fitting">Spectrum Fitting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#handling-a-collection-of-spectrum">Handling a Collection of Spectrum</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#detecting-sources">Detecting Sources</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#more-examples">More Examples</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, Ferdinand, Wynn V. Jacobson-Galan, and Mansi M. Kasliwal.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

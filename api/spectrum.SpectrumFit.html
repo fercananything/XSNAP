@@ -1,0 +1,1133 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>SpectrumFit (xsnap.SpectrumFit) &#8212; XSNAP v0.2.5</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=5d520e33" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=cb850272"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-MJMZJK59M0"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-MJMZJK59M0');
+            </script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-MJMZJK59M0');
+            </script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/spectrum.SpectrumFit';</script>
+    <link rel="canonical" href="https://xsnap.org/api/spectrum.SpectrumFit.html" />
+    <link rel="icon" href="../_static/xsnapicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="SpectrumManager (xsnap.SpectrumManager)" href="spectrum.SpectrumManager.html" />
+    <link rel="prev" title="Spectrum (xsnap.spectrum)" href="spectrum.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.2.5" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/xsnaplogo.svg" class="logo__image only-light" alt="XSNAP v0.2.5 - Home"/>
+    <img src="../_static/xsnap_logo_header_transparent_white.png" class="logo__image only-dark pst-js-only" alt="XSNAP v0.2.5 - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../about/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://github.com/fercananything/XSNAP/blob/main/CHANGELOG.md">
+    Changelog
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/fercananything/xsnap" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="mailto:support@xsnap.org" title="E-mail" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-inbox fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">E-mail</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../about/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://github.com/fercananything/XSNAP/blob/main/CHANGELOG.md">
+    Changelog
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/fercananything/xsnap" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="mailto:support@xsnap.org" title="E-mail" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-inbox fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">E-mail</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Python API</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="spectrum.html">Spectrum (<code class="code docutils literal notranslate"><span class="pre">xsnap.spectrum</span></code>)</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">SpectrumFit (<code class="code docutils literal notranslate"><span class="pre">xsnap.SpectrumFit</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spectrum.SpectrumManager.html">SpectrumManager (<code class="code docutils literal notranslate"><span class="pre">xsnap.SpectrumManager</span></code>)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="sourcedetection.html">SourceDetection (<code class="code docutils literal notranslate"><span class="pre">xsnap.SourceDetection</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="csmanalysis.html">CSMAnalysis (<code class="code docutils literal notranslate"><span class="pre">xsnap.CSMAnalysis</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="temperatureestimator.html">TemperatureEstimator (<code class="code docutils literal notranslate"><span class="pre">xsnap.TemperatureEstimator</span></code>)</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Scripts</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="makeregion.html">Making Region Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extractchandra.html">Extract CXO Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extractswift.html">Extract XRT Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="swiftstackpc.html">Stacking XRT Data (PC Mode)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extractnustar.html">Extract NuSTAR Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extractxmm.html">Extract XMM Data</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">XSNAP Reference</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="spectrum.html" class="nav-link">Spectrum (<code class="code docutils literal notranslate"><span class="pre">xsnap.spectrum</span></code>)</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">SpectrumFit (<code class="code docutils literal notranslate"><span class="pre">xsnap.SpectrumFit</span></code>)</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-xsnap.SpectrumFit">
+<span id="spectrumfit-xsnap-spectrumfit"></span><span id="spectrum-spectrumfit"></span><h1>SpectrumFit (<code class="code docutils literal notranslate"><span class="pre">xsnap.SpectrumFit</span></code>)<a class="headerlink" href="#module-xsnap.SpectrumFit" title="Link to this heading">#</a></h1>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 50.0%" />
+<col style="width: 50.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Methods</strong></p></th>
+<th class="head"><p><strong>Attributes</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="#xsnap.SpectrumFit.__init__" title="xsnap.SpectrumFit.__init__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__init__()</span></code></a></p></td>
+<td><p><a class="reference internal" href="#xsnap.SpectrumFit.fluxes" title="xsnap.SpectrumFit.fluxes"><code class="xref py py-attr docutils literal notranslate"><span class="pre">fluxes</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#xsnap.SpectrumFit.__iadd__" title="xsnap.SpectrumFit.__iadd__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__iadd__()</span></code></a> (the <code class="docutils literal notranslate"><span class="pre">+=</span></code> operator)</p></td>
+<td><p><a class="reference internal" href="#xsnap.SpectrumFit.lumin" title="xsnap.SpectrumFit.lumin"><code class="xref py py-attr docutils literal notranslate"><span class="pre">lumin</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#xsnap.SpectrumFit.clear" title="xsnap.SpectrumFit.clear"><code class="xref py py-meth docutils literal notranslate"><span class="pre">clear()</span></code></a></p></td>
+<td><p><a class="reference internal" href="#xsnap.SpectrumFit.params" title="xsnap.SpectrumFit.params"><code class="xref py py-attr docutils literal notranslate"><span class="pre">params</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#xsnap.SpectrumFit.load_data" title="xsnap.SpectrumFit.load_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">load_data()</span></code></a></p></td>
+<td><p><a class="reference internal" href="#xsnap.SpectrumFit.counts" title="xsnap.SpectrumFit.counts"><code class="xref py py-attr docutils literal notranslate"><span class="pre">counts</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#xsnap.SpectrumFit.ignore" title="xsnap.SpectrumFit.ignore"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ignore()</span></code></a></p></td>
+<td><p><a class="reference internal" href="#xsnap.SpectrumFit.models" title="xsnap.SpectrumFit.models"><code class="xref py py-attr docutils literal notranslate"><span class="pre">models</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#xsnap.SpectrumFit.show" title="xsnap.SpectrumFit.show"><code class="xref py py-meth docutils literal notranslate"><span class="pre">show()</span></code></a></p></td>
+<td><p><a class="reference internal" href="#xsnap.SpectrumFit.obstime" title="xsnap.SpectrumFit.obstime"><code class="xref py py-attr docutils literal notranslate"><span class="pre">obstime</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#xsnap.SpectrumFit.set_rebin" title="xsnap.SpectrumFit.set_rebin"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_rebin()</span></code></a></p></td>
+<td><p><a class="reference internal" href="#xsnap.SpectrumFit.tExplosion" title="xsnap.SpectrumFit.tExplosion"><code class="xref py py-attr docutils literal notranslate"><span class="pre">tExplosion</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#xsnap.SpectrumFit.set_plot" title="xsnap.SpectrumFit.set_plot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_plot()</span></code></a></p></td>
+<td><p><a class="reference internal" href="#xsnap.SpectrumFit.pha" title="xsnap.SpectrumFit.pha"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pha</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#xsnap.SpectrumFit.set_model" title="xsnap.SpectrumFit.set_model"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_model()</span></code></a></p></td>
+<td><p><a class="reference internal" href="#xsnap.SpectrumFit.detection" title="xsnap.SpectrumFit.detection"><code class="xref py py-attr docutils literal notranslate"><span class="pre">detection</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#xsnap.SpectrumFit.simulate" title="xsnap.SpectrumFit.simulate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">simulate()</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#xsnap.SpectrumFit.fit" title="xsnap.SpectrumFit.fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">fit()</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#xsnap.SpectrumFit.get_time" title="xsnap.SpectrumFit.get_time"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_time()</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#xsnap.SpectrumFit.get_counts" title="xsnap.SpectrumFit.get_counts"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_counts()</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#xsnap.SpectrumFit.get_params" title="xsnap.SpectrumFit.get_params"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_params()</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#xsnap.SpectrumFit.get_fluxes" title="xsnap.SpectrumFit.get_fluxes"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_fluxes()</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#xsnap.SpectrumFit.get_lumin" title="xsnap.SpectrumFit.get_lumin"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_lumin()</span></code></a></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="xsnap.SpectrumFit">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SpectrumFit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">abund</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'aspl'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mute</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xsnap.SpectrumFit" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A class to handle a single <a class="reference external" href="https://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/">XSPEC</a> spectral fit.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="xsnap.SpectrumFit.fluxes">
+<span class="sig-name descname"><span class="pre">fluxes</span></span><a class="headerlink" href="#xsnap.SpectrumFit.fluxes" title="Link to this definition">#</a></dt>
+<dd><p>Stored absorbed and unabsorbed flux DataFrames, keyed “absorbed” and “unabsorbed”,
+with columns are <code class="docutils literal notranslate"><span class="pre">['data',</span> <span class="pre">'model',</span> <span class="pre">'flux',</span> <span class="pre">'lo_flux_err',</span> <span class="pre">'hi_flux_err',</span> <span class="pre">'phot',</span> <span class="pre">'lo_phot_err',</span> <span class="pre">'hi_phot_err']</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)">dict</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v2.3.1)">pandas.DataFrame</a>] or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="xsnap.SpectrumFit.lumin">
+<span class="sig-name descname"><span class="pre">lumin</span></span><a class="headerlink" href="#xsnap.SpectrumFit.lumin" title="Link to this definition">#</a></dt>
+<dd><p>Stored luminosity DataFrame with columns <code class="docutils literal notranslate"><span class="pre">['data','model','lumin','lo_lumin_err','hi_lumin_err']</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v2.3.1)">pandas.DataFrame</a> or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="xsnap.SpectrumFit.params">
+<span class="sig-name descname"><span class="pre">params</span></span><a class="headerlink" href="#xsnap.SpectrumFit.params" title="Link to this definition">#</a></dt>
+<dd><p>Parameter values and uncertainties with columns <code class="docutils literal notranslate"><span class="pre">['data','model',</span> <span class="pre">'&lt;component&gt;_&lt;param&gt;',</span> <span class="pre">'lo_&lt;component&gt;_&lt;param&gt;_err',</span> <span class="pre">'hi_&lt;component&gt;_&lt;param&gt;_err']</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v2.3.1)">pandas.DataFrame</a> or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="xsnap.SpectrumFit.counts">
+<span class="sig-name descname"><span class="pre">counts</span></span><a class="headerlink" href="#xsnap.SpectrumFit.counts" title="Link to this definition">#</a></dt>
+<dd><p>Count-rate DataFrame with columns <code class="docutils literal notranslate"><span class="pre">['data','model','net_rate','net_err','total_rate','model_rate']</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v2.3.1)">pandas.DataFrame</a> or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="xsnap.SpectrumFit.models">
+<span class="sig-name descname"><span class="pre">models</span></span><a class="headerlink" href="#xsnap.SpectrumFit.models" title="Link to this definition">#</a></dt>
+<dd><p>Model expressions applied.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="xsnap.SpectrumFit.obstime">
+<span class="sig-name descname"><span class="pre">obstime</span></span><a class="headerlink" href="#xsnap.SpectrumFit.obstime" title="Link to this definition">#</a></dt>
+<dd><p>Observation time DataFrame with columns <code class="docutils literal notranslate"><span class="pre">['data','obs_time','obs_time_err']</span></code>
+plus <code class="docutils literal notranslate"><span class="pre">['time_since_explosion','time_since_explosion_err']</span></code> if <code class="docutils literal notranslate"><span class="pre">tExplosion</span></code>
+given when calculating <code class="docutils literal notranslate"><span class="pre">obstime</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v2.3.1)">pandas.DataFrame</a> or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="xsnap.SpectrumFit.tExplosion">
+<span class="sig-name descname"><span class="pre">tExplosion</span></span><a class="headerlink" href="#xsnap.SpectrumFit.tExplosion" title="Link to this definition">#</a></dt>
+<dd><p>Supernova time of explosion in MJD.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)">float</a> or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="xsnap.SpectrumFit.pha">
+<span class="sig-name descname"><span class="pre">pha</span></span><a class="headerlink" href="#xsnap.SpectrumFit.pha" title="Link to this definition">#</a></dt>
+<dd><p>Loaded PHA file paths.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="xsnap.SpectrumFit.detection">
+<span class="sig-name descname"><span class="pre">detection</span></span><a class="headerlink" href="#xsnap.SpectrumFit.detection" title="Link to this definition">#</a></dt>
+<dd><p>Associated <a class="reference internal" href="sourcedetection.html#xsnap.SourceDetection" title="xsnap.detect.SourceDetection"><code class="xref py py-class docutils literal notranslate"><span class="pre">SourceDetection</span></code></a> object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="sourcedetection.html#xsnap.SourceDetection" title="xsnap.detect.SourceDetection"><code class="xref py py-class docutils literal notranslate"><span class="pre">SourceDetection</span></code></a> or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="xsnap.SpectrumFit.__iadd__">
+<span class="sig-name descname"><span class="pre">__iadd__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pha</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xsnap.SpectrumFit.__iadd__" title="Link to this definition">#</a></dt>
+<dd><p>Allow <code class="docutils literal notranslate"><span class="pre">spec</span> <span class="pre">+=</span> <span class="pre">pha</span></code> syntax to load a new PHA file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pha</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Path to the PHA file to load. The PHA file must be a grouped PHA
+file or the background and response file must have the same name
+as the PHA file for PyXspec to automatically get the background and response file.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt><em>self</em><span class="classifier">SpectrumFit</span></dt><dd><p>The same <a class="reference internal" href="#xsnap.SpectrumFit" title="xsnap.spectrum.SpectrumFit"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpectrumFit</span></code></a> instance, but with the pha file loaded.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="xsnap.SpectrumFit.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">abund</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'aspl'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mute</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xsnap.SpectrumFit.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Initialize of the <a class="reference internal" href="#xsnap.SpectrumFit" title="xsnap.spectrum.SpectrumFit"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpectrumFit</span></code></a> class</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>abund</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>optional</em>) – Abundance table for XSPEC. Defaults to <code class="docutils literal notranslate"><span class="pre">&quot;aspl&quot;</span></code>.</p></li>
+<li><p><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><em>optional</em>) – Random seed for reproducibility. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>mute</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>optional</em>) – Mute XSPEC output, i.e. set <code class="docutils literal notranslate"><span class="pre">xspec.Xset.chatter</span> <span class="pre">=</span> <span class="pre">0</span></code>. Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.13)"><strong>RuntimeError</strong></a> – If the <code class="docutils literal notranslate"><span class="pre">xspec</span></code> executable is not found in <code class="docutils literal notranslate"><span class="pre">$PATH</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="xsnap.SpectrumFit.clear">
+<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#xsnap.SpectrumFit.clear" title="Link to this definition">#</a></dt>
+<dd><p>Clear all loaded data, models, and derived results.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="xsnap.SpectrumFit.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nIterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statMethod</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cstat'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xsnap.SpectrumFit.fit" title="Link to this definition">#</a></dt>
+<dd><p>Fit the model to the loaded data through XSPEC.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nIterations</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><em>optional</em>) – Number of fit iterations. Defaults to <code class="docutils literal notranslate"><span class="pre">1000</span></code>.</p></li>
+<li><p><strong>statMethod</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>optional</em>) – Type of fit statistic method. Valid names: <code class="docutils literal notranslate"><span class="pre">'chi',</span> <span class="pre">'cstat',</span> <span class="pre">'lstat',</span> <span class="pre">'pgstat',</span> <span class="pre">'pstat',</span> <span class="pre">'whittle'</span></code>. Defaults to <code class="docutils literal notranslate"><span class="pre">&quot;cstat&quot;</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="xsnap.SpectrumFit.get_counts">
+<span class="sig-name descname"><span class="pre">get_counts</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#xsnap.SpectrumFit.get_counts" title="Link to this definition">#</a></dt>
+<dd><p>Return a DataFrame of count rates for each loaded spectrum.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>Count rates<span class="classifier">pandas.DataFrame</span></dt><dd><p>Count rates wrapped in DataFrame table with columns <code class="docutils literal notranslate"><span class="pre">['data','model','net_rate','net_err','total_rate','model_rate']</span></code>.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.13)"><strong>RuntimeError</strong></a> – If no spectra are loaded.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="xsnap.SpectrumFit.get_fluxes">
+<span class="sig-name descname"><span class="pre">get_fluxes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">low_energy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">high_energy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errMCMC</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">CI</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">68.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unabsorbed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xsnap.SpectrumFit.get_fluxes" title="Link to this definition">#</a></dt>
+<dd><p>Calculate absorbed (and optionally unabsorbed) fluxes for each spectrum.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>low_energy</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>optional</em>) – Lower energy bound in keV. Defaults to <code class="docutils literal notranslate"><span class="pre">0.3</span></code>.</p></li>
+<li><p><strong>high_energy</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>optional</em>) – Upper energy bound in keV. Defaults to <code class="docutils literal notranslate"><span class="pre">10.0</span></code>.</p></li>
+<li><p><strong>errMCMC</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><em>optional</em>) – Number of MCMC error iterations. Defaults to <code class="docutils literal notranslate"><span class="pre">1000</span></code>.</p></li>
+<li><p><strong>CI</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>optional</em>) – Confidence interval percentage. Defaults to <code class="docutils literal notranslate"><span class="pre">68.0</span></code>.</p></li>
+<li><p><strong>unabsorbed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>optional</em>) – If True, compute unabsorbed flux as well. Defaults to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Fluxes<span class="classifier">dict[str, pandas.DataFrame]</span></dt><dd><p>The same absorbed and unabsorbed flux DataFrames as the one in :py:attr`fluxes`
+with columns <code class="docutils literal notranslate"><span class="pre">['data',</span> <span class="pre">'model',</span> <span class="pre">'flux',</span> <span class="pre">'lo_flux_err',</span> <span class="pre">'hi_flux_err',</span> <span class="pre">'phot',</span> <span class="pre">'lo_phot_err',</span> <span class="pre">'hi_phot_err']</span></code>.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.13)"><strong>RuntimeError</strong></a> – If no spectra loaded or missing absorber for unabsorbed flux.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="xsnap.SpectrumFit.get_lumin">
+<span class="sig-name descname"><span class="pre">get_lumin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fluxes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redshift</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lo_dist_err</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hi_dist_err</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lo_z_err</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hi_z_err</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">H0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">70.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xsnap.SpectrumFit.get_lumin" title="Link to this definition">#</a></dt>
+<dd><p>Compute luminosities from given fluxes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fluxes</strong> (<a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v2.3.1)"><em>pandas.DataFrame</em></a>) – Must contain <code class="docutils literal notranslate"><span class="pre">['data','model','flux','lo_flux_err','hi_flux_err']</span></code>.</p></li>
+<li><p><strong>model_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>optional</em>) – Override per-row model names. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>distance</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>optional</em>) – Distance in Mpc. Required if redshift is None. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>redshift</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>optional</em>) – Redshift. Required if distance is <code class="docutils literal notranslate"><span class="pre">None</span></code>. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>lo_dist_err</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>optional</em>) – Lower uncertainty of distance in Mpc. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>hi_dist_err</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>optional</em>) – Upper uncertainty of distance in Mpc. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>lo_z_err</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>optional</em>) – Lower uncertainty of redshift. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>hi_z_err</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>optional</em>) – Upper uncertainty of redshift. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>H0</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>optional</em>) – Hubble constant in km/s/Mpc. Defaults to <code class="docutils literal notranslate"><span class="pre">70.0</span></code>.</p></li>
+<li><p><strong>replace</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>optional</em>) – If True, overwrite existing <a class="reference internal" href="#xsnap.SpectrumFit.lumin" title="xsnap.SpectrumFit.lumin"><code class="xref py py-attr docutils literal notranslate"><span class="pre">lumin</span></code></a>. Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Luminosity<span class="classifier">pandas.DataFrame</span></dt><dd><p>Luminosity wrapped in DataFrame table with columns <code class="docutils literal notranslate"><span class="pre">['data','model','lumin','lo_lumin_err','hi_lumin_err']</span></code>.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> – If neither distance nor redshift is provided.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">distance</span></code> is not supplied, it is inferred from <code class="docutils literal notranslate"><span class="pre">redshift</span></code> via the Doppler relation:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}v =
+\begin{cases}
+    c\,z, &amp; z \ll 1, \\
+    c\,\frac{(1 + z)^2 - 1}{(1 + z)^2 + 1}, &amp; \text{otherwise.}
+\end{cases}\end{split}\]</div>
+<p>and then:</p>
+<div class="math notranslate nohighlight">
+\[d = \frac{v}{H_0} \ (\mathrm{Mpc}).\]</div>
+<dl class="simple">
+<dt>References:</dt><dd><p>Hogg, D. W. (1999). <em>Distance measures in cosmology</em>. <a class="reference external" href="https://doi.org/10.48550/arXiv.astro-ph/9905116">arXiv:astro-ph/9905116</a></p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="xsnap.SpectrumFit.get_params">
+<span class="sig-name descname"><span class="pre">get_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">error_args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xsnap.SpectrumFit.get_params" title="Link to this definition">#</a></dt>
+<dd><p>Compute best-fit parameters and their uncertainties and store them.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>error_args</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a>) – The same arguments passed to <code class="xref py py-func docutils literal notranslate"><span class="pre">xspec.Fit.error()</span></code>.
+Details on the arguments can be found <a class="reference external" href="https://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/python/html/fitmanager.html">here</a>.</p></li>
+<li><p><strong>replace</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>optional</em>) – If True, overwrite existing <code class="docutils literal notranslate"><span class="pre">params</span></code>.  Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Parameters<span class="classifier">pandas.DataFrame</span></dt><dd><p>Best-fit parameters and uncertainties wrapped in a DataFrame table with columns
+<code class="docutils literal notranslate"><span class="pre">['data','model',</span> <span class="pre">'&lt;component&gt;_&lt;param&gt;',</span> <span class="pre">'lo_&lt;component&gt;_&lt;param&gt;_err',</span> <span class="pre">'hi_&lt;component&gt;_&lt;param&gt;_err']</span></code>.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="xsnap.SpectrumFit.get_time">
+<span class="sig-name descname"><span class="pre">get_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tExplosion</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xsnap.SpectrumFit.get_time" title="Link to this definition">#</a></dt>
+<dd><p>Build a DataFrame of observation times and, if provided, time since explosion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tExplosion</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>optional</em>) – Supernova time of explosion in MJD. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Observation times<span class="classifier">pandas.DataFrame</span></dt><dd><p>Observation times wrapped in DataFrame table with columns <code class="docutils literal notranslate"><span class="pre">['data','obs_time','obs_time_err']</span></code>
+plus <code class="docutils literal notranslate"><span class="pre">['time_since_explosion','time_since_explosion_err']</span></code> if <code class="docutils literal notranslate"><span class="pre">tExplosion</span></code> given.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> – If computed <code class="docutils literal notranslate"><span class="pre">time_since_explosion</span></code> is negative.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="xsnap.SpectrumFit.ignore">
+<span class="sig-name descname"><span class="pre">ignore</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ignore</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xsnap.SpectrumFit.ignore" title="Link to this definition">#</a></dt>
+<dd><p>Ignore specified data channels in XSPEC.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ignore</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>optional</em>) – same ignore command as in XSPEC. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="xsnap.SpectrumFit.load_data">
+<span class="sig-name descname"><span class="pre">load_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pha</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">newGroup</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clear</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bad</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xsnap.SpectrumFit.load_data" title="Link to this definition">#</a></dt>
+<dd><p>Load a grouped PHA file into XSPEC.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pha</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Path to the PHA file. Path to the PHA file to load. The PHA file must be a grouped PHA
+file or the background and response file must have the same name
+as the PHA file for PyXspec to automatically get the background and response file.</p></li>
+<li><p><strong>newGroup</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>optional</em>) – Load into a new group if <code class="docutils literal notranslate"><span class="pre">True</span></code>. Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
+<li><p><strong>clear</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>optional</em>) – Clear existing data before loading. Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
+<li><p><strong>bad</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>optional</em>) – Ignore bad channels if <code class="docutils literal notranslate"><span class="pre">True</span></code>. Defaults to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
+<li><p><strong>detection</strong> (<a class="reference internal" href="sourcedetection.html#xsnap.SourceDetection" title="xsnap.SourceDetection"><em>SourceDetection</em></a><em>, </em><em>optional</em>) – Detection object to attach. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">pha</span></code> is None.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#FileNotFoundError" title="(in Python v3.13)"><strong>FileNotFoundError</strong></a> – If the PHA file or its directory does not exist.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="xsnap.SpectrumFit.set_model">
+<span class="sig-name descname"><span class="pre">set_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clear</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xsnap.SpectrumFit.set_model" title="Link to this definition">#</a></dt>
+<dd><p>Build and configure the XSPEC model for all data groups.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model_string</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – XSPEC model expression (e.g., “tbabs*pow”).</p></li>
+<li><p><strong>clear</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, clear existing models. Defaults to True.</p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><em>optional</em>) – Index of PHA header to use for RA/Dec in computing nH.
+Defaults to <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p></li>
+<li><p><strong>**kwargs</strong> – Component parameters in <code class="docutils literal notranslate"><span class="pre">component_Param</span></code> format, e.g.,
+<code class="docutils literal notranslate"><span class="pre">TBabs_nH=&quot;0.059</span> <span class="pre">-1&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">powerlaw_PhoIndex=2</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.13)"><strong>KeyError</strong></a> – If RA/Dec cannot be found in the PHA header when computing nH.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.13)"><strong>RuntimeError</strong></a> – If HEADAS or nH tool invocation fails.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> – If a kwarg key is not “Component_Param”.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AttributeError" title="(in Python v3.13)"><strong>AttributeError</strong></a> – If the specified component does not exist in the model.</p></li>
+</ul>
+</dd>
+</dl>
+<dl>
+<dt>Example usage</dt><dd><ol class="arabic simple">
+<li><p>An absorbed power-law model</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">SpectrumFit</span><span class="o">.</span><span class="n">set_model</span><span class="p">(</span>
+    <span class="s2">&quot;tbabs*ztbabs*pow&quot;</span><span class="p">,</span>
+    <span class="n">Tbabs_nH</span><span class="o">=</span><span class="s2">&quot;0.059 -1&quot;</span><span class="p">,</span>         <span class="c1"># component TBabs, parameter nH</span>
+    <span class="n">zTBabs_nH</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>               <span class="c1"># component zTBabs, parameter nH</span>
+    <span class="n">zTBabs_Redshift</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>           <span class="c1"># component zTBabs, parameter Redshift</span>
+    <span class="n">powerlaw_PhoIndex</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>         <span class="c1"># component powerlaw, parameter PhoIndex</span>
+    <span class="n">powerlaw_norm</span><span class="o">=</span><span class="mi">1</span>              <span class="c1"># component powerlaw, parameter norm</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>An absorbed Thermal-bremsstrahlung model (with <code class="docutils literal notranslate"><span class="pre">TBabs.nH</span></code> calculated automatically from <a class="reference external" href="https://heasarc.gsfc.nasa.gov/docs/software/heasoft/">HEASoft</a>)</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">SpectrumFit</span><span class="o">.</span><span class="n">set_model</span><span class="p">(</span>
+    <span class="s2">&quot;tbabs*ztbabs*pow&quot;</span><span class="p">,</span>
+    <span class="n">data</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>                      <span class="c1"># which pha data to get the RA/Dec from. To get the TBabs nH parameter, default is 0.</span>
+    <span class="n">zTBabs_nH</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>               <span class="c1"># component zTBabs, parameter nH</span>
+    <span class="n">zTBabs_Redshift</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>           <span class="c1"># component zTBabs, parameter Redshift</span>
+    <span class="n">powerlaw_PhoIndex</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>         <span class="c1"># component powerlaw, parameter PhoIndex</span>
+    <span class="n">powerlaw_norm</span><span class="o">=</span><span class="mi">1</span>              <span class="c1"># component powerlaw, parameter norm</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="xsnap.SpectrumFit.set_plot">
+<span class="sig-name descname"><span class="pre">set_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'data'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/null'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xAxis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'keV'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fileName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'plot.png'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xsnap.SpectrumFit.set_plot" title="Link to this definition">#</a></dt>
+<dd><p>Configure and execute an XSPEC plot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>args</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>optional</em>) – Plot command string (e.g., <code class="docutils literal notranslate"><span class="pre">&quot;data&quot;,</span> <span class="pre">&quot;ldata&quot;</span></code>), same command as in XSPEC.
+Defaults to <code class="docutils literal notranslate"><span class="pre">&quot;data&quot;</span></code>.</p></li>
+<li><p><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>optional</em>) – XSPEC plot device. If <code class="docutils literal notranslate"><span class="pre">&quot;/null&quot;</span></code>, plot via matplotlib.
+Defaults to <code class="docutils literal notranslate"><span class="pre">&quot;/null&quot;</span></code>.</p></li>
+<li><p><strong>xAxis</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>optional</em>) – Units for the x-axis. Valid options: <code class="docutils literal notranslate"><span class="pre">&quot;channel&quot;,</span> <span class="pre">&quot;keV&quot;,</span> <span class="pre">&quot;MeV&quot;,</span> <span class="pre">&quot;GeV&quot;,</span> <span class="pre">&quot;Hz&quot;,</span> <span class="pre">&quot;angstrom&quot;,</span> <span class="pre">&quot;cm&quot;,</span> <span class="pre">&quot;micron&quot;,</span> <span class="pre">&quot;nm&quot;</span></code> (case-insensitive).
+Defaults to <code class="docutils literal notranslate"><span class="pre">&quot;keV&quot;</span></code>.</p></li>
+<li><p><strong>fileName</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>optional</em>) – Base filename for saving the plot PNG.
+Defaults to <code class="docutils literal notranslate"><span class="pre">&quot;plot&quot;</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.13)"><strong>Exception</strong></a> – When invalid xAxis or device string is parsed.</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>Plot<span class="classifier">tuple(matplotlib.figure.Figure, matplotlib.axes.Axes) or None</span></dt><dd><p>If <code class="docutils literal notranslate"><span class="pre">device</span> <span class="pre">==</span> <span class="pre">&quot;/null&quot;</span></code>, returns the Figure and Axes so the user
+can customize further. Otherwise, returns None.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="xsnap.SpectrumFit.set_rebin">
+<span class="sig-name descname"><span class="pre">set_rebin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">minSig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxBins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groupNum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errType</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xsnap.SpectrumFit.set_rebin" title="Link to this definition">#</a></dt>
+<dd><p>Set rebinning parameters for XSPEC plots.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>minSig</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>optional</em>) – Minimum significance per bin. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>maxBins</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><em>optional</em>) – Maximum number of bins. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>groupNum</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><em>optional</em>) – Specific plot group number to rebin. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>errType</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>optional</em>) – Error type for rebinning. Valid entries are <code class="docutils literal notranslate"><span class="pre">&quot;quad&quot;,</span> <span class="pre">&quot;sqrt&quot;,</span> <span class="pre">&quot;poiss-1&quot;,&quot;poiss-2&quot;,</span> <span class="pre">&quot;poiss-3&quot;</span></code>. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="xsnap.SpectrumFit.show">
+<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#xsnap.SpectrumFit.show" title="Link to this definition">#</a></dt>
+<dd><p>Display the currently loaded data and models in XSPEC format.
+Wouldn’t work if XSPEC is muted, i.e. <code class="docutils literal notranslate"><span class="pre">xspec.Xset.chatter</span> <span class="pre">=</span> <span class="pre">0</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="xsnap.SpectrumFit.simulate">
+<span class="sig-name descname"><span class="pre">simulate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nIterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statMethod</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cstat'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">low_energy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">high_energy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unabsorbed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs_plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'data'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/svg'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xsnap.SpectrumFit.simulate" title="Link to this definition">#</a></dt>
+<dd><p>Simulate and count flux upper-limits using the <code class="docutils literal notranslate"><span class="pre">FakeIt</span></code> command from XSPEC.
+Will populate <a class="reference internal" href="#xsnap.SpectrumFit.fluxes" title="xsnap.SpectrumFit.fluxes"><code class="xref py py-attr docutils literal notranslate"><span class="pre">fluxes</span></code></a> and <a class="reference internal" href="#xsnap.SpectrumFit.counts" title="xsnap.SpectrumFit.counts"><code class="xref py py-attr docutils literal notranslate"><span class="pre">counts</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nIterations</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><em>optional</em>) – Number of fit iterations. Defaults to <code class="docutils literal notranslate"><span class="pre">1000</span></code>.</p></li>
+<li><p><strong>statMethod</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>optional</em>) – Type of fit statistic method. Valid names: <code class="docutils literal notranslate"><span class="pre">'chi',</span> <span class="pre">'cstat',</span> <span class="pre">'lstat',</span> <span class="pre">'pgstat',</span> <span class="pre">'pstat',</span> <span class="pre">'whittle'</span></code>. Defaults to <code class="docutils literal notranslate"><span class="pre">&quot;cstat&quot;</span></code>.</p></li>
+<li><p><strong>low_energy</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>optional</em>) – Lower energy bound in keV. Defaults to <code class="docutils literal notranslate"><span class="pre">0.3</span></code>.</p></li>
+<li><p><strong>high_energy</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>optional</em>) – Upper energy bound in keV. Defaults to <code class="docutils literal notranslate"><span class="pre">10.0</span></code>.</p></li>
+<li><p><strong>unabsorbed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, compute unabsorbed flux as well. Defaults to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
+<li><p><strong>plot</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, plot the simulated data. Defaults to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
+<li><p><strong>kwargs_plot</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>optional</em>) – Plot command string (e.g., <code class="docutils literal notranslate"><span class="pre">&quot;data&quot;,</span> <span class="pre">&quot;ldata&quot;</span></code>). Defaults to <code class="docutils literal notranslate"><span class="pre">&quot;data&quot;</span></code>.</p></li>
+<li><p><strong>device_plot</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>optional</em>) – XSPEC plot device. If <code class="docutils literal notranslate"><span class="pre">&quot;/null&quot;</span></code>, plot via matplotlib. Defaults to <code class="docutils literal notranslate"><span class="pre">&quot;/svg&quot;</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.13)"><strong>RuntimeError</strong></a> – When there are no model set,
+    When there are no spectrum loaded,
+    When cannot compute unabsorbed flux due to no tbabs/ztbabs attribute in the model.</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>Flux upper-limits<span class="classifier">dict[str, pandas.DataFrame]</span></dt><dd><p>The same absorbed and unabsorbed flux DataFrames as the one in :py:attr`fluxes`
+with columns <code class="docutils literal notranslate"><span class="pre">['data',</span> <span class="pre">'model',</span> <span class="pre">'flux',</span> <span class="pre">'lo_flux_err',</span> <span class="pre">'hi_flux_err',</span> <span class="pre">'phot',</span> <span class="pre">'lo_phot_err',</span> <span class="pre">'hi_phot_err']</span></code>.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="spectrum.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Spectrum (<code class="code docutils literal notranslate"><span class="pre">xsnap.spectrum</span></code>)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="spectrum.SpectrumManager.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">SpectrumManager (<code class="code docutils literal notranslate"><span class="pre">xsnap.SpectrumManager</span></code>)</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.SpectrumFit"><code class="docutils literal notranslate"><span class="pre">SpectrumFit</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.SpectrumFit.fluxes"><code class="docutils literal notranslate"><span class="pre">SpectrumFit.fluxes</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.SpectrumFit.lumin"><code class="docutils literal notranslate"><span class="pre">SpectrumFit.lumin</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.SpectrumFit.params"><code class="docutils literal notranslate"><span class="pre">SpectrumFit.params</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.SpectrumFit.counts"><code class="docutils literal notranslate"><span class="pre">SpectrumFit.counts</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.SpectrumFit.models"><code class="docutils literal notranslate"><span class="pre">SpectrumFit.models</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.SpectrumFit.obstime"><code class="docutils literal notranslate"><span class="pre">SpectrumFit.obstime</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.SpectrumFit.tExplosion"><code class="docutils literal notranslate"><span class="pre">SpectrumFit.tExplosion</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.SpectrumFit.pha"><code class="docutils literal notranslate"><span class="pre">SpectrumFit.pha</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.SpectrumFit.detection"><code class="docutils literal notranslate"><span class="pre">SpectrumFit.detection</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.SpectrumFit.__iadd__"><code class="docutils literal notranslate"><span class="pre">SpectrumFit.__iadd__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.SpectrumFit.__init__"><code class="docutils literal notranslate"><span class="pre">SpectrumFit.__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.SpectrumFit.clear"><code class="docutils literal notranslate"><span class="pre">SpectrumFit.clear()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.SpectrumFit.fit"><code class="docutils literal notranslate"><span class="pre">SpectrumFit.fit()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.SpectrumFit.get_counts"><code class="docutils literal notranslate"><span class="pre">SpectrumFit.get_counts()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.SpectrumFit.get_fluxes"><code class="docutils literal notranslate"><span class="pre">SpectrumFit.get_fluxes()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.SpectrumFit.get_lumin"><code class="docutils literal notranslate"><span class="pre">SpectrumFit.get_lumin()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.SpectrumFit.get_params"><code class="docutils literal notranslate"><span class="pre">SpectrumFit.get_params()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.SpectrumFit.get_time"><code class="docutils literal notranslate"><span class="pre">SpectrumFit.get_time()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.SpectrumFit.ignore"><code class="docutils literal notranslate"><span class="pre">SpectrumFit.ignore()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.SpectrumFit.load_data"><code class="docutils literal notranslate"><span class="pre">SpectrumFit.load_data()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.SpectrumFit.set_model"><code class="docutils literal notranslate"><span class="pre">SpectrumFit.set_model()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.SpectrumFit.set_plot"><code class="docutils literal notranslate"><span class="pre">SpectrumFit.set_plot()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.SpectrumFit.set_rebin"><code class="docutils literal notranslate"><span class="pre">SpectrumFit.set_rebin()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.SpectrumFit.show"><code class="docutils literal notranslate"><span class="pre">SpectrumFit.show()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xsnap.SpectrumFit.simulate"><code class="docutils literal notranslate"><span class="pre">SpectrumFit.simulate()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, Ferdinand, Wynn V. Jacobson-Galan, and Mansi M. Kasliwal.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
