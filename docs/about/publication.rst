@@ -8,10 +8,10 @@ Publication
 Citing
 ============
 
-A research paper have been submitted to ApJ. If you'd like to use our pipeline, please cite our arXiv paper using the bibiliography below.
+A research paper have been submitted to ApJ. If you use **XSNAP** in your research, please cite our `arXiv paper <https://arxiv.org/abs/2511.10744>`__ using the bibiliography below.
 
-.. code-block::
-    :caption: Citation
+.. code-block:: bibtex
+    :caption: BibTeX Citation
 
     @ARTICLE{2025arXiv251110744F,
         author = {{Ferdinand} and {Jacobson-Gal{\'a}n}, W.~V. and {Kasliwal}, M.~M. and {Zimmerman}, Erez A.},
