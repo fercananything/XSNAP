@@ -79,24 +79,21 @@ class TemperatureEstimator:
         self.temperatures = pd.DataFrame({'time_since_explosion': [], 'lo_time_err': [], 'hi_time_err': [],
                                           'temperature': [], 'lo_temp_err': [], 'hi_temp_err': []})
         
-    def compute_pl_fit(self, time_since_explosion, temperature, mcmc=True, temp_err_lo=None, temp_err_hi=None,
+    def compute_pl_fit(self, time_since_explosion, temperature, temp_err_lo=None, temp_err_hi=None,
                         time_err_lo=None, time_err_hi=None,
                         nwalkers=200, nsteps=6000, nburn=1000,
                         show_plots=True):
         
         """
         Fit a power-law :math:`T(t) = \\mathrm{norm} \\times t^{\mathrm{exp}}` to the data, 
-        either via Markov chain Monte-Carlo (MCMC) or simple least-squares (:py:func:`~scipy.optimize.curve_fit`).
+        via Markov chain Monte-Carlo (MCMC).
 
         Parameters
         ----------
             time_since_explosion : array_like
                 Times since explosion in days.
             temperature : array_like
-                Observed/fitted temperatures data.
-            mcmc : bool, optional
-                If ``True``, use MCMC. If False, use :func:`~scipy.optimize.curve_fit`.
-                Defaults to ``True``.
+                Observed/fitted temperatures data..
             temp_err_lo : array_like, optional
                 Lower uncertainty on temperature. Defaults to ``None``.
             temp_err_hi : array_like, optional

@@ -1,10 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.2.6] - 2025-12-07
+### Changed
+- Description of `xsnap.TemperatureEstimator.compute_pl_fit()` as there has been some typos.
+
 ## [0.2.5] - 2025-07-30
 ### Changed
 - Change contacts to support@xsnap.org and homepage is now in [https://xsnap.org](https://xsnap.org)
-
 
 ## [0.2.4] - 2025-07-30
 ### Changed
