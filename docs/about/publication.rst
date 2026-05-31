@@ -8,7 +8,7 @@ Publication
 Citing
 ============
 
-A research paper describing **XSNAP** and its application to SN 2024ggi has been published in `ApJ <https://doi.org/10.3847/1538-4357/ae4ec6>`_. If you use **XSNAP** in your research, please cite our paper using the bibiliography below.
+A research paper describing **XSNAP** and its application to SN 2024ggi has been published in `The Astrophysical Journal <https://doi.org/10.3847/1538-4357/ae4ec6>`_. If you use **XSNAP** in your research, please cite our paper using the bibiliography below.
 
 .. code-block:: bibtex
     :caption: BibTeX Citation
