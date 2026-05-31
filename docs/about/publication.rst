@@ -25,11 +25,11 @@ A research paper describing **XSNAP** and its application to SN 2024ggi has been
           eid = {26},
         pages = {26},
           doi = {10.3847/1538-4357/ae4ec6},
-archivePrefix = {arXiv},
-       eprint = {2511.10744},
- primaryClass = {astro-ph.HE},
-       adsurl = {https://ui.adsabs.harvard.edu/abs/2026ApJ..1001...26F},
-      adsnote = {Provided by the SAO/NASA Astrophysics Data System}
-}
+        archivePrefix = {arXiv},
+            eprint = {2511.10744},
+        primaryClass = {astro-ph.HE},
+            adsurl = {https://ui.adsabs.harvard.edu/abs/2026ApJ..1001...26F},
+            adsnote = {Provided by the SAO/NASA Astrophysics Data System}
+        }
 
 
