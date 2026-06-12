@@ -56,8 +56,8 @@ def detect_snr3(evt_file, exp_img_file=None, pha_file=None,
     bash_script = f"""
 source $HEADAS/headas-init.sh
 ximage << EOF
-read/ecol=pi/emin=30/emax=1000/size=600 {evt_file}
-read/exposure/size=600 {exp_img_file}
+read/ecol=pi/emin=30/emax=1000/size=600 "{evt_file}"
+read/exposure/size=600 "{exp_img_file}"
 detect/snr_thresh={snr_thresh}
 exit
 EOF

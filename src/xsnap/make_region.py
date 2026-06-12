@@ -12,7 +12,7 @@ This script produces two region files for automated processing:
        background to a single circle of radius r_out (″) at the first clean spot
        within around 1′ from the source.
 Command-line usage:
-    make_region <evtfile> <ra> <dec> [r_in] [r_out] [outdir]
+    make-region <evtfile> <ra> <dec> [r_in] [r_out] [outdir]
                 [--ds9 DS9_PATH] [--expimg EXP_IMG]
 
 Positional arguments:
@@ -181,8 +181,8 @@ def _detect(evt: pathlib.Path, exp: pathlib.Path,
     script = f"""
     source $HEADAS/headas-init.sh
     ximage << EOF
-      read/ecol=pi/emin=30/emax=1000/size=600 {evt}
-      read/exposure/size=600 {exp}
+      read/ecol=pi/emin=30/emax=1000/size=600 "{evt}"
+      read/exposure/size=600 "{exp}"
       detect
     exit
     EOF

@@ -15,8 +15,8 @@ sys.path.insert(0, os.path.abspath("../src"))
 
 
 project = 'XSNAP'
-copyright = '2025, Ferdinand, Wynn V. Jacobson-Galan, and Mansi M. Kasliwal'
-author = 'Ferdinand, Wynn V. Jacobson-Galan, Mansi M. Kasliwal'
+copyright = '2026, Ferdinand, Wynn V. Jacobson-Galan, and Mansi M. Kasliwal, Erez A. Zimmerman'
+author = 'Ferdinand, Wynn V. Jacobson-Galan, Mansi M. Kasliwal, Erez A. Zimmerman'
 
 # import xsnap
 

@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.2.7] - 2025-12-07
+### Changed
+- Update `extract-chandra` to be more flexible with observations from ACIS / HRC.
+
+
 ## [0.2.6] - 2025-12-07
 ### Changed
 - Description of `xsnap.TemperatureEstimator.compute_pl_fit()` as there has been some typos.
