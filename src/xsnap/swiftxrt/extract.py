@@ -137,14 +137,17 @@ def extract_spectra(evt: pathlib.Path, img: pathlib.Path, src_reg: pathlib.Path,
 
     sh(["xrtmkarf", f"outfile={src_arf}", f"phafile={src_pha}", "srcx=-1", "srcy=-1", "psfflag=yes", "clobber=yes", f"expofile={img}"])
 
+    arf_hdr = f"./{src_arf.name}"
+    bkg_hdr = f"./{bkg_pha.name}"
+
     gpscr = f"""{src_pha}
-{grp_pha}
-chkey respf {rmf_path(mode)}
-chkey ancrf {src_arf}
-chkey backf {bkg_pha}
-group min 1
-exit
-"""
+    {grp_pha}
+    chkey respf {rmf_path(mode)}
+    chkey ancrf {arf_hdr}
+    chkey backf {bkg_hdr}
+    group min 1
+    exit
+    """
     subprocess.run(["grppha"], input=gpscr, text=True, check=True)
     print("\n✓ DONE – products written to", outdir)
 
