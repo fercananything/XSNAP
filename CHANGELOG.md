@@ -1,10 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [0.2.8] - 2025-12-07
+## [0.2.8] - 2025-12-23
 ### Changed
 - Update `extract-swift` ARFFILE and BACKFILE name to not be a bug for `xsnap.SpectrumFit`
-
 
 ## [0.2.7] - 2025-12-07
 ### Changed
