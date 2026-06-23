@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.2.9] - 2025-12-23
+### Changed
+- Update `extract-chandra` argument of `CCD_ID` not automatically `CCD_ID=7`. `CCD_ID` must be manually inputted
+
+
 ## [0.2.8] - 2025-12-23
 ### Changed
 - Update `extract-swift` ARFFILE and BACKFILE name to not be a bug for `xsnap.SpectrumFit`

@@ -422,9 +422,6 @@ def make_full_image_slice(args, instrument):
 
     ccd_id = args.ccd_id
 
-    if ccd_id is None and use_energy:
-        ccd_id = 7
-
     if ccd_id is not None:
         filters += f"[ccd_id={ccd_id}]"
 
